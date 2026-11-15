@@ -1,0 +1,36 @@
+{
+  "dataset": "middlelight/goodreadsbookswithgenres",
+  "version": 1,
+  "updated": "2022-12-30",
+  "sha256": "721fc3bbe6367e91f2d3537d2cbe1c1ca4b585535d8ce63862c38a353d662b97",
+  "rows": 11127,
+  "columns": [
+    "Book Id",
+    "Title",
+    "Author",
+    "average_rating",
+    "isbn",
+    "isbn13",
+    "language_code",
+    "num_pages",
+    "ratings_count",
+    "text_reviews_count",
+    "publication_date",
+    "publisher",
+    "genres"
+  ],
+  "expected_counts": {
+    "pages_missing": 76,
+    "invalid_dates": 2,
+    "publisher_missing": 5,
+    "english": 10541,
+    "zero_counts": 81,
+    "positive_zero_count": 55,
+    "isbn10_invalid": 4,
+    "isbn13_invalid": 28,
+    "genre_links": 94794,
+    "genre_labels": 890,
+    "eligible": 11046,
+    "primary": 8402
+  }
+}

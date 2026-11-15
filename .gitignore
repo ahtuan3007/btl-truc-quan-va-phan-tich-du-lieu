@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+!*.example
+*.pdf
+*.png
+*.zip
+work/*
+!work/eda_results.json
+!work/validation_results.json
+ket_qua_chay_lai/

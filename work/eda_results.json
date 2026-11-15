@@ -1,0 +1,1866 @@
+{
+  "source_sha256": "721fc3bbe6367e91f2d3537d2cbe1c1ca4b585535d8ce63862c38a353d662b97",
+  "rows_raw": 11127,
+  "columns_master": 45,
+  "base_n": 11046,
+  "primary_n": 8402,
+  "approx_n": 8189,
+  "filtered_example_n": 7524,
+  "cleaning": [
+    {
+      "source_column": "Title",
+      "normalized_column": "title_clean",
+      "changed_values": 3004,
+      "normalized_missing": 0
+    },
+    {
+      "source_column": "Author",
+      "normalized_column": "author_clean",
+      "changed_values": 390,
+      "normalized_missing": 0
+    },
+    {
+      "source_column": "num_pages",
+      "normalized_column": "pages",
+      "changed_values": 76,
+      "normalized_missing": 76
+    },
+    {
+      "source_column": "publication_date",
+      "normalized_column": "publication_date_iso",
+      "changed_values": 11127,
+      "normalized_missing": 2
+    },
+    {
+      "source_column": "publisher",
+      "normalized_column": "publisher_clean",
+      "changed_values": 551,
+      "normalized_missing": 5
+    },
+    {
+      "source_column": "language_code",
+      "normalized_column": "language_group",
+      "changed_values": 10541,
+      "normalized_missing": 0
+    }
+  ],
+  "sample_flow": [
+    {
+      "sample": "raw/master",
+      "n": 11127,
+      "note": "All original records retained"
+    },
+    {
+      "sample": "rating 1-5",
+      "n": 11101,
+      "note": "Includes positive ratings with zero rating count"
+    },
+    {
+      "sample": "eligible rating and count>0",
+      "n": 11046,
+      "note": "Descriptive baseline with observed count support"
+    },
+    {
+      "sample": "primary count>=100",
+      "n": 8402,
+      "note": "Operational main comparison sample"
+    },
+    {
+      "sample": "primary with positive pages",
+      "n": 8385,
+      "note": "Pairwise length analysis"
+    },
+    {
+      "sample": "primary with valid publication date",
+      "n": 8401,
+      "note": "Time cohorts"
+    },
+    {
+      "sample": "primary with genres",
+      "n": 8400,
+      "note": "Genre comparisons"
+    },
+    {
+      "sample": "primary with publisher",
+      "n": 8399,
+      "note": "Publisher comparisons"
+    },
+    {
+      "sample": "approx one per title+author",
+      "n": 8189,
+      "note": "Sensitivity only; master unchanged"
+    }
+  ],
+  "threshold_sensitivity": [
+    {
+      "min_ratings": 1,
+      "n": 11046,
+      "retained_pct_raw": 99.2720409814,
+      "mean_rating": 3.9431341662,
+      "median_rating": 3.96,
+      "sd_rating": 0.2952130067,
+      "q25": 3.78,
+      "q75": 4.14
+    },
+    {
+      "min_ratings": 100,
+      "n": 8402,
+      "retained_pct_raw": 75.5100206704,
+      "mean_rating": 3.9546834087,
+      "median_rating": 3.97,
+      "sd_rating": 0.2657690491,
+      "q25": 3.79,
+      "q75": 4.14
+    },
+    {
+      "min_ratings": 500,
+      "n": 6153,
+      "retained_pct_raw": 55.2979239687,
+      "mean_rating": 3.9614822038,
+      "median_rating": 3.97,
+      "sd_rating": 0.2595474963,
+      "q25": 3.81,
+      "q75": 4.14
+    },
+    {
+      "min_ratings": 1000,
+      "n": 5114,
+      "retained_pct_raw": 45.9602768042,
+      "mean_rating": 3.9644466171,
+      "median_rating": 3.975,
+      "sd_rating": 0.2542789624,
+      "q25": 3.81,
+      "q75": 4.14
+    }
+  ],
+  "correlations": [
+    {
+      "sample": "min_ratings_1",
+      "variable": "pages",
+      "pairwise_n": 10971,
+      "spearman": 0.112105327,
+      "pearson_raw": 0.1707464373,
+      "pearson_log1p": 0.0688028719
+    },
+    {
+      "sample": "min_ratings_1",
+      "variable": "n_ratings",
+      "pairwise_n": 11046,
+      "spearman": 0.0804184171,
+      "pearson_raw": 0.0406298971,
+      "pearson_log1p": 0.0969895639
+    },
+    {
+      "sample": "min_ratings_1",
+      "variable": "n_reviews",
+      "pairwise_n": 11046,
+      "spearman": 0.0256808801,
+      "pearson_raw": 0.0336313298,
+      "pearson_log1p": 0.0413211791
+    },
+    {
+      "sample": "min_ratings_1",
+      "variable": "publication_year",
+      "pairwise_n": 11044,
+      "spearman": -0.0531867847,
+      "pearson_raw": -0.0422240884,
+      "pearson_log1p": null
+    },
+    {
+      "sample": "min_ratings_100",
+      "variable": "pages",
+      "pairwise_n": 8385,
+      "spearman": 0.1255696453,
+      "pearson_raw": 0.1990009978,
+      "pearson_log1p": 0.0923000002
+    },
+    {
+      "sample": "min_ratings_100",
+      "variable": "n_ratings",
+      "pairwise_n": 8402,
+      "spearman": 0.0665249123,
+      "pearson_raw": 0.0439608879,
+      "pearson_log1p": 0.0793525938
+    },
+    {
+      "sample": "min_ratings_100",
+      "variable": "n_reviews",
+      "pairwise_n": 8402,
+      "spearman": -0.0184316226,
+      "pearson_raw": 0.0326270173,
+      "pearson_log1p": -0.0083235615
+    },
+    {
+      "sample": "min_ratings_100",
+      "variable": "publication_year",
+      "pairwise_n": 8401,
+      "spearman": -0.0616310837,
+      "pearson_raw": -0.0653360414,
+      "pearson_log1p": null
+    },
+    {
+      "sample": "min_ratings_500",
+      "variable": "pages",
+      "pairwise_n": 6149,
+      "spearman": 0.0993312275,
+      "pearson_raw": 0.1805286301,
+      "pearson_log1p": 0.0752625763
+    },
+    {
+      "sample": "min_ratings_500",
+      "variable": "n_ratings",
+      "pairwise_n": 6153,
+      "spearman": 0.06697003,
+      "pearson_raw": 0.0473035518,
+      "pearson_log1p": 0.0802127313
+    },
+    {
+      "sample": "min_ratings_500",
+      "variable": "n_reviews",
+      "pairwise_n": 6153,
+      "spearman": -0.0454753241,
+      "pearson_raw": 0.0323724275,
+      "pearson_log1p": -0.0345698829
+    },
+    {
+      "sample": "min_ratings_500",
+      "variable": "publication_year",
+      "pairwise_n": 6152,
+      "spearman": -0.071559116,
+      "pearson_raw": -0.0729637513,
+      "pearson_log1p": null
+    },
+    {
+      "sample": "min_ratings_1000",
+      "variable": "pages",
+      "pairwise_n": 5110,
+      "spearman": 0.0942155514,
+      "pearson_raw": 0.1778644823,
+      "pearson_log1p": 0.0667860423
+    },
+    {
+      "sample": "min_ratings_1000",
+      "variable": "n_ratings",
+      "pairwise_n": 5114,
+      "spearman": 0.0801255107,
+      "pearson_raw": 0.0504856241,
+      "pearson_log1p": 0.0880239408
+    },
+    {
+      "sample": "min_ratings_1000",
+      "variable": "n_reviews",
+      "pairwise_n": 5114,
+      "spearman": -0.0487282818,
+      "pearson_raw": 0.0334553246,
+      "pearson_log1p": -0.0380146968
+    },
+    {
+      "sample": "min_ratings_1000",
+      "variable": "publication_year",
+      "pairwise_n": 5113,
+      "spearman": -0.0742760365,
+      "pearson_raw": -0.0784025183,
+      "pearson_log1p": null
+    }
+  ],
+  "descriptive_primary": [
+    {
+      "variable": "rating",
+      "n": 8402,
+      "missing": 0,
+      "mean": 3.9546834087,
+      "sd": 0.2657690491,
+      "min": 2.4,
+      "q05": 3.4905,
+      "q25": 3.79,
+      "median": 3.97,
+      "q75": 4.14,
+      "q95": 4.36,
+      "max": 4.82
+    },
+    {
+      "variable": "pages",
+      "n": 8385,
+      "missing": 17,
+      "mean": 351.4908765653,
+      "sd": 239.0808969377,
+      "min": 1.0,
+      "q05": 88.0,
+      "q25": 210.0,
+      "median": 312.0,
+      "q75": 424.0,
+      "q95": 753.8,
+      "max": 6576.0
+    },
+    {
+      "variable": "n_ratings",
+      "n": 8402,
+      "missing": 0,
+      "mean": 23742.4431087836,
+      "sd": 128909.7304849099,
+      "min": 100.0,
+      "q05": 143.0,
+      "q25": 452.0,
+      "median": 1823.0,
+      "q75": 8915.75,
+      "q95": 82467.7999999998,
+      "max": 4597666.0
+    },
+    {
+      "variable": "n_reviews",
+      "n": 8402,
+      "missing": 0,
+      "mean": 716.3751487741,
+      "sd": 2943.6396836663,
+      "min": 0.0,
+      "q05": 9.0,
+      "q25": 32.0,
+      "median": 99.0,
+      "q75": 392.75,
+      "q95": 2788.85,
+      "max": 94265.0
+    },
+    {
+      "variable": "publication_year",
+      "n": 8401,
+      "missing": 1,
+      "mean": 2000.5671943816,
+      "sd": 7.7008527571,
+      "min": 1900.0,
+      "q05": 1986.0,
+      "q25": 1998.0,
+      "median": 2003.0,
+      "q75": 2005.0,
+      "q95": 2007.0,
+      "max": 2020.0
+    }
+  ],
+  "descriptive_eligible": [
+    {
+      "variable": "rating",
+      "n": 11046,
+      "missing": 0,
+      "mean": 3.9431341662,
+      "sd": 0.2952130067,
+      "min": 1.0,
+      "q05": 3.45,
+      "q25": 3.78,
+      "median": 3.96,
+      "q75": 4.14,
+      "q95": 4.38,
+      "max": 5.0
+    },
+    {
+      "variable": "pages",
+      "n": 10971,
+      "missing": 75,
+      "mean": 339.0649895178,
+      "sd": 240.1738705995,
+      "min": 1.0,
+      "q05": 64.0,
+      "q25": 197.0,
+      "median": 302.0,
+      "q75": 416.0,
+      "q95": 752.0,
+      "max": 6576.0
+    },
+    {
+      "variable": "n_ratings",
+      "n": 11046,
+      "missing": 0,
+      "mean": 18067.9362665218,
+      "sd": 112880.6028890913,
+      "min": 1.0,
+      "q05": 9.0,
+      "q25": 110.0,
+      "median": 764.5,
+      "q75": 5058.75,
+      "q95": 61552.5,
+      "max": 4597666.0
+    },
+    {
+      "variable": "n_reviews",
+      "n": 11046,
+      "missing": 0,
+      "mean": 545.8277204418,
+      "sd": 2585.1862901432,
+      "min": 0.0,
+      "q05": 1.0,
+      "q25": 9.0,
+      "median": 48.0,
+      "q75": 241.0,
+      "q95": 2180.0,
+      "max": 94265.0
+    },
+    {
+      "variable": "publication_year",
+      "n": 11044,
+      "missing": 2,
+      "mean": 2000.1869793553,
+      "sd": 8.2056277671,
+      "min": 1900.0,
+      "q05": 1985.0,
+      "q25": 1998.0,
+      "median": 2003.0,
+      "q75": 2005.0,
+      "q95": 2007.0,
+      "max": 2020.0
+    }
+  ],
+  "page_groups": [
+    {
+      "page_band": "1-200",
+      "n": 1861,
+      "mean": 3.9526168726,
+      "median": 3.97,
+      "sd": 0.2760050606,
+      "q25": 3.78,
+      "q75": 4.14,
+      "median_n_ratings": 1036.0,
+      "min_group_30": true
+    },
+    {
+      "page_band": "201-400",
+      "n": 4128,
+      "mean": 3.911744186,
+      "median": 3.93,
+      "sd": 0.2608637132,
+      "q25": 3.76,
+      "q75": 4.09,
+      "median_n_ratings": 2066.0,
+      "min_group_30": true
+    },
+    {
+      "page_band": "401-600",
+      "n": 1558,
+      "mean": 3.9812644416,
+      "median": 3.99,
+      "sd": 0.2393399845,
+      "q25": 3.84,
+      "q75": 4.14,
+      "median_n_ratings": 2483.5,
+      "min_group_30": true
+    },
+    {
+      "page_band": "601+",
+      "n": 838,
+      "mean": 4.1186754177,
+      "median": 4.13,
+      "sd": 0.2419964496,
+      "q25": 3.96,
+      "q75": 4.29,
+      "median_n_ratings": 1999.0,
+      "min_group_30": true
+    }
+  ],
+  "language_groups": [
+    {
+      "language_group": "English",
+      "n": 8212,
+      "mean": 3.9538102776,
+      "median": 3.97,
+      "sd": 0.266383895,
+      "q25": 3.79,
+      "q75": 4.14,
+      "median_n_ratings": 1877.5,
+      "min_group_30": true
+    },
+    {
+      "language_group": "ale",
+      "n": 1,
+      "mean": 4.36,
+      "median": 4.36,
+      "sd": null,
+      "q25": 4.36,
+      "q75": 4.36,
+      "median_n_ratings": 102.0,
+      "min_group_30": false
+    },
+    {
+      "language_group": "ara",
+      "n": 1,
+      "mean": 3.55,
+      "median": 3.55,
+      "sd": null,
+      "q25": 3.55,
+      "q75": 3.55,
+      "median_n_ratings": 122.0,
+      "min_group_30": false
+    },
+    {
+      "language_group": "enm",
+      "n": 3,
+      "mean": 3.8733333333,
+      "median": 3.95,
+      "sd": 0.3513308033,
+      "q25": 3.72,
+      "q75": 4.065,
+      "median_n_ratings": 1149.0,
+      "min_group_30": false
+    },
+    {
+      "language_group": "fre",
+      "n": 48,
+      "mean": 3.95,
+      "median": 3.96,
+      "sd": 0.2259919035,
+      "q25": 3.8,
+      "q75": 4.1275,
+      "median_n_ratings": 604.0,
+      "min_group_30": true
+    },
+    {
+      "language_group": "ger",
+      "n": 16,
+      "mean": 4.013125,
+      "median": 4.025,
+      "sd": 0.2732451585,
+      "q25": 3.8475,
+      "q75": 4.1125,
+      "median_n_ratings": 385.0,
+      "min_group_30": false
+    },
+    {
+      "language_group": "grc",
+      "n": 2,
+      "mean": 3.785,
+      "median": 3.785,
+      "sd": 0.1202081528,
+      "q25": 3.7425,
+      "q75": 3.8275,
+      "median_n_ratings": 209.5,
+      "min_group_30": false
+    },
+    {
+      "language_group": "ita",
+      "n": 2,
+      "mean": 3.955,
+      "median": 3.955,
+      "sd": 0.0919238816,
+      "q25": 3.9225,
+      "q75": 3.9875,
+      "median_n_ratings": 8004.0,
+      "min_group_30": false
+    },
+    {
+      "language_group": "jpn",
+      "n": 8,
+      "mean": 4.275,
+      "median": 4.24,
+      "sd": 0.1259251478,
+      "q25": 4.195,
+      "q75": 4.4,
+      "median_n_ratings": 309.0,
+      "min_group_30": false
+    },
+    {
+      "language_group": "lat",
+      "n": 1,
+      "mean": 4.47,
+      "median": 4.47,
+      "sd": null,
+      "q25": 4.47,
+      "q75": 4.47,
+      "median_n_ratings": 195.0,
+      "min_group_30": false
+    },
+    {
+      "language_group": "mul",
+      "n": 7,
+      "mean": 4.1942857143,
+      "median": 4.25,
+      "sd": 0.1974721198,
+      "q25": 4.11,
+      "q75": 4.32,
+      "median_n_ratings": 414.0,
+      "min_group_30": false
+    },
+    {
+      "language_group": "por",
+      "n": 7,
+      "mean": 4.0,
+      "median": 3.99,
+      "sd": 0.0571547607,
+      "q25": 3.965,
+      "q75": 4.035,
+      "median_n_ratings": 207.0,
+      "min_group_30": false
+    },
+    {
+      "language_group": "rus",
+      "n": 1,
+      "mean": 4.21,
+      "median": 4.21,
+      "sd": null,
+      "q25": 4.21,
+      "q75": 4.21,
+      "median_n_ratings": 8944.0,
+      "min_group_30": false
+    },
+    {
+      "language_group": "spa",
+      "n": 91,
+      "mean": 3.9689010989,
+      "median": 3.96,
+      "sd": 0.218756336,
+      "q25": 3.81,
+      "q75": 4.13,
+      "median_n_ratings": 504.0,
+      "min_group_30": true
+    },
+    {
+      "language_group": "swe",
+      "n": 1,
+      "mean": 3.91,
+      "median": 3.91,
+      "sd": null,
+      "q25": 3.91,
+      "q75": 3.91,
+      "median_n_ratings": 5341.0,
+      "min_group_30": false
+    },
+    {
+      "language_group": "tur",
+      "n": 1,
+      "mean": 4.42,
+      "median": 4.42,
+      "sd": null,
+      "q25": 4.42,
+      "q75": 4.42,
+      "median_n_ratings": 1000.0,
+      "min_group_30": false
+    }
+  ],
+  "decade_groups": [
+    {
+      "publication_decade": "1900",
+      "n": 1,
+      "mean": 3.88,
+      "median": 3.88,
+      "sd": null,
+      "q25": 3.88,
+      "q75": 3.88,
+      "median_n_ratings": 332.0,
+      "min_group_30": false
+    },
+    {
+      "publication_decade": "1910",
+      "n": 2,
+      "mean": 4.14,
+      "median": 4.14,
+      "sd": 0.2545584412,
+      "q25": 4.05,
+      "q75": 4.23,
+      "median_n_ratings": 159.5,
+      "min_group_30": false
+    },
+    {
+      "publication_decade": "1920",
+      "n": 2,
+      "mean": 4.125,
+      "median": 4.125,
+      "sd": 0.3040559159,
+      "q25": 4.0175,
+      "q75": 4.2325,
+      "median_n_ratings": 129.5,
+      "min_group_30": false
+    },
+    {
+      "publication_decade": "1940",
+      "n": 4,
+      "mean": 3.7725,
+      "median": 3.76,
+      "sd": 0.2828869032,
+      "q25": 3.54,
+      "q75": 3.9925,
+      "median_n_ratings": 978.0,
+      "min_group_30": false
+    },
+    {
+      "publication_decade": "1950",
+      "n": 24,
+      "mean": 4.015,
+      "median": 4.03,
+      "sd": 0.1687807943,
+      "q25": 3.9575,
+      "q75": 4.1125,
+      "median_n_ratings": 1239.5,
+      "min_group_30": false
+    },
+    {
+      "publication_decade": "1960",
+      "n": 40,
+      "mean": 4.01925,
+      "median": 4.045,
+      "sd": 0.2146958194,
+      "q25": 3.8825,
+      "q75": 4.1925,
+      "median_n_ratings": 640.0,
+      "min_group_30": true
+    },
+    {
+      "publication_decade": "1970",
+      "n": 125,
+      "mean": 4.0152,
+      "median": 4.03,
+      "sd": 0.2314665725,
+      "q25": 3.83,
+      "q75": 4.18,
+      "median_n_ratings": 762.0,
+      "min_group_30": true
+    },
+    {
+      "publication_decade": "1980",
+      "n": 417,
+      "mean": 3.997793765,
+      "median": 4.01,
+      "sd": 0.2655508166,
+      "q25": 3.84,
+      "q75": 4.19,
+      "median_n_ratings": 1031.0,
+      "min_group_30": true
+    },
+    {
+      "publication_decade": "1990",
+      "n": 1852,
+      "mean": 3.9682829374,
+      "median": 3.98,
+      "sd": 0.2592201867,
+      "q25": 3.81,
+      "q75": 4.15,
+      "median_n_ratings": 1563.0,
+      "min_group_30": true
+    },
+    {
+      "publication_decade": "2000",
+      "n": 5833,
+      "mean": 3.9447128407,
+      "median": 3.96,
+      "sd": 0.2686376313,
+      "q25": 3.79,
+      "q75": 4.12,
+      "median_n_ratings": 2067.0,
+      "min_group_30": true
+    },
+    {
+      "publication_decade": "2010",
+      "n": 100,
+      "mean": 3.9886,
+      "median": 3.995,
+      "sd": 0.2561723694,
+      "q25": 3.83,
+      "q75": 4.17,
+      "median_n_ratings": 2784.5,
+      "min_group_30": true
+    },
+    {
+      "publication_decade": "2020",
+      "n": 1,
+      "mean": 3.91,
+      "median": 3.91,
+      "sd": null,
+      "q25": 3.91,
+      "q75": 3.91,
+      "median_n_ratings": 35275.0,
+      "min_group_30": false
+    }
+  ],
+  "publisher_top_mean_n30": [
+    {
+      "publisher_clean": "Library of America",
+      "n": 34,
+      "mean": 4.2811764706,
+      "median": 4.345,
+      "sd": 0.1825370814,
+      "q25": 4.22,
+      "q75": 4.3875,
+      "median_n_ratings": 419.5,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "VIZ Media LLC",
+      "n": 86,
+      "mean": 4.2480232558,
+      "median": 4.28,
+      "sd": 0.224598045,
+      "q25": 4.0525,
+      "q75": 4.4175,
+      "median_n_ratings": 1566.5,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Vertigo",
+      "n": 42,
+      "mean": 4.1607142857,
+      "median": 4.23,
+      "sd": 0.3235126782,
+      "q25": 4.0825,
+      "q75": 4.405,
+      "median_n_ratings": 12982.0,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Houghton Mifflin Harcourt",
+      "n": 32,
+      "mean": 4.0834375,
+      "median": 4.135,
+      "sd": 0.3502497669,
+      "q25": 3.865,
+      "q75": 4.3525,
+      "median_n_ratings": 2194.0,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Farrar Straus and Giroux",
+      "n": 41,
+      "mean": 4.0680487805,
+      "median": 4.0,
+      "sd": 0.2139885454,
+      "q25": 3.92,
+      "q75": 4.23,
+      "median_n_ratings": 1469.0,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Del Rey",
+      "n": 75,
+      "mean": 4.0509333333,
+      "median": 4.04,
+      "sd": 0.2078927305,
+      "q25": 3.91,
+      "q75": 4.235,
+      "median_n_ratings": 3169.0,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Basic Books",
+      "n": 34,
+      "mean": 4.0482352941,
+      "median": 4.065,
+      "sd": 0.1976294449,
+      "q25": 3.93,
+      "q75": 4.1775,
+      "median_n_ratings": 1520.5,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "HarperCollins",
+      "n": 90,
+      "mean": 4.0465555556,
+      "median": 4.13,
+      "sd": 0.2370092736,
+      "q25": 3.93,
+      "q75": 4.2,
+      "median_n_ratings": 2310.0,
+      "min_group_30": true
+    }
+  ],
+  "publisher_top_size_n30": [
+    {
+      "publisher_clean": "Vintage",
+      "n": 312,
+      "mean": 3.8955448718,
+      "median": 3.91,
+      "sd": 0.2600798008,
+      "q25": 3.75,
+      "q75": 4.08,
+      "median_n_ratings": 2810.5,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Penguin Books",
+      "n": 245,
+      "mean": 3.9114285714,
+      "median": 3.94,
+      "sd": 0.2424279511,
+      "q25": 3.77,
+      "q75": 4.07,
+      "median_n_ratings": 2662.0,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Penguin Classics",
+      "n": 176,
+      "mean": 3.951875,
+      "median": 3.975,
+      "sd": 0.2126496952,
+      "q25": 3.82,
+      "q75": 4.105,
+      "median_n_ratings": 2373.0,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Mariner Books",
+      "n": 136,
+      "mean": 3.9548529412,
+      "median": 3.945,
+      "sd": 0.2901033923,
+      "q25": 3.78,
+      "q75": 4.15,
+      "median_n_ratings": 2071.5,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Ballantine Books",
+      "n": 134,
+      "mean": 3.878358209,
+      "median": 3.92,
+      "sd": 0.2832894692,
+      "q25": 3.69,
+      "q75": 4.08,
+      "median_n_ratings": 4818.5,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Harper Perennial",
+      "n": 106,
+      "mean": 3.9059433962,
+      "median": 3.91,
+      "sd": 0.2339384465,
+      "q25": 3.7225,
+      "q75": 4.0575,
+      "median_n_ratings": 2909.5,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Bantam",
+      "n": 105,
+      "mean": 3.8915238095,
+      "median": 3.89,
+      "sd": 0.253547071,
+      "q25": 3.7,
+      "q75": 4.07,
+      "median_n_ratings": 3194.0,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Pocket Books",
+      "n": 100,
+      "mean": 3.9111,
+      "median": 3.92,
+      "sd": 0.1965453915,
+      "q25": 3.77,
+      "q75": 4.02,
+      "median_n_ratings": 4484.5,
+      "min_group_30": true
+    }
+  ],
+  "genre_top_mean_n30": [
+    {
+      "genre_label": "Manga,Shonen",
+      "n": 75,
+      "mean": 4.2276,
+      "median": 4.26,
+      "sd": 0.2103847184,
+      "q25": 4.085,
+      "q75": 4.36,
+      "median_n_ratings": 1012.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Christian,Christian Living",
+      "n": 64,
+      "mean": 4.19359375,
+      "median": 4.205,
+      "sd": 0.1907160042,
+      "q25": 4.0825,
+      "q75": 4.3325,
+      "median_n_ratings": 1099.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Sequential Art,Manga",
+      "n": 206,
+      "mean": 4.1916504854,
+      "median": 4.22,
+      "sd": 0.2375262639,
+      "q25": 4.0225,
+      "q75": 4.36,
+      "median_n_ratings": 910.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Art,Photography",
+      "n": 30,
+      "mean": 4.184,
+      "median": 4.235,
+      "sd": 0.3084846165,
+      "q25": 3.9275,
+      "q75": 4.3925,
+      "median_n_ratings": 391.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Comics Manga",
+      "n": 102,
+      "mean": 4.1690196078,
+      "median": 4.185,
+      "sd": 0.2122883794,
+      "q25": 4.025,
+      "q75": 4.32,
+      "median_n_ratings": 1003.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Manga,Shojo",
+      "n": 30,
+      "mean": 4.1583333333,
+      "median": 4.14,
+      "sd": 0.2433825332,
+      "q25": 4.005,
+      "q75": 4.3575,
+      "median_n_ratings": 858.5,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Christian,Christian Non Fiction",
+      "n": 35,
+      "mean": 4.1511428571,
+      "median": 4.18,
+      "sd": 0.2720593732,
+      "q25": 4.005,
+      "q75": 4.335,
+      "median_n_ratings": 1598.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Science Fiction,Steampunk",
+      "n": 35,
+      "mean": 4.1454285714,
+      "median": 4.13,
+      "sd": 0.3889226663,
+      "q25": 3.885,
+      "q75": 4.56,
+      "median_n_ratings": 7480.0,
+      "min_group_30": true
+    }
+  ],
+  "genre_top_size": [
+    {
+      "genre_label": "Fiction",
+      "n": 5817,
+      "mean": 3.9286608217,
+      "median": 3.94,
+      "sd": 0.2719396008,
+      "q25": 3.77,
+      "q75": 4.11,
+      "median_n_ratings": 2584.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Classics",
+      "n": 2721,
+      "mean": 4.0095001838,
+      "median": 4.01,
+      "sd": 0.2466918775,
+      "q25": 3.86,
+      "q75": 4.18,
+      "median_n_ratings": 1818.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Nonfiction",
+      "n": 2394,
+      "mean": 4.0147619048,
+      "median": 4.03,
+      "sd": 0.2353364586,
+      "q25": 3.87,
+      "q75": 4.17,
+      "median_n_ratings": 962.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Literature",
+      "n": 2383,
+      "mean": 3.9376626102,
+      "median": 3.94,
+      "sd": 0.2707123426,
+      "q25": 3.78,
+      "q75": 4.11,
+      "median_n_ratings": 1783.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Novels",
+      "n": 2191,
+      "mean": 3.8719078047,
+      "median": 3.88,
+      "sd": 0.2786262987,
+      "q25": 3.7,
+      "q75": 4.05,
+      "median_n_ratings": 2965.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Fantasy",
+      "n": 2152,
+      "mean": 3.9870399628,
+      "median": 4.0,
+      "sd": 0.2629159559,
+      "q25": 3.82,
+      "q75": 4.1625,
+      "median_n_ratings": 3255.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Historical,Historical Fiction",
+      "n": 1533,
+      "mean": 3.9239465101,
+      "median": 3.93,
+      "sd": 0.256766171,
+      "q25": 3.79,
+      "q75": 4.09,
+      "median_n_ratings": 2369.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Audiobook",
+      "n": 1395,
+      "mean": 3.9463154122,
+      "median": 3.97,
+      "sd": 0.2544773545,
+      "q25": 3.81,
+      "q75": 4.11,
+      "median_n_ratings": 5686.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Mystery",
+      "n": 1366,
+      "mean": 3.8940629575,
+      "median": 3.91,
+      "sd": 0.23989062,
+      "q25": 3.75,
+      "q75": 4.04,
+      "median_n_ratings": 3637.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Romance",
+      "n": 1316,
+      "mean": 3.9013069909,
+      "median": 3.91,
+      "sd": 0.2717412547,
+      "q25": 3.73,
+      "q75": 4.09,
+      "median_n_ratings": 3058.5,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "History",
+      "n": 1260,
+      "mean": 4.0214444444,
+      "median": 4.04,
+      "sd": 0.2177941459,
+      "q25": 3.89,
+      "q75": 4.17,
+      "median_n_ratings": 1022.5,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Historical",
+      "n": 1216,
+      "mean": 3.9666776316,
+      "median": 3.98,
+      "sd": 0.2442733031,
+      "q25": 3.82,
+      "q75": 4.13,
+      "median_n_ratings": 2274.0,
+      "min_group_30": true
+    }
+  ],
+  "genre_groups_total": 793,
+  "genre_groups_n30": 278,
+  "publisher_groups_total": 1538,
+  "publisher_groups_n30": 57,
+  "approx_correlations": [
+    {
+      "sample": "approx_one_per_title_author",
+      "variable": "pages",
+      "pairwise_n": 8172,
+      "spearman": 0.1252682789,
+      "pearson_raw": 0.2001199822,
+      "pearson_log1p": 0.0908662647
+    },
+    {
+      "sample": "approx_one_per_title_author",
+      "variable": "n_ratings",
+      "pairwise_n": 8189,
+      "spearman": 0.0665195937,
+      "pearson_raw": 0.0439334919,
+      "pearson_log1p": 0.0784711595
+    },
+    {
+      "sample": "approx_one_per_title_author",
+      "variable": "n_reviews",
+      "pairwise_n": 8189,
+      "spearman": -0.0193654299,
+      "pearson_raw": 0.0324360544,
+      "pearson_log1p": -0.0099646917
+    },
+    {
+      "sample": "approx_one_per_title_author",
+      "variable": "publication_year",
+      "pairwise_n": 8188,
+      "spearman": -0.0607805763,
+      "pearson_raw": -0.0657811024,
+      "pearson_log1p": null
+    }
+  ],
+  "approx_genre_top_mean_n30": [
+    {
+      "genre_label": "Manga,Shonen",
+      "n": 75,
+      "mean": 4.2276,
+      "median": 4.26,
+      "sd": 0.2103847184,
+      "q25": 4.085,
+      "q75": 4.36,
+      "median_n_ratings": 1012.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Christian,Christian Living",
+      "n": 64,
+      "mean": 4.19359375,
+      "median": 4.205,
+      "sd": 0.1907160042,
+      "q25": 4.0825,
+      "q75": 4.3325,
+      "median_n_ratings": 1099.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Sequential Art,Manga",
+      "n": 206,
+      "mean": 4.1916504854,
+      "median": 4.22,
+      "sd": 0.2375262639,
+      "q25": 4.0225,
+      "q75": 4.36,
+      "median_n_ratings": 910.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Art,Photography",
+      "n": 30,
+      "mean": 4.184,
+      "median": 4.235,
+      "sd": 0.3084846165,
+      "q25": 3.9275,
+      "q75": 4.3925,
+      "median_n_ratings": 391.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Comics Manga",
+      "n": 102,
+      "mean": 4.1690196078,
+      "median": 4.185,
+      "sd": 0.2122883794,
+      "q25": 4.025,
+      "q75": 4.32,
+      "median_n_ratings": 1003.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Manga,Shojo",
+      "n": 30,
+      "mean": 4.1583333333,
+      "median": 4.14,
+      "sd": 0.2433825332,
+      "q25": 4.005,
+      "q75": 4.3575,
+      "median_n_ratings": 858.5,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "Christian,Christian Non Fiction",
+      "n": 35,
+      "mean": 4.1511428571,
+      "median": 4.18,
+      "sd": 0.2720593732,
+      "q25": 4.005,
+      "q75": 4.335,
+      "median_n_ratings": 1598.0,
+      "min_group_30": true
+    },
+    {
+      "genre_label": "World War II,Holocaust",
+      "n": 39,
+      "mean": 4.148974359,
+      "median": 4.15,
+      "sd": 0.2130208153,
+      "q25": 3.975,
+      "q75": 4.33,
+      "median_n_ratings": 1953.0,
+      "min_group_30": true
+    }
+  ],
+  "approx_publisher_top_mean_n30": [
+    {
+      "publisher_clean": "Library of America",
+      "n": 34,
+      "mean": 4.2811764706,
+      "median": 4.345,
+      "sd": 0.1825370814,
+      "q25": 4.22,
+      "q75": 4.3875,
+      "median_n_ratings": 419.5,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "VIZ Media LLC",
+      "n": 86,
+      "mean": 4.2480232558,
+      "median": 4.28,
+      "sd": 0.224598045,
+      "q25": 4.0525,
+      "q75": 4.4175,
+      "median_n_ratings": 1566.5,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Vertigo",
+      "n": 42,
+      "mean": 4.1607142857,
+      "median": 4.23,
+      "sd": 0.3235126782,
+      "q25": 4.0825,
+      "q75": 4.405,
+      "median_n_ratings": 12982.0,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Houghton Mifflin Harcourt",
+      "n": 32,
+      "mean": 4.0834375,
+      "median": 4.135,
+      "sd": 0.3502497669,
+      "q25": 3.865,
+      "q75": 4.3525,
+      "median_n_ratings": 2194.0,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Farrar Straus and Giroux",
+      "n": 40,
+      "mean": 4.06975,
+      "median": 4.01,
+      "sd": 0.2164336518,
+      "q25": 3.92,
+      "q75": 4.23,
+      "median_n_ratings": 1532.0,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Del Rey",
+      "n": 75,
+      "mean": 4.0509333333,
+      "median": 4.04,
+      "sd": 0.2078927305,
+      "q25": 3.91,
+      "q75": 4.235,
+      "median_n_ratings": 3169.0,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "Basic Books",
+      "n": 34,
+      "mean": 4.0482352941,
+      "median": 4.065,
+      "sd": 0.1976294449,
+      "q25": 3.93,
+      "q75": 4.1775,
+      "median_n_ratings": 1520.5,
+      "min_group_30": true
+    },
+    {
+      "publisher_clean": "HarperOne",
+      "n": 32,
+      "mean": 4.0478125,
+      "median": 4.07,
+      "sd": 0.2779270544,
+      "q25": 3.8825,
+      "q75": 4.2325,
+      "median_n_ratings": 2437.5,
+      "min_group_30": true
+    }
+  ],
+  "page_restricted_correlations": [
+    {
+      "sample": "pages_20_2000_sensitivity",
+      "variable": "pages",
+      "pairwise_n": 8300,
+      "spearman": 0.1286985993,
+      "pearson_raw": 0.1972705235,
+      "pearson_log1p": 0.1090619452
+    },
+    {
+      "sample": "pages_20_2000_sensitivity",
+      "variable": "n_ratings",
+      "pairwise_n": 8300,
+      "spearman": 0.0700264123,
+      "pearson_raw": 0.0448118664,
+      "pearson_log1p": 0.0821407104
+    },
+    {
+      "sample": "pages_20_2000_sensitivity",
+      "variable": "n_reviews",
+      "pairwise_n": 8300,
+      "spearman": -0.0158785547,
+      "pearson_raw": 0.0338805011,
+      "pearson_log1p": -0.0059614539
+    },
+    {
+      "sample": "pages_20_2000_sensitivity",
+      "variable": "publication_year",
+      "pairwise_n": 8299,
+      "spearman": -0.0632261888,
+      "pearson_raw": -0.0672874569,
+      "pearson_log1p": null
+    }
+  ],
+  "stratified_correlations": [
+    {
+      "sample": "genre: Fiction",
+      "variable": "pages",
+      "pairwise_n": 5802,
+      "spearman": 0.1122408727,
+      "pearson_raw": 0.1984651704,
+      "pearson_log1p": 0.0668830343
+    },
+    {
+      "sample": "genre: Fiction",
+      "variable": "n_ratings",
+      "pairwise_n": 5817,
+      "spearman": 0.104816949,
+      "pearson_raw": 0.0656179391,
+      "pearson_log1p": 0.1159562393
+    },
+    {
+      "sample": "genre: Fiction",
+      "variable": "n_reviews",
+      "pairwise_n": 5817,
+      "spearman": 0.0057034181,
+      "pearson_raw": 0.0530562997,
+      "pearson_log1p": 0.0132739549
+    },
+    {
+      "sample": "genre: Fiction",
+      "variable": "publication_year",
+      "pairwise_n": 5816,
+      "spearman": -0.0189833759,
+      "pearson_raw": -0.0301375486,
+      "pearson_log1p": null
+    },
+    {
+      "sample": "genre: Classics",
+      "variable": "pages",
+      "pairwise_n": 2716,
+      "spearman": 0.1887463328,
+      "pearson_raw": 0.2693211119,
+      "pearson_log1p": 0.1573466766
+    },
+    {
+      "sample": "genre: Classics",
+      "variable": "n_ratings",
+      "pairwise_n": 2721,
+      "spearman": 0.0195218576,
+      "pearson_raw": 0.0483236078,
+      "pearson_log1p": 0.0321629136
+    },
+    {
+      "sample": "genre: Classics",
+      "variable": "n_reviews",
+      "pairwise_n": 2721,
+      "spearman": -0.0524100854,
+      "pearson_raw": 0.0315917609,
+      "pearson_log1p": -0.0358099518
+    },
+    {
+      "sample": "genre: Classics",
+      "variable": "publication_year",
+      "pairwise_n": 2721,
+      "spearman": -0.0244909949,
+      "pearson_raw": -0.0153604889,
+      "pearson_log1p": null
+    },
+    {
+      "sample": "genre: Nonfiction",
+      "variable": "pages",
+      "pairwise_n": 2393,
+      "spearman": 0.1736519553,
+      "pearson_raw": 0.210011174,
+      "pearson_log1p": 0.1585405359
+    },
+    {
+      "sample": "genre: Nonfiction",
+      "variable": "n_ratings",
+      "pairwise_n": 2394,
+      "spearman": 0.1135569686,
+      "pearson_raw": -0.0017010038,
+      "pearson_log1p": 0.1016339504
+    },
+    {
+      "sample": "genre: Nonfiction",
+      "variable": "n_reviews",
+      "pairwise_n": 2394,
+      "spearman": 0.0359157281,
+      "pearson_raw": -0.0006189145,
+      "pearson_log1p": 0.0276010604
+    },
+    {
+      "sample": "genre: Nonfiction",
+      "variable": "publication_year",
+      "pairwise_n": 2394,
+      "spearman": -0.1522969559,
+      "pearson_raw": -0.1326336119,
+      "pearson_log1p": null
+    },
+    {
+      "sample": "genre: Literature",
+      "variable": "pages",
+      "pairwise_n": 2382,
+      "spearman": 0.2638840634,
+      "pearson_raw": 0.3096623754,
+      "pearson_log1p": 0.2291679155
+    },
+    {
+      "sample": "genre: Literature",
+      "variable": "n_ratings",
+      "pairwise_n": 2383,
+      "spearman": -0.0365203269,
+      "pearson_raw": 0.0011925608,
+      "pearson_log1p": -0.0242993917
+    },
+    {
+      "sample": "genre: Literature",
+      "variable": "n_reviews",
+      "pairwise_n": 2383,
+      "spearman": -0.115463841,
+      "pearson_raw": -0.0084543664,
+      "pearson_log1p": -0.1016174648
+    },
+    {
+      "sample": "genre: Literature",
+      "variable": "publication_year",
+      "pairwise_n": 2383,
+      "spearman": -0.1282055952,
+      "pearson_raw": -0.1078002929,
+      "pearson_log1p": null
+    },
+    {
+      "sample": "genre: Novels",
+      "variable": "pages",
+      "pairwise_n": 2189,
+      "spearman": 0.2795759762,
+      "pearson_raw": 0.3162212959,
+      "pearson_log1p": 0.2198101925
+    },
+    {
+      "sample": "genre: Novels",
+      "variable": "n_ratings",
+      "pairwise_n": 2191,
+      "spearman": 0.0687363344,
+      "pearson_raw": 0.0734733529,
+      "pearson_log1p": 0.0764466997
+    },
+    {
+      "sample": "genre: Novels",
+      "variable": "n_reviews",
+      "pairwise_n": 2191,
+      "spearman": 0.0270196577,
+      "pearson_raw": 0.06679887,
+      "pearson_log1p": 0.02544979
+    },
+    {
+      "sample": "genre: Novels",
+      "variable": "publication_year",
+      "pairwise_n": 2191,
+      "spearman": -0.0672448497,
+      "pearson_raw": -0.0663960843,
+      "pearson_log1p": null
+    },
+    {
+      "sample": "genre: Fantasy",
+      "variable": "pages",
+      "pairwise_n": 2149,
+      "spearman": 0.0398650693,
+      "pearson_raw": 0.1529261814,
+      "pearson_log1p": 0.0195672964
+    },
+    {
+      "sample": "genre: Fantasy",
+      "variable": "n_ratings",
+      "pairwise_n": 2152,
+      "spearman": 0.1565948494,
+      "pearson_raw": 0.0856225366,
+      "pearson_log1p": 0.1637445117
+    },
+    {
+      "sample": "genre: Fantasy",
+      "variable": "n_reviews",
+      "pairwise_n": 2152,
+      "spearman": 0.0594925649,
+      "pearson_raw": 0.064438058,
+      "pearson_log1p": 0.0661791533
+    },
+    {
+      "sample": "genre: Fantasy",
+      "variable": "publication_year",
+      "pairwise_n": 2152,
+      "spearman": 0.0662048677,
+      "pearson_raw": 0.0589700541,
+      "pearson_log1p": null
+    },
+    {
+      "sample": "language: English",
+      "variable": "pages",
+      "pairwise_n": 8195,
+      "spearman": 0.1278572396,
+      "pearson_raw": 0.2011297211,
+      "pearson_log1p": 0.0935980768
+    },
+    {
+      "sample": "language: English",
+      "variable": "n_ratings",
+      "pairwise_n": 8212,
+      "spearman": 0.0734899359,
+      "pearson_raw": 0.0453587523,
+      "pearson_log1p": 0.0858343158
+    },
+    {
+      "sample": "language: English",
+      "variable": "n_reviews",
+      "pairwise_n": 8212,
+      "spearman": -0.0128210647,
+      "pearson_raw": 0.03392012,
+      "pearson_log1p": -0.0031746027
+    },
+    {
+      "sample": "language: English",
+      "variable": "publication_year",
+      "pairwise_n": 8211,
+      "spearman": -0.0622906499,
+      "pearson_raw": -0.0661075966,
+      "pearson_log1p": null
+    }
+  ],
+  "pivot_mean": [
+    {
+      "publication_decade": 1900,
+      "1-200": 3.88,
+      "201-400": null,
+      "401-600": null,
+      "601+": null
+    },
+    {
+      "publication_decade": 1910,
+      "1-200": null,
+      "201-400": null,
+      "401-600": 4.14,
+      "601+": null
+    },
+    {
+      "publication_decade": 1920,
+      "1-200": 3.91,
+      "201-400": null,
+      "401-600": 4.34,
+      "601+": null
+    },
+    {
+      "publication_decade": 1940,
+      "1-200": 3.7066666667,
+      "201-400": null,
+      "401-600": 3.97,
+      "601+": null
+    },
+    {
+      "publication_decade": 1950,
+      "1-200": 4.0475,
+      "201-400": 3.9675,
+      "401-600": 4.02,
+      "601+": 3.99
+    },
+    {
+      "publication_decade": 1960,
+      "1-200": 3.9472727273,
+      "201-400": 4.0013043478,
+      "401-600": 4.2233333333,
+      "601+": 4.2166666667
+    },
+    {
+      "publication_decade": 1970,
+      "1-200": 4.0192307692,
+      "201-400": 3.9976470588,
+      "401-600": 3.985,
+      "601+": 4.1230769231
+    },
+    {
+      "publication_decade": 1980,
+      "1-200": 3.8927368421,
+      "201-400": 3.9528497409,
+      "401-600": 4.0836,
+      "601+": 4.2240740741
+    },
+    {
+      "publication_decade": 1990,
+      "1-200": 3.9483932854,
+      "201-400": 3.9232590856,
+      "401-600": 3.9932951289,
+      "601+": 4.132112069
+    },
+    {
+      "publication_decade": 2000,
+      "1-200": 3.9555974338,
+      "201-400": 3.9029065041,
+      "401-600": 3.9680348944,
+      "601+": 4.1000754717
+    },
+    {
+      "publication_decade": 2010,
+      "1-200": 3.9785714286,
+      "201-400": 3.9425531915,
+      "401-600": 4.0538461538,
+      "601+": 4.33
+    },
+    {
+      "publication_decade": 2020,
+      "1-200": null,
+      "201-400": 3.91,
+      "401-600": null,
+      "601+": null
+    }
+  ],
+  "pivot_n": [
+    {
+      "publication_decade": 1900,
+      "1-200": 1,
+      "201-400": 0,
+      "401-600": 0,
+      "601+": 0
+    },
+    {
+      "publication_decade": 1910,
+      "1-200": 0,
+      "201-400": 0,
+      "401-600": 2,
+      "601+": 0
+    },
+    {
+      "publication_decade": 1920,
+      "1-200": 1,
+      "201-400": 0,
+      "401-600": 1,
+      "601+": 0
+    },
+    {
+      "publication_decade": 1940,
+      "1-200": 3,
+      "201-400": 0,
+      "401-600": 1,
+      "601+": 0
+    },
+    {
+      "publication_decade": 1950,
+      "1-200": 12,
+      "201-400": 8,
+      "401-600": 3,
+      "601+": 1
+    },
+    {
+      "publication_decade": 1960,
+      "1-200": 11,
+      "201-400": 23,
+      "401-600": 3,
+      "601+": 3
+    },
+    {
+      "publication_decade": 1970,
+      "1-200": 39,
+      "201-400": 51,
+      "401-600": 22,
+      "601+": 13
+    },
+    {
+      "publication_decade": 1980,
+      "1-200": 95,
+      "201-400": 193,
+      "401-600": 75,
+      "601+": 54
+    },
+    {
+      "publication_decade": 1990,
+      "1-200": 417,
+      "201-400": 853,
+      "401-600": 349,
+      "601+": 232
+    },
+    {
+      "publication_decade": 2000,
+      "1-200": 1247,
+      "201-400": 2952,
+      "401-600": 1089,
+      "601+": 530
+    },
+    {
+      "publication_decade": 2010,
+      "1-200": 35,
+      "201-400": 47,
+      "401-600": 13,
+      "601+": 4
+    },
+    {
+      "publication_decade": 2020,
+      "1-200": 0,
+      "201-400": 1,
+      "401-600": 0,
+      "601+": 0
+    }
+  ],
+  "validation": {
+    "raw_hash_unchanged": true,
+    "raw_expected_hash": true,
+    "all_rows_retained": true,
+    "all_original_values_preserved": true,
+    "unique_book_ids": true,
+    "row_order_preserved": true,
+    "pages_76_missing": true,
+    "invalid_dates_2": true,
+    "publisher_5_missing": true,
+    "english_10541": true,
+    "zero_counts_81_preserved": true,
+    "positive_zero_count_55_preserved": true,
+    "isbn10_invalid4": true,
+    "isbn13_invalid28": true,
+    "genre_bridge_94794": true,
+    "unique_genre_pairs": true,
+    "bridge_keys_exist": true,
+    "genre_labels890": true,
+    "eligible11046": true,
+    "primary8402": true,
+    "no_zero_pages_in_normalized": true,
+    "csv_roundtrip_original_columns_preserved": true,
+    "csv_roundtrip_bridge": true
+  },
+  "pandas_version": "3.0.1",
+  "numpy_version": "2.3.5",
+  "analysis_config": {
+    "primary_min_ratings": 100,
+    "minimum_group_size": 30,
+    "sensitivity_thresholds": [
+      1,
+      100,
+      500,
+      1000
+    ],
+    "page_bins": [
+      "1-200",
+      "201-400",
+      "401-600",
+      "601+"
+    ],
+    "unit": "Goodreads record/edition; not verified unique work"
+  }
+}
