@@ -1,0 +1,720 @@
+{
+  "stage": "6 static Python visualizations",
+  "source_dataset": "middlelight/goodreadsbookswithgenres, version 1",
+  "primary_rule": "rating in [1,5] AND n_ratings>=100",
+  "primary_n": 8402,
+  "min_group_n": 30,
+  "sample_exception": "Figure 13 compares thresholds 1,100,500,1000 and has no single common denominator.",
+  "input_sha256": {
+    "data/raw/Goodreads_books_with_genres.csv": "721fc3bbe6367e91f2d3537d2cbe1c1ca4b585535d8ce63862c38a353d662b97",
+    "data/processed/books_cleaned_master.csv": "7985d617d177b64d51396f027bc529edbe72ddbdc7b34e8f66196831ba14d929",
+    "data/processed/book_genres_bridge.csv": "87a13c46b0d89473292f325287415d4aecc58e5a7c47c43456594b2d7dee97f7",
+    "eda_tables/group_pages_all.csv": "caa39ba1ecd556f2e37d9538ad7bbe33e47736cbd1c94192199990fcfbcc8887",
+    "eda_tables/group_language_all.csv": "fb9e19daf4e730281884f9fa375b53106c6bdccc52ec761d37f49d9c6aee00cb",
+    "eda_tables/group_publisher_all.csv": "dde05be331369f1e05f7a8f342a3cdbefc4815407c828b2ddea2ec4c54582b1e",
+    "eda_tables/group_decade_all.csv": "88c05c2856e96acb0f95740a04d7d821b6f6838d1841dcc9cff553a2884d27af",
+    "eda_tables/group_genre_all.csv": "adf912b9e0535998fb6ea70bc712d8ec3ed58543e1caede3fb257b9a9d5388a0",
+    "eda_tables/correlations_by_threshold.csv": "c095a0211c2f5a111a076e4ffa884319c0ad622e8dcd4413c6709abf3bd5d9f8",
+    "eda_tables/threshold_sensitivity.csv": "28c38acfa1a4b218613660ef11a8c2c0a27851e0cb8e590f345dc7bae1dcd24a"
+  },
+  "validation": {
+    "raw_and_master_hashes_locked": true,
+    "original_13_columns_and_11127_rows_preserved": true,
+    "unique_master_book_ids": true,
+    "primary_8402_no_sampling": true,
+    "genre_bridge_94794_exact_unique_pairs": true,
+    "five_group_tables_recomputed_against_existing_eda": true,
+    "four_correlations_and_pairwise_counts_recomputed": true,
+    "threshold_counts_and_means_recomputed": true,
+    "primary_missing_pages_17": true,
+    "primary_missing_year_1": true,
+    "primary_missing_publisher_3": true,
+    "primary_missing_genre_2": true,
+    "all_inputs_unchanged_after_rendering": true,
+    "language_coverage_reconciles_8402": true,
+    "scatter_pages_points_8385": true,
+    "scatter_rating_counts_points_8402": true,
+    "scatter_reviews_points_8402": true,
+    "thirteen_pngs": true
+  },
+  "software": {
+    "python_chart_library": "matplotlib 3.10.8",
+    "pandas": "3.0.1",
+    "numpy": "2.3.5"
+  },
+  "charts": [
+    {
+      "file": "01_PhanPhoi_Rating_MauChinh.png",
+      "title": "Phân phối Rating trong mẫu phân tích chính",
+      "sample": "8.402 bản ghi · Rating 1–5 · ít nhất 100 lượt chấm",
+      "n": 8402,
+      "factors": [
+        "rating"
+      ],
+      "caption": "Mẫu chính có trung bình 3,955, trung vị 3,97; các khoảng [x;x+0,1) dùng quy tắc thập phân khớp Power BI.",
+      "sha256": "c42f8760d8de73f2f7ce468a0b3c607e2954cc7aac578d135f26910d30f9c728",
+      "width_inches": 11.6,
+      "height_inches": 6.4,
+      "histogram_left_edges": [
+        1.0,
+        1.1,
+        1.2,
+        1.3,
+        1.4,
+        1.5,
+        1.6,
+        1.7,
+        1.8,
+        1.9,
+        2.0,
+        2.1,
+        2.2,
+        2.3,
+        2.4,
+        2.5,
+        2.6,
+        2.7,
+        2.8,
+        2.9,
+        3.0,
+        3.1,
+        3.2,
+        3.3,
+        3.4,
+        3.5,
+        3.6,
+        3.7,
+        3.8,
+        3.9,
+        4.0,
+        4.1,
+        4.2,
+        4.3,
+        4.4,
+        4.5,
+        4.6,
+        4.7,
+        4.8,
+        4.9
+      ],
+      "histogram_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        2,
+        11,
+        3,
+        12,
+        34,
+        49,
+        106,
+        202,
+        331,
+        533,
+        824,
+        1149,
+        1322,
+        1267,
+        1081,
+        746,
+        412,
+        206,
+        79,
+        20,
+        10,
+        1,
+        0
+      ],
+      "bin_definition": "floor(round(rating*100)/10)/10; [x,x+0.1)"
+    },
+    {
+      "file": "02_Boxplot_Rating_NhomSoTrang.png",
+      "title": "Phân phối Rating theo nhóm số trang",
+      "sample": "8.385 bản ghi có số trang dương · 17 bản ghi thiếu số trang không dùng trong hình",
+      "n": 8385,
+      "factors": [
+        "pages"
+      ],
+      "caption": "Các phân phối Rating chồng lấn. Chênh lệch nhóm độ dài chưa chứng minh thêm số trang sẽ làm Rating tăng.",
+      "sha256": "c431031c4c801b835da478712e641081ef75b47bb7ba6c904c922887e7efd29b",
+      "width_inches": 11.6,
+      "height_inches": 6.4
+    },
+    {
+      "file": "03_TrungBinh_Rating_NhomSoTrang.png",
+      "title": "Rating trung bình theo nhóm số trang",
+      "sample": "Mẫu chính có số trang dương · bốn nhóm đều có ít nhất 30 bản ghi",
+      "n": 8385,
+      "factors": [
+        "pages"
+      ],
+      "caption": "Nhóm 601+ trang: 4,119; nhóm 201–400: 3,912. Nhóm 1–200 cao hơn 201–400 nên không có xu hướng tăng đều. Đường đứt: trung bình 8.402 bản ghi; không phải mô hình nhân quả.",
+      "sha256": "0d204b457d2448501c0811b8941cf2ab30a19d35e773cd588f6b15bcb760e4bc",
+      "width_inches": 11.6,
+      "height_inches": 6.3,
+      "group_n_is_overlapping": false,
+      "sum_group_memberships": 8385,
+      "groups": [
+        {
+          "page_band": "1-200",
+          "n": 1861,
+          "mean": 3.95261687,
+          "median": 3.97,
+          "sd": 0.27600506,
+          "q25": 3.78,
+          "q75": 4.14,
+          "median_n_ratings": 1036.0,
+          "min_group_30": true
+        },
+        {
+          "page_band": "201-400",
+          "n": 4128,
+          "mean": 3.91174419,
+          "median": 3.93,
+          "sd": 0.26086371,
+          "q25": 3.76,
+          "q75": 4.09,
+          "median_n_ratings": 2066.0,
+          "min_group_30": true
+        },
+        {
+          "page_band": "401-600",
+          "n": 1558,
+          "mean": 3.98126444,
+          "median": 3.99,
+          "sd": 0.23933998,
+          "q25": 3.84,
+          "q75": 4.14,
+          "median_n_ratings": 2483.5,
+          "min_group_30": true
+        },
+        {
+          "page_band": "601+",
+          "n": 838,
+          "mean": 4.11867542,
+          "median": 4.13,
+          "sd": 0.24199645,
+          "q25": 3.96,
+          "q75": 4.29,
+          "median_n_ratings": 1999.0,
+          "min_group_30": true
+        }
+      ]
+    },
+    {
+      "file": "04_Rating_Top12_NhanTheLoai_TheoN.png",
+      "title": "Rating của 12 nhãn thể loại có nhiều bản ghi nhất",
+      "sample": "Chọn và sắp xếp theo n giảm dần; hòa n thì theo nhãn gốc · chỉ nhóm n ≥ 30",
+      "n": 8348,
+      "factors": [
+        "genres"
+      ],
+      "caption": "Trong các nhóm hiển thị, History có trung bình 4,021 (n=1.260); Novels có trung bình 3,872 (n=2.191). Một sách thuộc nhiều nhãn; tổng n giữa các nhóm không cộng thành số sách duy nhất. Giữ nguyên nhãn và chữ hoa/thường; dấu phẩy bên trong nhãn không bị tách.",
+      "sha256": "ef3b791cebb0110c1d849cb1c8c7991db88d89117f0530af0e300e767eaebb1f",
+      "width_inches": 11.6,
+      "height_inches": 7.5,
+      "group_n_is_overlapping": true,
+      "sum_group_memberships": 25744,
+      "groups": [
+        {
+          "genre_label": "Fiction",
+          "n": 5817,
+          "mean": 3.92866082,
+          "median": 3.94,
+          "sd": 0.2719396,
+          "q25": 3.77,
+          "q75": 4.11,
+          "median_n_ratings": 2584.0,
+          "min_group_30": true
+        },
+        {
+          "genre_label": "Classics",
+          "n": 2721,
+          "mean": 4.00950018,
+          "median": 4.01,
+          "sd": 0.24669188,
+          "q25": 3.86,
+          "q75": 4.18,
+          "median_n_ratings": 1818.0,
+          "min_group_30": true
+        },
+        {
+          "genre_label": "Nonfiction",
+          "n": 2394,
+          "mean": 4.0147619,
+          "median": 4.03,
+          "sd": 0.23533646,
+          "q25": 3.87,
+          "q75": 4.17,
+          "median_n_ratings": 962.0,
+          "min_group_30": true
+        },
+        {
+          "genre_label": "Literature",
+          "n": 2383,
+          "mean": 3.93766261,
+          "median": 3.94,
+          "sd": 0.27071234,
+          "q25": 3.78,
+          "q75": 4.11,
+          "median_n_ratings": 1783.0,
+          "min_group_30": true
+        },
+        {
+          "genre_label": "Novels",
+          "n": 2191,
+          "mean": 3.8719078,
+          "median": 3.88,
+          "sd": 0.2786263,
+          "q25": 3.7,
+          "q75": 4.05,
+          "median_n_ratings": 2965.0,
+          "min_group_30": true
+        },
+        {
+          "genre_label": "Fantasy",
+          "n": 2152,
+          "mean": 3.98703996,
+          "median": 4.0,
+          "sd": 0.26291596,
+          "q25": 3.82,
+          "q75": 4.1625,
+          "median_n_ratings": 3255.0,
+          "min_group_30": true
+        },
+        {
+          "genre_label": "Historical,Historical Fiction",
+          "n": 1533,
+          "mean": 3.92394651,
+          "median": 3.93,
+          "sd": 0.25676617,
+          "q25": 3.79,
+          "q75": 4.09,
+          "median_n_ratings": 2369.0,
+          "min_group_30": true
+        },
+        {
+          "genre_label": "Audiobook",
+          "n": 1395,
+          "mean": 3.94631541,
+          "median": 3.97,
+          "sd": 0.25447735,
+          "q25": 3.81,
+          "q75": 4.11,
+          "median_n_ratings": 5686.0,
+          "min_group_30": true
+        },
+        {
+          "genre_label": "Mystery",
+          "n": 1366,
+          "mean": 3.89406296,
+          "median": 3.91,
+          "sd": 0.23989062,
+          "q25": 3.75,
+          "q75": 4.04,
+          "median_n_ratings": 3637.0,
+          "min_group_30": true
+        },
+        {
+          "genre_label": "Romance",
+          "n": 1316,
+          "mean": 3.90130699,
+          "median": 3.91,
+          "sd": 0.27174125,
+          "q25": 3.73,
+          "q75": 4.09,
+          "median_n_ratings": 3058.5,
+          "min_group_30": true
+        },
+        {
+          "genre_label": "History",
+          "n": 1260,
+          "mean": 4.02144444,
+          "median": 4.04,
+          "sd": 0.21779415,
+          "q25": 3.89,
+          "q75": 4.17,
+          "median_n_ratings": 1022.5,
+          "min_group_30": true
+        },
+        {
+          "genre_label": "Historical",
+          "n": 1216,
+          "mean": 3.96667763,
+          "median": 3.98,
+          "sd": 0.2442733,
+          "q25": 3.82,
+          "q75": 4.13,
+          "median_n_ratings": 2274.0,
+          "min_group_30": true
+        }
+      ]
+    },
+    {
+      "file": "05_Rating_Top12_NhaXuatBan_TheoN.png",
+      "title": "Rating của 12 nhà xuất bản có nhiều bản ghi nhất",
+      "sample": "Chọn và sắp xếp theo n giảm dần; hòa n thì theo tên gốc · chỉ nhóm n ≥ 30",
+      "n": 1646,
+      "factors": [
+        "publisher"
+      ],
+      "caption": "Trong các nhóm hiển thị, VIZ Media LLC có trung bình 4,248 (n=86); Ballantine Books có trung bình 3,878 (n=134). Giữ tên sau chuẩn hóa khoảng trắng; không gộp theo chữ thường hoặc gộp các imprint. Khác biệt có thể phản ánh cơ cấu tác phẩm; chưa đo tác động của nhà xuất bản.",
+      "sha256": "aa5fe7d45e9171a5aa525d905814dd726e1a839b8870ea67e1c4e0b6b0764b13",
+      "width_inches": 11.6,
+      "height_inches": 7.5,
+      "group_n_is_overlapping": false,
+      "sum_group_memberships": 1646,
+      "groups": [
+        {
+          "publisher_clean": "Vintage",
+          "n": 312,
+          "mean": 3.89554487,
+          "median": 3.91,
+          "sd": 0.2600798,
+          "q25": 3.75,
+          "q75": 4.08,
+          "median_n_ratings": 2810.5,
+          "min_group_30": true
+        },
+        {
+          "publisher_clean": "Penguin Books",
+          "n": 245,
+          "mean": 3.91142857,
+          "median": 3.94,
+          "sd": 0.24242795,
+          "q25": 3.77,
+          "q75": 4.07,
+          "median_n_ratings": 2662.0,
+          "min_group_30": true
+        },
+        {
+          "publisher_clean": "Penguin Classics",
+          "n": 176,
+          "mean": 3.951875,
+          "median": 3.975,
+          "sd": 0.2126497,
+          "q25": 3.82,
+          "q75": 4.105,
+          "median_n_ratings": 2373.0,
+          "min_group_30": true
+        },
+        {
+          "publisher_clean": "Mariner Books",
+          "n": 136,
+          "mean": 3.95485294,
+          "median": 3.945,
+          "sd": 0.29010339,
+          "q25": 3.78,
+          "q75": 4.15,
+          "median_n_ratings": 2071.5,
+          "min_group_30": true
+        },
+        {
+          "publisher_clean": "Ballantine Books",
+          "n": 134,
+          "mean": 3.87835821,
+          "median": 3.92,
+          "sd": 0.28328947,
+          "q25": 3.69,
+          "q75": 4.08,
+          "median_n_ratings": 4818.5,
+          "min_group_30": true
+        },
+        {
+          "publisher_clean": "Harper Perennial",
+          "n": 106,
+          "mean": 3.9059434,
+          "median": 3.91,
+          "sd": 0.23393845,
+          "q25": 3.7225,
+          "q75": 4.0575,
+          "median_n_ratings": 2909.5,
+          "min_group_30": true
+        },
+        {
+          "publisher_clean": "Bantam",
+          "n": 105,
+          "mean": 3.89152381,
+          "median": 3.89,
+          "sd": 0.25354707,
+          "q25": 3.7,
+          "q75": 4.07,
+          "median_n_ratings": 3194.0,
+          "min_group_30": true
+        },
+        {
+          "publisher_clean": "Pocket Books",
+          "n": 100,
+          "mean": 3.9111,
+          "median": 3.92,
+          "sd": 0.19654539,
+          "q25": 3.77,
+          "q75": 4.02,
+          "median_n_ratings": 4484.5,
+          "min_group_30": true
+        },
+        {
+          "publisher_clean": "HarperCollins",
+          "n": 90,
+          "mean": 4.04655556,
+          "median": 4.13,
+          "sd": 0.23700927,
+          "q25": 3.93,
+          "q75": 4.2,
+          "median_n_ratings": 2310.0,
+          "min_group_30": true
+        },
+        {
+          "publisher_clean": "VIZ Media LLC",
+          "n": 86,
+          "mean": 4.24802326,
+          "median": 4.28,
+          "sd": 0.22459804,
+          "q25": 4.0525,
+          "q75": 4.4175,
+          "median_n_ratings": 1566.5,
+          "min_group_30": true
+        },
+        {
+          "publisher_clean": "Berkley",
+          "n": 81,
+          "mean": 3.90333333,
+          "median": 3.9,
+          "sd": 0.18949274,
+          "q25": 3.78,
+          "q75": 4.04,
+          "median_n_ratings": 7591.0,
+          "min_group_30": true
+        },
+        {
+          "publisher_clean": "Del Rey",
+          "n": 75,
+          "mean": 4.05093333,
+          "median": 4.04,
+          "sd": 0.20789273,
+          "q25": 3.91,
+          "q75": 4.235,
+          "median_n_ratings": 3169.0,
+          "min_group_30": true
+        }
+      ]
+    },
+    {
+      "file": "06_BaoPhu_NgonNgu.png",
+      "title": "Mức độ bao phủ ngôn ngữ trong mẫu chính",
+      "sample": "English: 8.212 / 8.402 bản ghi (97,74%)",
+      "n": 8402,
+      "factors": [
+        "language"
+      ],
+      "caption": "So sánh ngôn ngữ mất cân đối mạnh: English chiếm 97,74% mẫu chính; không suy rộng các nhóm nhỏ.",
+      "sha256": "23dbbd2c7300f1eabd39e762947e13b5b4f99e2d1157b324be066a9b32e12066",
+      "width_inches": 11.6,
+      "height_inches": 6.8
+    },
+    {
+      "file": "07_Rating_NgonNgu_N30.png",
+      "title": "Rating theo ngôn ngữ có đủ số bản ghi",
+      "sample": "Chỉ nhóm n ≥ 30 · sắp xếp theo số bản ghi, không theo Rating",
+      "n": 8351,
+      "factors": [
+        "language"
+      ],
+      "caption": "Trong các nhóm hiển thị, spa có trung bình 3,969 (n=91); fre có trung bình 3,950 (n=48). English chiếm phần lớn mẫu. Mỗi nhóm có cơ cấu sách và ấn bản khác nhau. Không kết luận ngôn ngữ gây ra chênh lệch Rating; các mã nhỏ không bị xóa khỏi master.",
+      "sha256": "d669d32d7084c5b3012abc6c87a696432f96537fb3b294bf78ebe8194ac6b2c4",
+      "width_inches": 11.6,
+      "height_inches": 6.3,
+      "group_n_is_overlapping": false,
+      "sum_group_memberships": 8351,
+      "groups": [
+        {
+          "language_group": "English",
+          "n": 8212,
+          "mean": 3.95381028,
+          "median": 3.97,
+          "sd": 0.2663839,
+          "q25": 3.79,
+          "q75": 4.14,
+          "median_n_ratings": 1877.5,
+          "min_group_30": true
+        },
+        {
+          "language_group": "spa",
+          "n": 91,
+          "mean": 3.9689011,
+          "median": 3.96,
+          "sd": 0.21875634,
+          "q25": 3.81,
+          "q75": 4.13,
+          "median_n_ratings": 504.0,
+          "min_group_30": true
+        },
+        {
+          "language_group": "fre",
+          "n": 48,
+          "mean": 3.95,
+          "median": 3.96,
+          "sd": 0.2259919,
+          "q25": 3.8,
+          "q75": 4.1275,
+          "median_n_ratings": 604.0,
+          "min_group_30": true
+        }
+      ]
+    },
+    {
+      "file": "08_Rating_VaN_TheoThapNien.png",
+      "title": "Rating theo thập niên xuất bản của bản ghi",
+      "sample": "8.401 bản ghi có ngày hợp lệ · chỉ vẽ Rating trung bình khi nhóm có n ≥ 30",
+      "n": 8401,
+      "factors": [
+        "publication_year"
+      ],
+      "caption": "Các nhóm năm khác nhau có cỡ mẫu rất khác nhau; thập niên 2000 chiếm 5.833 bản ghi. Trung bình của nhóm n<30 không được vẽ.",
+      "sha256": "30d4976c8dcdc41ddc1fd5f1784024afc641d021bf39c87a4776cf6fe30b89ef",
+      "width_inches": 11.6,
+      "height_inches": 7.2
+    },
+    {
+      "file": "09_CotChong100_Rating_TheoTheLoai.png",
+      "title": "Cơ cấu mức Rating trong 12 nhãn thể loại phổ biến",
+      "sample": "12 nhãn phổ biến theo n · cột chồng 100% tính riêng trong từng nhãn",
+      "n": 8348,
+      "factors": [
+        "genres",
+        "rating"
+      ],
+      "caption": "Các mức Rating dùng khoảng [1;3,5), [3,5;4), [4;4,5), [4,5;5]. Tỷ lệ được tính riêng trong từng nhãn đa trị.",
+      "sha256": "64a670b6654ac0a678bccbad2aa04708aabe353a202d6c4e27288c73c17e0b93",
+      "width_inches": 11.6,
+      "height_inches": 7.7,
+      "membership_rows": 25744,
+      "unique_books_in_selected_genres": 8348,
+      "rating_bins": [
+        "1 ≤ R < 3,5",
+        "3,5 ≤ R < 4",
+        "4 ≤ R < 4,5",
+        "4,5 ≤ R ≤ 5"
+      ]
+    },
+    {
+      "file": "10_Scatter_Rating_SoTrang.png",
+      "title": "Mối liên hệ giữa số trang và Rating",
+      "sample": "8.385 chấm = 8.385 Book Id · giữ toàn bộ bản ghi có dữ liệu cho cặp biến",
+      "n": 8385,
+      "factors": [
+        "pages"
+      ],
+      "caption": "Hiển thị toàn bộ 8.385 bản ghi, không lấy mẫu hoặc tổng hợp thành điểm trung bình. Spearman ρ = 0,125570. Trục số trang tuyến tính, giữ cả bản ghi nhiều trang.",
+      "sha256": "429f36471fb08129ca45b2be9f0793fc2593d17aaa865f8e0c570222e4827658",
+      "width_inches": 11.6,
+      "height_inches": 6.4,
+      "scatter_points": 8385,
+      "x_display_transform": "none",
+      "spearman": 0.12556964533398
+    },
+    {
+      "file": "11_Scatter_Rating_LuotCham.png",
+      "title": "Mối liên hệ giữa lượt chấm sao và Rating",
+      "sample": "8.402 chấm = 8.402 Book Id · giữ toàn bộ bản ghi có dữ liệu cho cặp biến",
+      "n": 8402,
+      "factors": [
+        "n_ratings"
+      ],
+      "caption": "Hiển thị toàn bộ 8.402 bản ghi, không lấy mẫu hoặc tổng hợp thành điểm trung bình. Spearman ρ = 0,066525. Trục ngang đặt tại ln(1+x), nhãn hiển thị số gốc; phép log chỉ phục vụ hiển thị.",
+      "sha256": "a204fbd15d6961e7d8cf2af1274d641ca3bff4035c057adea89dad31855b78c8",
+      "width_inches": 11.6,
+      "height_inches": 6.4,
+      "scatter_points": 8402,
+      "x_display_transform": "ln(1+x)",
+      "spearman": 0.06652491226341249
+    },
+    {
+      "file": "12_Scatter_Rating_NhanXet.png",
+      "title": "Mối liên hệ giữa số bài nhận xét và Rating",
+      "sample": "8.402 chấm = 8.402 Book Id · giữ toàn bộ bản ghi có dữ liệu cho cặp biến",
+      "n": 8402,
+      "factors": [
+        "n_reviews"
+      ],
+      "caption": "Hiển thị toàn bộ 8.402 bản ghi, không lấy mẫu hoặc tổng hợp thành điểm trung bình. Spearman ρ = -0,018432. Trục ngang đặt tại ln(1+x), nhãn hiển thị số gốc; phép log chỉ phục vụ hiển thị.",
+      "sha256": "fd559225d3accd13b66f8c3f6a51720b2cbafad5e3b9688d9c73419982887724",
+      "width_inches": 11.6,
+      "height_inches": 6.4,
+      "scatter_points": 8402,
+      "x_display_transform": "ln(1+x)",
+      "spearman": -0.01843162256029598
+    },
+    {
+      "file": "13_DoNhay_NguongLuotCham.png",
+      "title": "Độ nhạy của Rating trung bình theo ngưỡng lượt chấm",
+      "sample": "Bốn ngưỡng 1, 100, 500 và 1.000 · không xóa vĩnh viễn các bản ghi dưới ngưỡng",
+      "n": 11046,
+      "factors": [
+        "n_ratings",
+        "sample_selection"
+      ],
+      "caption": "Rating trung bình thay đổi từ 3,943 ở ngưỡng 1 đến 3,964 ở ngưỡng 1.000, chênh lệch khoảng 0,021 điểm. Ngưỡng cao cũng làm giảm số quan sát.",
+      "sha256": "4b3994eda1912880345676c28efbf53de426c5d2783b69bd94bb875f5f26dee8",
+      "width_inches": 11.6,
+      "height_inches": 7.0,
+      "n_varies_by_threshold": true,
+      "threshold_samples": [
+        {
+          "min_ratings": 1,
+          "n": 11046,
+          "retained_pct_raw": 99.27204098,
+          "mean_rating": 3.94313417,
+          "median_rating": 3.96,
+          "sd_rating": 0.29521301,
+          "q25": 3.78,
+          "q75": 4.14
+        },
+        {
+          "min_ratings": 100,
+          "n": 8402,
+          "retained_pct_raw": 75.51002067,
+          "mean_rating": 3.95468341,
+          "median_rating": 3.97,
+          "sd_rating": 0.26576905,
+          "q25": 3.79,
+          "q75": 4.14
+        },
+        {
+          "min_ratings": 500,
+          "n": 6153,
+          "retained_pct_raw": 55.29792397,
+          "mean_rating": 3.9614822,
+          "median_rating": 3.97,
+          "sd_rating": 0.2595475,
+          "q25": 3.81,
+          "q75": 4.14
+        },
+        {
+          "min_ratings": 1000,
+          "n": 5114,
+          "retained_pct_raw": 45.9602768,
+          "mean_rating": 3.96444662,
+          "median_rating": 3.975,
+          "sd_rating": 0.25427896,
+          "q25": 3.81,
+          "q75": 4.14
+        }
+      ]
+    }
+  ]
+}

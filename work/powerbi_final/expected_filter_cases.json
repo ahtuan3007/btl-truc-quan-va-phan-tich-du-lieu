@@ -1,0 +1,2119 @@
+{
+  "schema_version": 1,
+  "source": {
+    "master": "D:\\tmp\\btl trực quan\\02_Code_DuLieu_EDA\\data\\processed\\books_cleaned_master.csv",
+    "bridge": "D:\\tmp\\btl trực quan\\02_Code_DuLieu_EDA\\data\\processed\\book_genres_bridge.csv",
+    "sha256": {
+      "master": "7985d617d177b64d51396f027bc529edbe72ddbdc7b34e8f66196831ba14d929",
+      "bridge": "87a13c46b0d89473292f325287415d4aecc58e5a7c47c43456594b2d7dee97f7"
+    },
+    "raw_record_count": 11127,
+    "primary_record_count": 8402,
+    "pandas_version": "3.0.1",
+    "numpy_version": "2.3.5"
+  },
+  "semantics": {
+    "base": "primary_sample=True is always enforced; its minimum rating count is 100.",
+    "filters": "Omit a field for All. Values within one field are OR; different fields are AND. An explicit empty list is an empty set.",
+    "null": "JSON null in page_band/publication_decade/publisher_clean selects the missing bucket.",
+    "genres": "Exact raw labels, case-sensitive; UNION of matching Book Id values, never repeated book rows.",
+    "publisher_clean": "Exact case-sensitive normalized labels, translated to surrogate keys by the model test.",
+    "book_ids": "Exact set of search-result IDs, not substring matching of title text.",
+    "n_ratings_range": "Inclusive endpoints; n_ratings_min must be >=100.",
+    "sd": "Sample standard deviation, ddof=1; null for fewer than 2 records.",
+    "empty": "n=0; mean/median/sd=null; missing counts=0; top list empty.",
+    "genre_union_n": "Distinct selected Book Ids with a bridge membership in the selected genre set, or any genre when no genre filter exists. Default is 8400, not8402.",
+    "genre_memberships_n": "Number of bridge rows for selected books and selected genres; can exceed the distinct book count.",
+    "topn": "Exact min(N,candidate count), ordered by rating DESC, n_ratings DESC, numeric book_id ASC.",
+    "float_tolerance": 1e-10
+  },
+  "case_count": 56,
+  "genre_case_pairs": [
+    [
+      "Autobiography",
+      "AUTOBIOGRAPHY"
+    ],
+    [
+      "Biography",
+      "BIOGRAPHY"
+    ],
+    [
+      "Literary Criticism",
+      "LITERARY CRITICISM"
+    ]
+  ],
+  "publisher_case_pairs": [
+    [
+      "BALLANTINE BOOKS",
+      "Ballantine Books"
+    ],
+    [
+      "HarperCollins",
+      "Harpercollins"
+    ],
+    [
+      "University Of Chicago Press",
+      "University of Chicago Press"
+    ]
+  ],
+  "recommended_empty_combos": [
+    {
+      "filters": {
+        "publisher_clean": [
+          "VIZ Media LLC"
+        ],
+        "genres": [
+          "Christian,Christian Living"
+        ]
+      },
+      "publisher_n_alone": 86,
+      "genre_n_alone": 64
+    },
+    {
+      "filters": {
+        "publisher_clean": [
+          "Library of America"
+        ],
+        "genres": [
+          "Sequential Art,Manga"
+        ]
+      },
+      "publisher_n_alone": 34,
+      "genre_n_alone": 206
+    },
+    {
+      "filters": {
+        "publisher_clean": [
+          "Vintage"
+        ],
+        "genres": [
+          "Manga,Shonen"
+        ]
+      },
+      "publisher_n_alone": 312,
+      "genre_n_alone": 75
+    }
+  ],
+  "nonempty_under30_case_ids": [
+    "language_ale",
+    "language_ara",
+    "language_enm",
+    "language_ger",
+    "language_grc",
+    "language_ita",
+    "language_jpn",
+    "language_lat",
+    "language_mul",
+    "language_por",
+    "language_rus",
+    "language_swe",
+    "language_tur",
+    "pages_missing",
+    "decade_1900",
+    "decade_1910",
+    "decade_1920",
+    "decade_1940",
+    "decade_1950",
+    "decade_2020",
+    "decade_missing",
+    "publisher_case_1_1",
+    "publisher_case_2_2",
+    "publisher_case_3_1",
+    "publisher_case_3_2",
+    "lookup_exact_book_ids"
+  ],
+  "default_topn": {
+    "5": {
+      "n": 5,
+      "book_ids": [
+        "24812",
+        "8",
+        "24814",
+        "10",
+        "6550"
+      ],
+      "rows": [
+        {
+          "book_id": "24812",
+          "rating": 4.82,
+          "n_ratings": 32213,
+          "title_clean": "The Complete Calvin and Hobbes"
+        },
+        {
+          "book_id": "8",
+          "rating": 4.78,
+          "n_ratings": 41428,
+          "title_clean": "Harry Potter Boxed Set Books 1-5 (Harry Potter #1-5)"
+        },
+        {
+          "book_id": "24814",
+          "rating": 4.76,
+          "n_ratings": 23875,
+          "title_clean": "It's a Magical World (Calvin and Hobbes #11)"
+        },
+        {
+          "book_id": "10",
+          "rating": 4.73,
+          "n_ratings": 28242,
+          "title_clean": "Harry Potter Collection (Harry Potter #1-6)"
+        },
+        {
+          "book_id": "6550",
+          "rating": 4.73,
+          "n_ratings": 144,
+          "title_clean": "Early Color"
+        }
+      ]
+    },
+    "10": {
+      "n": 10,
+      "book_ids": [
+        "24812",
+        "8",
+        "24814",
+        "10",
+        "6550",
+        "24816",
+        "34545",
+        "24820",
+        "20749",
+        "24520"
+      ],
+      "rows": [
+        {
+          "book_id": "24812",
+          "rating": 4.82,
+          "n_ratings": 32213,
+          "title_clean": "The Complete Calvin and Hobbes"
+        },
+        {
+          "book_id": "8",
+          "rating": 4.78,
+          "n_ratings": 41428,
+          "title_clean": "Harry Potter Boxed Set Books 1-5 (Harry Potter #1-5)"
+        },
+        {
+          "book_id": "24814",
+          "rating": 4.76,
+          "n_ratings": 23875,
+          "title_clean": "It's a Magical World (Calvin and Hobbes #11)"
+        },
+        {
+          "book_id": "10",
+          "rating": 4.73,
+          "n_ratings": 28242,
+          "title_clean": "Harry Potter Collection (Harry Potter #1-6)"
+        },
+        {
+          "book_id": "6550",
+          "rating": 4.73,
+          "n_ratings": 144,
+          "title_clean": "Early Color"
+        },
+        {
+          "book_id": "24816",
+          "rating": 4.72,
+          "n_ratings": 15365,
+          "title_clean": "Homicidal Psycho Jungle Cat (Calvin and Hobbes #9)"
+        },
+        {
+          "book_id": "34545",
+          "rating": 4.72,
+          "n_ratings": 102,
+          "title_clean": "Elliott Erwitt: Snaps"
+        },
+        {
+          "book_id": "24820",
+          "rating": 4.71,
+          "n_ratings": 3613,
+          "title_clean": "Calvin and Hobbes: Sunday Pages 1985-1995: An Exhibition Catalogue"
+        },
+        {
+          "book_id": "20749",
+          "rating": 4.7,
+          "n_ratings": 4166,
+          "title_clean": "Study Bible: NIV"
+        },
+        {
+          "book_id": "24520",
+          "rating": 4.7,
+          "n_ratings": 1338,
+          "title_clean": "The Complete Aubrey/Maturin Novels (5 Volumes)"
+        }
+      ]
+    },
+    "20": {
+      "n": 20,
+      "book_ids": [
+        "24812",
+        "8",
+        "24814",
+        "10",
+        "6550",
+        "24816",
+        "34545",
+        "24820",
+        "20749",
+        "24520",
+        "44826",
+        "24818",
+        "26805",
+        "5309",
+        "23753",
+        "39661",
+        "3582",
+        "27204",
+        "24813",
+        "13206"
+      ],
+      "rows": [
+        {
+          "book_id": "24812",
+          "rating": 4.82,
+          "n_ratings": 32213,
+          "title_clean": "The Complete Calvin and Hobbes"
+        },
+        {
+          "book_id": "8",
+          "rating": 4.78,
+          "n_ratings": 41428,
+          "title_clean": "Harry Potter Boxed Set Books 1-5 (Harry Potter #1-5)"
+        },
+        {
+          "book_id": "24814",
+          "rating": 4.76,
+          "n_ratings": 23875,
+          "title_clean": "It's a Magical World (Calvin and Hobbes #11)"
+        },
+        {
+          "book_id": "10",
+          "rating": 4.73,
+          "n_ratings": 28242,
+          "title_clean": "Harry Potter Collection (Harry Potter #1-6)"
+        },
+        {
+          "book_id": "6550",
+          "rating": 4.73,
+          "n_ratings": 144,
+          "title_clean": "Early Color"
+        },
+        {
+          "book_id": "24816",
+          "rating": 4.72,
+          "n_ratings": 15365,
+          "title_clean": "Homicidal Psycho Jungle Cat (Calvin and Hobbes #9)"
+        },
+        {
+          "book_id": "34545",
+          "rating": 4.72,
+          "n_ratings": 102,
+          "title_clean": "Elliott Erwitt: Snaps"
+        },
+        {
+          "book_id": "24820",
+          "rating": 4.71,
+          "n_ratings": 3613,
+          "title_clean": "Calvin and Hobbes: Sunday Pages 1985-1995: An Exhibition Catalogue"
+        },
+        {
+          "book_id": "20749",
+          "rating": 4.7,
+          "n_ratings": 4166,
+          "title_clean": "Study Bible: NIV"
+        },
+        {
+          "book_id": "24520",
+          "rating": 4.7,
+          "n_ratings": 1338,
+          "title_clean": "The Complete Aubrey/Maturin Novels (5 Volumes)"
+        },
+        {
+          "book_id": "44826",
+          "rating": 4.7,
+          "n_ratings": 404,
+          "title_clean": "The Price of the Ticket: Collected Nonfiction 1948-1985"
+        },
+        {
+          "book_id": "24818",
+          "rating": 4.69,
+          "n_ratings": 20308,
+          "title_clean": "The Days Are Just Packed"
+        },
+        {
+          "book_id": "26805",
+          "rating": 4.69,
+          "n_ratings": 730,
+          "title_clean": "The Sibley Field Guide to Birds of Western North America"
+        },
+        {
+          "book_id": "5309",
+          "rating": 4.67,
+          "n_ratings": 2467,
+          "title_clean": "The Life and Times of Scrooge McDuck"
+        },
+        {
+          "book_id": "23753",
+          "rating": 4.65,
+          "n_ratings": 15640,
+          "title_clean": "The Absolute Sandman Volume One"
+        },
+        {
+          "book_id": "39661",
+          "rating": 4.64,
+          "n_ratings": 2406,
+          "title_clean": "The Shawshank Redemption: The Shooting Script"
+        },
+        {
+          "book_id": "3582",
+          "rating": 4.64,
+          "n_ratings": 1411,
+          "title_clean": "The New Annotated Sherlock Holmes: The Complete Short Stories"
+        },
+        {
+          "book_id": "27204",
+          "rating": 4.64,
+          "n_ratings": 169,
+          "title_clean": "The Gospel According to Luke"
+        },
+        {
+          "book_id": "24813",
+          "rating": 4.63,
+          "n_ratings": 49122,
+          "title_clean": "The Calvin and Hobbes Tenth Anniversary Book"
+        },
+        {
+          "book_id": "13206",
+          "rating": 4.63,
+          "n_ratings": 991,
+          "title_clean": "The Collected Autobiographies of Maya Angelou"
+        }
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "all",
+      "filters": {},
+      "reason": "All means all primary records, including missing genre/page/year/publisher.",
+      "expected": {
+        "n": 8402,
+        "mean": 3.9546834087122114,
+        "median": 3.97,
+        "sd": 0.2657690491044255,
+        "missing_pages": 17,
+        "missing_year": 1,
+        "genre_union_n": 8400,
+        "genre_memberships_n": 79278,
+        "publisher_nonmissing_n": 8399,
+        "publisher_groups_exact_n": 1538,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.9546834087122114
+      },
+      "top10_book_ids": [
+        "24812",
+        "8",
+        "24814",
+        "10",
+        "6550",
+        "24816",
+        "34545",
+        "24820",
+        "20749",
+        "24520"
+      ]
+    },
+    {
+      "id": "language_English",
+      "filters": {
+        "language_group": [
+          "English"
+        ]
+      },
+      "reason": "Every populated language; includes small groups.",
+      "expected": {
+        "n": 8212,
+        "mean": 3.953810277642474,
+        "median": 3.97,
+        "sd": 0.266383895048429,
+        "missing_pages": 17,
+        "missing_year": 1,
+        "genre_union_n": 8210,
+        "genre_memberships_n": 77462,
+        "publisher_nonmissing_n": 8209,
+        "publisher_groups_exact_n": 1459,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.953810277642474
+      },
+      "top10_book_ids": [
+        "24812",
+        "8",
+        "24814",
+        "10",
+        "6550",
+        "24816",
+        "34545",
+        "24820",
+        "20749",
+        "24520"
+      ]
+    },
+    {
+      "id": "language_ale",
+      "filters": {
+        "language_group": [
+          "ale"
+        ]
+      },
+      "reason": "Every populated language; includes small groups.",
+      "expected": {
+        "n": 1,
+        "mean": 4.36,
+        "median": 4.36,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 1,
+        "genre_memberships_n": 10,
+        "publisher_nonmissing_n": 1,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "44012"
+      ]
+    },
+    {
+      "id": "language_ara",
+      "filters": {
+        "language_group": [
+          "ara"
+        ]
+      },
+      "reason": "Every populated language; includes small groups.",
+      "expected": {
+        "n": 1,
+        "mean": 3.55,
+        "median": 3.55,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 1,
+        "genre_memberships_n": 10,
+        "publisher_nonmissing_n": 1,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "4315"
+      ]
+    },
+    {
+      "id": "language_enm",
+      "filters": {
+        "language_group": [
+          "enm"
+        ]
+      },
+      "reason": "Every populated language; includes small groups.",
+      "expected": {
+        "n": 3,
+        "mean": 3.8733333333333335,
+        "median": 3.95,
+        "sd": 0.35133080327994753,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 3,
+        "genre_memberships_n": 30,
+        "publisher_nonmissing_n": 3,
+        "publisher_groups_exact_n": 3,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "2711",
+        "32816",
+        "2701"
+      ]
+    },
+    {
+      "id": "language_fre",
+      "filters": {
+        "language_group": [
+          "fre"
+        ]
+      },
+      "reason": "Every populated language; includes small groups.",
+      "expected": {
+        "n": 48,
+        "mean": 3.9499999999999997,
+        "median": 3.96,
+        "sd": 0.22599190345127831,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 48,
+        "genre_memberships_n": 457,
+        "publisher_nonmissing_n": 48,
+        "publisher_groups_exact_n": 28,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.9499999999999997
+      },
+      "top10_book_ids": [
+        "33064",
+        "24604",
+        "28865",
+        "8848",
+        "8712",
+        "24858",
+        "11993",
+        "13495",
+        "15937",
+        "14503"
+      ]
+    },
+    {
+      "id": "language_ger",
+      "filters": {
+        "language_group": [
+          "ger"
+        ]
+      },
+      "reason": "Every populated language; includes small groups.",
+      "expected": {
+        "n": 16,
+        "mean": 4.013125,
+        "median": 4.025,
+        "sd": 0.27324515854204373,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 16,
+        "genre_memberships_n": 160,
+        "publisher_nonmissing_n": 16,
+        "publisher_groups_exact_n": 15,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "41908",
+        "3966",
+        "5412",
+        "18383",
+        "11380",
+        "31763",
+        "38670",
+        "9987",
+        "2896",
+        "10040"
+      ]
+    },
+    {
+      "id": "language_grc",
+      "filters": {
+        "language_group": [
+          "grc"
+        ]
+      },
+      "reason": "Every populated language; includes small groups.",
+      "expected": {
+        "n": 2,
+        "mean": 3.785,
+        "median": 3.785,
+        "sd": 0.12020815280171303,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 2,
+        "genre_memberships_n": 20,
+        "publisher_nonmissing_n": 2,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "1475",
+        "1558"
+      ]
+    },
+    {
+      "id": "language_ita",
+      "filters": {
+        "language_group": [
+          "ita"
+        ]
+      },
+      "reason": "Every populated language; includes small groups.",
+      "expected": {
+        "n": 2,
+        "mean": 3.955,
+        "median": 3.955,
+        "sd": 0.09192388155425078,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 2,
+        "genre_memberships_n": 20,
+        "publisher_nonmissing_n": 2,
+        "publisher_groups_exact_n": 2,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "19164",
+        "43759"
+      ]
+    },
+    {
+      "id": "language_jpn",
+      "filters": {
+        "language_group": [
+          "jpn"
+        ]
+      },
+      "reason": "Every populated language; includes small groups.",
+      "expected": {
+        "n": 8,
+        "mean": 4.275,
+        "median": 4.24,
+        "sd": 0.12592514783450837,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 8,
+        "genre_memberships_n": 80,
+        "publisher_nonmissing_n": 8,
+        "publisher_groups_exact_n": 2,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "2887",
+        "2885",
+        "2886",
+        "13596",
+        "13600",
+        "13609",
+        "13602",
+        "13593"
+      ]
+    },
+    {
+      "id": "language_lat",
+      "filters": {
+        "language_group": [
+          "lat"
+        ]
+      },
+      "reason": "Every populated language; includes small groups.",
+      "expected": {
+        "n": 1,
+        "mean": 4.47,
+        "median": 4.47,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 1,
+        "genre_memberships_n": 10,
+        "publisher_nonmissing_n": 1,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "15880"
+      ]
+    },
+    {
+      "id": "language_mul",
+      "filters": {
+        "language_group": [
+          "mul"
+        ]
+      },
+      "reason": "Every populated language; includes small groups.",
+      "expected": {
+        "n": 7,
+        "mean": 4.194285714285714,
+        "median": 4.25,
+        "sd": 0.19747211979223328,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 7,
+        "genre_memberships_n": 63,
+        "publisher_nonmissing_n": 7,
+        "publisher_groups_exact_n": 4,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "12919",
+        "31582",
+        "1440",
+        "11320",
+        "1402",
+        "15647",
+        "576"
+      ]
+    },
+    {
+      "id": "language_por",
+      "filters": {
+        "language_group": [
+          "por"
+        ]
+      },
+      "reason": "Every populated language; includes small groups.",
+      "expected": {
+        "n": 7,
+        "mean": 4.0,
+        "median": 3.99,
+        "sd": 0.0571547606649408,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 7,
+        "genre_memberships_n": 70,
+        "publisher_nonmissing_n": 7,
+        "publisher_groups_exact_n": 2,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "45625",
+        "45623",
+        "45616",
+        "14088",
+        "45626",
+        "45615",
+        "45617"
+      ]
+    },
+    {
+      "id": "language_rus",
+      "filters": {
+        "language_group": [
+          "rus"
+        ]
+      },
+      "reason": "Every populated language; includes small groups.",
+      "expected": {
+        "n": 1,
+        "mean": 4.21,
+        "median": 4.21,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 1,
+        "genre_memberships_n": 10,
+        "publisher_nonmissing_n": 1,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "19104"
+      ]
+    },
+    {
+      "id": "language_spa",
+      "filters": {
+        "language_group": [
+          "spa"
+        ]
+      },
+      "reason": "Every populated language; includes small groups.",
+      "expected": {
+        "n": 91,
+        "mean": 3.9689010989010995,
+        "median": 3.96,
+        "sd": 0.2187563360324326,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 91,
+        "genre_memberships_n": 856,
+        "publisher_nonmissing_n": 91,
+        "publisher_groups_exact_n": 43,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.9689010989010995
+      },
+      "top10_book_ids": [
+        "15872",
+        "15876",
+        "3357",
+        "5794",
+        "38665",
+        "45607",
+        "12071",
+        "11594",
+        "3938",
+        "3301"
+      ]
+    },
+    {
+      "id": "language_swe",
+      "filters": {
+        "language_group": [
+          "swe"
+        ]
+      },
+      "reason": "Every populated language; includes small groups.",
+      "expected": {
+        "n": 1,
+        "mean": 3.91,
+        "median": 3.91,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 1,
+        "genre_memberships_n": 10,
+        "publisher_nonmissing_n": 1,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "39797"
+      ]
+    },
+    {
+      "id": "language_tur",
+      "filters": {
+        "language_group": [
+          "tur"
+        ]
+      },
+      "reason": "Every populated language; includes small groups.",
+      "expected": {
+        "n": 1,
+        "mean": 4.42,
+        "median": 4.42,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 1,
+        "genre_memberships_n": 10,
+        "publisher_nonmissing_n": 1,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "41909"
+      ]
+    },
+    {
+      "id": "pages_1-200",
+      "filters": {
+        "page_band": [
+          "1-200"
+        ]
+      },
+      "reason": "One approved page interval.",
+      "expected": {
+        "n": 1861,
+        "mean": 3.9526168726491133,
+        "median": 3.97,
+        "sd": 0.2760050605642877,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 1860,
+        "genre_memberships_n": 17043,
+        "publisher_nonmissing_n": 1860,
+        "publisher_groups_exact_n": 644,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.9526168726491133
+      },
+      "top10_book_ids": [
+        "24814",
+        "6550",
+        "24816",
+        "24820",
+        "24818",
+        "39661",
+        "27204",
+        "23721",
+        "23722",
+        "9325"
+      ]
+    },
+    {
+      "id": "pages_201-400",
+      "filters": {
+        "page_band": [
+          "201-400"
+        ]
+      },
+      "reason": "One approved page interval.",
+      "expected": {
+        "n": 4128,
+        "mean": 3.9117441860465116,
+        "median": 3.93,
+        "sd": 0.2608637132189057,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 4128,
+        "genre_memberships_n": 39138,
+        "publisher_nonmissing_n": 4127,
+        "publisher_groups_exact_n": 960,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.9117441860465116
+      },
+      "top10_book_ids": [
+        "5309",
+        "24813",
+        "17280",
+        "24819",
+        "23724",
+        "23318",
+        "3529",
+        "26425",
+        "15195",
+        "13677"
+      ]
+    },
+    {
+      "id": "pages_401-600",
+      "filters": {
+        "page_band": [
+          "401-600"
+        ]
+      },
+      "reason": "One approved page interval.",
+      "expected": {
+        "n": 1558,
+        "mean": 3.981264441591784,
+        "median": 3.99,
+        "sd": 0.23933998446389074,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 1558,
+        "genre_memberships_n": 14951,
+        "publisher_nonmissing_n": 1558,
+        "publisher_groups_exact_n": 484,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.981264441591784
+      },
+      "top10_book_ids": [
+        "34545",
+        "26805",
+        "17961",
+        "5",
+        "4256",
+        "15298",
+        "15245",
+        "15373",
+        "35475",
+        "13674"
+      ]
+    },
+    {
+      "id": "pages_601+",
+      "filters": {
+        "page_band": [
+          "601+"
+        ]
+      },
+      "reason": "One approved page interval.",
+      "expected": {
+        "n": 838,
+        "mean": 4.118675417661097,
+        "median": 4.13,
+        "sd": 0.24199644959628822,
+        "missing_pages": 0,
+        "missing_year": 1,
+        "genre_union_n": 838,
+        "genre_memberships_n": 8031,
+        "publisher_nonmissing_n": 837,
+        "publisher_groups_exact_n": 315,
+        "group_eligible_n30": true,
+        "group_mean_n30": 4.118675417661097
+      },
+      "top10_book_ids": [
+        "24812",
+        "8",
+        "10",
+        "20749",
+        "24520",
+        "44826",
+        "23753",
+        "3582",
+        "13206",
+        "19333"
+      ]
+    },
+    {
+      "id": "pages_missing",
+      "filters": {
+        "page_band": [
+          null
+        ]
+      },
+      "reason": "Missing pages remain a selectable bucket, not zero pages.",
+      "expected": {
+        "n": 17,
+        "mean": 4.08764705882353,
+        "median": 4.13,
+        "sd": 0.2610921631283843,
+        "missing_pages": 17,
+        "missing_year": 0,
+        "genre_union_n": 16,
+        "genre_memberships_n": 115,
+        "publisher_nonmissing_n": 17,
+        "publisher_groups_exact_n": 11,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "32498",
+        "17983",
+        "13504",
+        "22077",
+        "40343",
+        "22160",
+        "7674",
+        "6542",
+        "21969",
+        "13842"
+      ]
+    },
+    {
+      "id": "decade_1900",
+      "filters": {
+        "publication_decade": [
+          1900
+        ]
+      },
+      "reason": "Every populated decade, including n<30 cohorts.",
+      "expected": {
+        "n": 1,
+        "mean": 3.88,
+        "median": 3.88,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 1,
+        "genre_memberships_n": 8,
+        "publisher_nonmissing_n": 1,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "37134"
+      ]
+    },
+    {
+      "id": "decade_1910",
+      "filters": {
+        "publication_decade": [
+          1910
+        ]
+      },
+      "reason": "Every populated decade, including n<30 cohorts.",
+      "expected": {
+        "n": 2,
+        "mean": 4.140000000000001,
+        "median": 4.140000000000001,
+        "sd": 0.2545584412271574,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 2,
+        "genre_memberships_n": 17,
+        "publisher_nonmissing_n": 2,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "1440",
+        "24459"
+      ]
+    },
+    {
+      "id": "decade_1920",
+      "filters": {
+        "publication_decade": [
+          1920
+        ]
+      },
+      "reason": "Every populated decade, including n<30 cohorts.",
+      "expected": {
+        "n": 2,
+        "mean": 4.125,
+        "median": 4.125,
+        "sd": 0.30405591591021525,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 2,
+        "genre_memberships_n": 14,
+        "publisher_nonmissing_n": 2,
+        "publisher_groups_exact_n": 2,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "24620",
+        "14235"
+      ]
+    },
+    {
+      "id": "decade_1940",
+      "filters": {
+        "publication_decade": [
+          1940
+        ]
+      },
+      "reason": "Every populated decade, including n<30 cohorts.",
+      "expected": {
+        "n": 4,
+        "mean": 3.7725,
+        "median": 3.76,
+        "sd": 0.2828869031963127,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 4,
+        "genre_memberships_n": 40,
+        "publisher_nonmissing_n": 4,
+        "publisher_groups_exact_n": 4,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "7777",
+        "42425",
+        "30488",
+        "38752"
+      ]
+    },
+    {
+      "id": "decade_1950",
+      "filters": {
+        "publication_decade": [
+          1950
+        ]
+      },
+      "reason": "Every populated decade, including n<30 cohorts.",
+      "expected": {
+        "n": 24,
+        "mean": 4.015,
+        "median": 4.03,
+        "sd": 0.16878079429170587,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 24,
+        "genre_memberships_n": 237,
+        "publisher_nonmissing_n": 24,
+        "publisher_groups_exact_n": 21,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "42040",
+        "31582",
+        "13368",
+        "1548",
+        "7775",
+        "42382",
+        "19307",
+        "28822",
+        "17798",
+        "18534"
+      ]
+    },
+    {
+      "id": "decade_1960",
+      "filters": {
+        "publication_decade": [
+          1960
+        ]
+      },
+      "reason": "Every populated decade, including n<30 cohorts.",
+      "expected": {
+        "n": 40,
+        "mean": 4.0192499999999995,
+        "median": 4.045,
+        "sd": 0.21469581940921645,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 40,
+        "genre_memberships_n": 387,
+        "publisher_nonmissing_n": 40,
+        "publisher_groups_exact_n": 28,
+        "group_eligible_n30": true,
+        "group_mean_n30": 4.0192499999999995
+      },
+      "top10_book_ids": [
+        "9652",
+        "6273",
+        "2725",
+        "3258",
+        "25688",
+        "29906",
+        "245",
+        "1463",
+        "1465",
+        "11225"
+      ]
+    },
+    {
+      "id": "decade_1970",
+      "filters": {
+        "publication_decade": [
+          1970
+        ]
+      },
+      "reason": "Every populated decade, including n<30 cohorts.",
+      "expected": {
+        "n": 125,
+        "mean": 4.015199999999999,
+        "median": 4.03,
+        "sd": 0.23146657251868655,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 125,
+        "genre_memberships_n": 1188,
+        "publisher_nonmissing_n": 125,
+        "publisher_groups_exact_n": 68,
+        "group_eligible_n30": true,
+        "group_mean_n30": 4.015199999999999
+      },
+      "top10_book_ids": [
+        "40490",
+        "1111",
+        "22575",
+        "31488",
+        "1730",
+        "30340",
+        "29534",
+        "23790",
+        "6311",
+        "18518"
+      ]
+    },
+    {
+      "id": "decade_1980",
+      "filters": {
+        "publication_decade": [
+          1980
+        ]
+      },
+      "reason": "Every populated decade, including n<30 cohorts.",
+      "expected": {
+        "n": 417,
+        "mean": 3.9977937649880095,
+        "median": 4.01,
+        "sd": 0.2655508166265568,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 417,
+        "genre_memberships_n": 3799,
+        "publisher_nonmissing_n": 417,
+        "publisher_groups_exact_n": 199,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.9977937649880095
+      },
+      "top10_book_ids": [
+        "44826",
+        "33342",
+        "28395",
+        "18812",
+        "18519",
+        "32951",
+        "19803",
+        "3581",
+        "25587",
+        "24565"
+      ]
+    },
+    {
+      "id": "decade_1990",
+      "filters": {
+        "publication_decade": [
+          1990
+        ]
+      },
+      "reason": "Every populated decade, including n<30 cohorts.",
+      "expected": {
+        "n": 1852,
+        "mean": 3.968282937365011,
+        "median": 3.98,
+        "sd": 0.2592201867301987,
+        "missing_pages": 1,
+        "missing_year": 0,
+        "genre_union_n": 1852,
+        "genre_memberships_n": 17340,
+        "publisher_nonmissing_n": 1852,
+        "publisher_groups_exact_n": 544,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.968282937365011
+      },
+      "top10_book_ids": [
+        "24814",
+        "24816",
+        "24818",
+        "27204",
+        "24813",
+        "17142",
+        "3529",
+        "17961",
+        "14905",
+        "2151"
+      ]
+    },
+    {
+      "id": "decade_2000",
+      "filters": {
+        "publication_decade": [
+          2000
+        ]
+      },
+      "reason": "Every populated decade, including n<30 cohorts.",
+      "expected": {
+        "n": 5833,
+        "mean": 3.944712840733756,
+        "median": 3.96,
+        "sd": 0.26863763131055096,
+        "missing_pages": 15,
+        "missing_year": 0,
+        "genre_union_n": 5832,
+        "genre_memberships_n": 55298,
+        "publisher_nonmissing_n": 5830,
+        "publisher_groups_exact_n": 1203,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.944712840733756
+      },
+      "top10_book_ids": [
+        "24812",
+        "8",
+        "10",
+        "6550",
+        "34545",
+        "24820",
+        "20749",
+        "24520",
+        "26805",
+        "5309"
+      ]
+    },
+    {
+      "id": "decade_2010",
+      "filters": {
+        "publication_decade": [
+          2010
+        ]
+      },
+      "reason": "Every populated decade, including n<30 cohorts.",
+      "expected": {
+        "n": 100,
+        "mean": 3.9886,
+        "median": 3.995,
+        "sd": 0.2561723693693034,
+        "missing_pages": 1,
+        "missing_year": 0,
+        "genre_union_n": 99,
+        "genre_memberships_n": 930,
+        "publisher_nonmissing_n": 100,
+        "publisher_groups_exact_n": 78,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.9886
+      },
+      "top10_book_ids": [
+        "30",
+        "37063",
+        "14472",
+        "17982",
+        "41179",
+        "11949",
+        "30071",
+        "30029",
+        "11137",
+        "31420"
+      ]
+    },
+    {
+      "id": "decade_2020",
+      "filters": {
+        "publication_decade": [
+          2020
+        ]
+      },
+      "reason": "Every populated decade, including n<30 cohorts.",
+      "expected": {
+        "n": 1,
+        "mean": 3.91,
+        "median": 3.91,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 1,
+        "genre_memberships_n": 10,
+        "publisher_nonmissing_n": 1,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "38568"
+      ]
+    },
+    {
+      "id": "decade_missing",
+      "filters": {
+        "publication_decade": [
+          null
+        ]
+      },
+      "reason": "One missing-year record remains in the main sample.",
+      "expected": {
+        "n": 1,
+        "mean": 4.1,
+        "median": 4.1,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 1,
+        "genre_union_n": 1,
+        "genre_memberships_n": 10,
+        "publisher_nonmissing_n": 1,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "31373"
+      ]
+    },
+    {
+      "id": "genre_case_1_1",
+      "filters": {
+        "genres": [
+          "Autobiography"
+        ]
+      },
+      "reason": "Case-sensitive raw genre label must retain its own key.",
+      "expected": {
+        "n": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 0,
+        "genre_memberships_n": 0,
+        "publisher_nonmissing_n": 0,
+        "publisher_groups_exact_n": 0,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": []
+    },
+    {
+      "id": "genre_case_1_2",
+      "filters": {
+        "genres": [
+          "AUTOBIOGRAPHY"
+        ]
+      },
+      "reason": "Case-sensitive raw genre label must retain its own key.",
+      "expected": {
+        "n": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 0,
+        "genre_memberships_n": 0,
+        "publisher_nonmissing_n": 0,
+        "publisher_groups_exact_n": 0,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": []
+    },
+    {
+      "id": "genre_case_2_1",
+      "filters": {
+        "genres": [
+          "Biography"
+        ]
+      },
+      "reason": "Case-sensitive raw genre label must retain its own key.",
+      "expected": {
+        "n": 878,
+        "mean": 4.0229840546697035,
+        "median": 4.05,
+        "sd": 0.23697731123388424,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 878,
+        "genre_memberships_n": 878,
+        "publisher_nonmissing_n": 878,
+        "publisher_groups_exact_n": 350,
+        "group_eligible_n30": true,
+        "group_mean_n30": 4.0229840546697035
+      },
+      "top10_book_ids": [
+        "13206",
+        "18807",
+        "15195",
+        "35419",
+        "13674",
+        "1111",
+        "18812",
+        "426",
+        "18519",
+        "27550"
+      ]
+    },
+    {
+      "id": "genre_case_2_2",
+      "filters": {
+        "genres": [
+          "BIOGRAPHY"
+        ]
+      },
+      "reason": "Case-sensitive raw genre label must retain its own key.",
+      "expected": {
+        "n": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 0,
+        "genre_memberships_n": 0,
+        "publisher_nonmissing_n": 0,
+        "publisher_groups_exact_n": 0,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": []
+    },
+    {
+      "id": "genre_case_3_1",
+      "filters": {
+        "genres": [
+          "Literary Criticism"
+        ]
+      },
+      "reason": "Case-sensitive raw genre label must retain its own key.",
+      "expected": {
+        "n": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 0,
+        "genre_memberships_n": 0,
+        "publisher_nonmissing_n": 0,
+        "publisher_groups_exact_n": 0,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": []
+    },
+    {
+      "id": "genre_case_3_2",
+      "filters": {
+        "genres": [
+          "LITERARY CRITICISM"
+        ]
+      },
+      "reason": "Case-sensitive raw genre label must retain its own key.",
+      "expected": {
+        "n": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 0,
+        "genre_memberships_n": 0,
+        "publisher_nonmissing_n": 0,
+        "publisher_groups_exact_n": 0,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": []
+    },
+    {
+      "id": "genre_union",
+      "filters": {
+        "genres": [
+          "Fiction",
+          "Fantasy",
+          "Biography"
+        ]
+      },
+      "reason": "UNION, never intersection or sum of membership counts.",
+      "expected": {
+        "n": 6749,
+        "mean": 3.9417202548525703,
+        "median": 3.95,
+        "sd": 0.26989611600076835,
+        "missing_pages": 15,
+        "missing_year": 1,
+        "genre_union_n": 6749,
+        "genre_memberships_n": 8847,
+        "publisher_nonmissing_n": 6747,
+        "publisher_groups_exact_n": 1214,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.9417202548525703
+      },
+      "top10_book_ids": [
+        "24812",
+        "8",
+        "24814",
+        "10",
+        "24816",
+        "24820",
+        "24520",
+        "24818",
+        "5309",
+        "23753"
+      ]
+    },
+    {
+      "id": "publisher_case_1_1",
+      "filters": {
+        "publisher_clean": [
+          "BALLANTINE BOOKS"
+        ]
+      },
+      "reason": "Exact publisher label; a case-insensitive text join would merge a real group.",
+      "expected": {
+        "n": 1,
+        "mean": 3.93,
+        "median": 3.93,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 1,
+        "genre_memberships_n": 10,
+        "publisher_nonmissing_n": 1,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "7493"
+      ]
+    },
+    {
+      "id": "publisher_case_1_2",
+      "filters": {
+        "publisher_clean": [
+          "Ballantine Books"
+        ]
+      },
+      "reason": "Exact publisher label; a case-insensitive text join would merge a real group.",
+      "expected": {
+        "n": 134,
+        "mean": 3.878358208955224,
+        "median": 3.92,
+        "sd": 0.28328946918860043,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 134,
+        "genre_memberships_n": 1283,
+        "publisher_nonmissing_n": 134,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.878358208955224
+      },
+      "top10_book_ids": [
+        "30",
+        "44012",
+        "122",
+        "31054",
+        "36315",
+        "24283",
+        "17349",
+        "43841",
+        "34909",
+        "21787"
+      ]
+    },
+    {
+      "id": "publisher_case_2_1",
+      "filters": {
+        "publisher_clean": [
+          "HarperCollins"
+        ]
+      },
+      "reason": "Exact publisher label; a case-insensitive text join would merge a real group.",
+      "expected": {
+        "n": 90,
+        "mean": 4.046555555555556,
+        "median": 4.13,
+        "sd": 0.23700927356393856,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 90,
+        "genre_memberships_n": 856,
+        "publisher_nonmissing_n": 90,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": true,
+        "group_mean_n30": 4.046555555555556
+      },
+      "top10_book_ids": [
+        "25055",
+        "17982",
+        "40145",
+        "36665",
+        "30125",
+        "30129",
+        "30117",
+        "8196",
+        "32929",
+        "17267"
+      ]
+    },
+    {
+      "id": "publisher_case_2_2",
+      "filters": {
+        "publisher_clean": [
+          "Harpercollins"
+        ]
+      },
+      "reason": "Exact publisher label; a case-insensitive text join would merge a real group.",
+      "expected": {
+        "n": 1,
+        "mean": 3.81,
+        "median": 3.81,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 1,
+        "genre_memberships_n": 10,
+        "publisher_nonmissing_n": 1,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "24510"
+      ]
+    },
+    {
+      "id": "publisher_case_3_1",
+      "filters": {
+        "publisher_clean": [
+          "University Of Chicago Press"
+        ]
+      },
+      "reason": "Exact publisher label; a case-insensitive text join would merge a real group.",
+      "expected": {
+        "n": 7,
+        "mean": 4.130000000000001,
+        "median": 4.16,
+        "sd": 0.15318833724101413,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 7,
+        "genre_memberships_n": 64,
+        "publisher_nonmissing_n": 7,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "3258",
+        "39763",
+        "26475",
+        "5665",
+        "30044",
+        "19134",
+        "3850"
+      ]
+    },
+    {
+      "id": "publisher_case_3_2",
+      "filters": {
+        "publisher_clean": [
+          "University of Chicago Press"
+        ]
+      },
+      "reason": "Exact publisher label; a case-insensitive text join would merge a real group.",
+      "expected": {
+        "n": 27,
+        "mean": 4.068148148148148,
+        "median": 4.14,
+        "sd": 0.23708221613604255,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 27,
+        "genre_memberships_n": 257,
+        "publisher_nonmissing_n": 27,
+        "publisher_groups_exact_n": 1,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "19103",
+        "1470",
+        "16115",
+        "16114",
+        "16111",
+        "1463",
+        "29222",
+        "1465",
+        "23558",
+        "6076"
+      ]
+    },
+    {
+      "id": "count_min_500",
+      "filters": {
+        "n_ratings_min": 500
+      },
+      "reason": "Inclusive higher minimum without changing the primary floor.",
+      "expected": {
+        "n": 6153,
+        "mean": 3.961482203803023,
+        "median": 3.97,
+        "sd": 0.2595474963177595,
+        "missing_pages": 4,
+        "missing_year": 1,
+        "genre_union_n": 6153,
+        "genre_memberships_n": 60663,
+        "publisher_nonmissing_n": 6150,
+        "publisher_groups_exact_n": 1155,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.961482203803023
+      },
+      "top10_book_ids": [
+        "24812",
+        "8",
+        "24814",
+        "10",
+        "24816",
+        "24820",
+        "20749",
+        "24520",
+        "24818",
+        "26805"
+      ]
+    },
+    {
+      "id": "count_min_1000",
+      "filters": {
+        "n_ratings_min": 1000
+      },
+      "reason": "Inclusive higher minimum; previously reviewed sensitivity.",
+      "expected": {
+        "n": 5114,
+        "mean": 3.9644466171294486,
+        "median": 3.975,
+        "sd": 0.25427896239196285,
+        "missing_pages": 4,
+        "missing_year": 1,
+        "genre_union_n": 5114,
+        "genre_memberships_n": 50865,
+        "publisher_nonmissing_n": 5113,
+        "publisher_groups_exact_n": 987,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.9644466171294486
+      },
+      "top10_book_ids": [
+        "24812",
+        "8",
+        "24814",
+        "10",
+        "24816",
+        "24820",
+        "20749",
+        "24520",
+        "24818",
+        "5309"
+      ]
+    },
+    {
+      "id": "count_range_500_1000",
+      "filters": {
+        "n_ratings_min": 500,
+        "n_ratings_max": 1000
+      },
+      "reason": "Both range endpoints are inclusive.",
+      "expected": {
+        "n": 1041,
+        "mean": 3.947377521613832,
+        "median": 3.96,
+        "sd": 0.28384743436261023,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 1041,
+        "genre_memberships_n": 9818,
+        "publisher_nonmissing_n": 1039,
+        "publisher_groups_exact_n": 470,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.947377521613832
+      },
+      "top10_book_ids": [
+        "26805",
+        "13206",
+        "17280",
+        "17334",
+        "3529",
+        "16602",
+        "31692",
+        "28395",
+        "8362",
+        "13551"
+      ]
+    },
+    {
+      "id": "combined_english_pages_decade",
+      "filters": {
+        "language_group": [
+          "English"
+        ],
+        "page_band": [
+          "201-400"
+        ],
+        "publication_decade": [
+          2000
+        ]
+      },
+      "reason": "Previously independently reviewed three-filter benchmark.",
+      "expected": {
+        "n": 2905,
+        "mean": 3.9014939759036147,
+        "median": 3.92,
+        "sd": 0.2650384062718028,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 2905,
+        "genre_memberships_n": 27646,
+        "publisher_nonmissing_n": 2904,
+        "publisher_groups_exact_n": 737,
+        "group_eligible_n30": true,
+        "group_mean_n30": 3.9014939759036147
+      },
+      "top10_book_ids": [
+        "5309",
+        "17280",
+        "24819",
+        "23724",
+        "23318",
+        "26425",
+        "15195",
+        "13677",
+        "36",
+        "35419"
+      ]
+    },
+    {
+      "id": "empty_publisher_genre_1",
+      "filters": {
+        "publisher_clean": [
+          "VIZ Media LLC"
+        ],
+        "genres": [
+          "Christian,Christian Living"
+        ]
+      },
+      "reason": "Both labels have >=30 primary records separately, but their intersection is empty.",
+      "expected": {
+        "n": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 0,
+        "genre_memberships_n": 0,
+        "publisher_nonmissing_n": 0,
+        "publisher_groups_exact_n": 0,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": []
+    },
+    {
+      "id": "empty_publisher_genre_2",
+      "filters": {
+        "publisher_clean": [
+          "Library of America"
+        ],
+        "genres": [
+          "Sequential Art,Manga"
+        ]
+      },
+      "reason": "Both labels have >=30 primary records separately, but their intersection is empty.",
+      "expected": {
+        "n": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 0,
+        "genre_memberships_n": 0,
+        "publisher_nonmissing_n": 0,
+        "publisher_groups_exact_n": 0,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": []
+    },
+    {
+      "id": "empty_publisher_genre_3",
+      "filters": {
+        "publisher_clean": [
+          "Vintage"
+        ],
+        "genres": [
+          "Manga,Shonen"
+        ]
+      },
+      "reason": "Both labels have >=30 primary records separately, but their intersection is empty.",
+      "expected": {
+        "n": 0,
+        "mean": null,
+        "median": null,
+        "sd": null,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 0,
+        "genre_memberships_n": 0,
+        "publisher_nonmissing_n": 0,
+        "publisher_groups_exact_n": 0,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": []
+    },
+    {
+      "id": "lookup_exact_book_ids",
+      "filters": {
+        "book_ids": [
+          "1",
+          "2",
+          "4",
+          "5",
+          "8"
+        ]
+      },
+      "reason": "Exact search-result ID selection, not a substring/label match.",
+      "expected": {
+        "n": 5,
+        "mean": 4.564,
+        "median": 4.56,
+        "sd": 0.13501851724856123,
+        "missing_pages": 0,
+        "missing_year": 0,
+        "genre_union_n": 5,
+        "genre_memberships_n": 50,
+        "publisher_nonmissing_n": 5,
+        "publisher_groups_exact_n": 2,
+        "group_eligible_n30": false,
+        "group_mean_n30": null
+      },
+      "top10_book_ids": [
+        "8",
+        "1",
+        "5",
+        "2",
+        "4"
+      ]
+    }
+  ]
+}

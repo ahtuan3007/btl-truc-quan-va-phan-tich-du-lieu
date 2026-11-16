@@ -1,0 +1,89 @@
+{
+  "checked_at": "2026-11-16",
+  "observed_in": "Power BI Desktop",
+  "checks": [
+    {
+      "case": "default_overview",
+      "observed_n": 8402,
+      "mean_display": 3.955,
+      "median": 3.97,
+      "passed": true
+    },
+    {
+      "case": "top_5",
+      "observed_candidates": 8402,
+      "observed_table_rows": 5,
+      "passed": true
+    },
+    {
+      "case": "book_search_select",
+      "search": "The Complete Calvin",
+      "selected_book_id": "24812",
+      "observed_candidates": 1,
+      "observed_table_rows": 1,
+      "passed": true
+    },
+    {
+      "case": "clear_book_selection",
+      "observed_candidates": 8402,
+      "search_text_cleared": true,
+      "passed": true
+    },
+    {
+      "case": "genre_case_empty",
+      "genre": "BIOGRAPHY [G0081]",
+      "observed_candidates": 0,
+      "message_present": true,
+      "table_empty": true,
+      "passed": true
+    },
+    {
+      "case": "genre_sync_page5_to_overview",
+      "observed_n": 0,
+      "mean_blank": true,
+      "median_blank": true,
+      "message_present": true,
+      "passed": true
+    },
+    {
+      "case": "clear_genre",
+      "observed_n": 8402,
+      "passed": true
+    },
+    {
+      "case": "minimum_ratings_500",
+      "observed_n": 6153,
+      "mean_display": 3.961,
+      "passed": true
+    },
+    {
+      "case": "rating_range_sync_page1_to_page2",
+      "observed_n": 6153,
+      "observed_minimum": 500,
+      "passed": true
+    },
+    {
+      "case": "reset_minimum_100",
+      "observed_n": 8402,
+      "passed": true
+    },
+    {
+      "case": "reset_top_10",
+      "observed_candidates": 8402,
+      "observed_table_rows": 10,
+      "passed": true
+    },
+    {
+      "case": "clean_saved_search_states",
+      "all_genre_search_text_cleared": true,
+      "book_search_text_cleared": true,
+      "passed": true
+    },
+    {
+      "case": "all_five_pages_rendered_live",
+      "pages": 5,
+      "visual_errors_seen": 0,
+      "passed": true
+    }
+  ]
+}

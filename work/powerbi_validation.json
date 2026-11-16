@@ -1,0 +1,22 @@
+{
+  "checked_at": "2026-11-16",
+  "pbix": "04_PowerBI_BanChinh/Goodreads_Dashboard_DaKiemTra.pbix",
+  "pbix_sha256": "5e3be7ceb913aa34e7eeafa8475694ea1a2e745624989c113bd172a281f8b9c9",
+  "query_count": 81,
+  "meaningful_checks": 9173,
+  "failed_checks": 0,
+  "max_absolute_numeric_error": 4.6601611458640946e-14,
+  "errors": [],
+  "ui_scenarios_passed": 13,
+  "static_chart_count": 13,
+  "native_page_images": 5,
+  "protected_files_unchanged": 46,
+  "detail": "work/powerbi_final",
+  "native_reopen_readback": "passed: canonical PBIX reopened; all 81 queries and 9,173 checks passed again",
+  "saved_defaults_confirmed": {
+    "n": 8402,
+    "mean_display": 3.955,
+    "median": 3.97,
+    "top_n": 10
+  }
+}

@@ -2,7 +2,7 @@
 
 **Đề tài:** Phân tích và trực quan hóa các yếu tố liên quan đến điểm đánh giá Rating của sách trên Goodreads.
 
-Repository gồm dữ liệu nguồn cố định, code Python/Pandas làm sạch và EDA, các bảng kết quả cùng báo cáo. Phiên bản hiện tại hoàn thành phần mục tiêu, mô tả, kiểm tra chất lượng, làm sạch và EDA. Biểu đồ và dashboard Power BI sẽ được thực hiện ở giai đoạn tiếp theo.
+Repository gồm dữ liệu nguồn cố định, code Python/Pandas làm sạch và EDA, các bảng kết quả cùng báo cáo. Phiên bản hiện tại có kết quả kỹ thuật mục 1–9, bổ sung code tái tạo 13 biểu đồ và hồ sơ đối chiếu dashboard Power BI năm trang. Bản PBIX và ảnh dashboard được quản lý trong thư mục bài tập cục bộ; không nằm trong repository. Người học tự viết báo cáo tổng từ căn cứ đã kiểm chứng.
 
 ## Kết quả chính
 
@@ -81,7 +81,7 @@ reports/                       Các báo cáo Word đã dựng và kiểm tra b�
 - Genre tách bằng dấu **chấm phẩy**, giữ dấu phẩy bên trong nhãn. Bảng bridge có **94.794 cặp**, **890 nhãn**; tổng nhóm đa nhãn có thể vượt tổng số bản ghi.
 - Không cộng lượt chấm giữa các ấn bản. Tên/người đóng góp giống nhau chưa chứng minh là tác phẩm độc lập đã được xác minh.
 
-Các file phân tích dùng UTF-8 có BOM, ô thiếu để trống. Khi đưa vào Power BI ở bước sau, phải kiểm tra kiểu Text cho Book Id/ISBN và thiết kế lọc thể loại qua bridge để tránh đếm lặp.
+Các file phân tích dùng UTF-8 có BOM, ô thiếu để trống. Power BI hiện giữ Book Id/ISBN dạng Text, lọc thể loại qua bridge và giữ nhóm publisher khác hoa/thường bằng khóa số. Xem docs/powerbi_model.md.
 
 ## Báo cáo và nguồn
 
@@ -91,3 +91,31 @@ Các file phân tích dùng UTF-8 có BOM, ô thiếu để trống. Khi đưa v
 - [Nguồn và phiên bản dữ liệu](docs/nguon_du_lieu.md)
 
 Báo cáo Word là bản cố định theo snapshot và cấu hình đã công bố. `requirements.txt` chỉ phục vụ tái tạo dữ liệu và bảng EDA; không bao gồm bộ dựng Word. Không có yêu cầu cài Microsoft Word để chạy code phân tích.
+
+## Biểu đồ và dashboard đã kiểm tra (mục 6–9)
+
+```powershell
+python -m pip install -r requirements.txt -r requirements_charts.txt
+python run_charts.py
+```
+
+Script đọc snapshot đã duyệt và kiểm tra fingerprint trước khi vẽ. Khi chạy trong
+repository, 13 PNG và chú thích nằm trong `chart_outputs/`; manifest, bảng tham chiếu
+và số liệu viết báo cáo nằm trong `work/charts_stage6/`. Có thể đổi đích bằng
+`--output-dir` và `--work-dir`. Không cần chạy lại làm sạch để tạo biểu đồ.
+
+Python/Pandas/NumPy giữ phiên bản như trên; Matplotlib 3.10.8 được thêm trong
+requirements_charts.txt. Ba scatter dùng đầy đủ cặp hợp lệ, không lấy mẫu.
+Histogram thập phân khớp 40 khoảng Power BI; các nhóm genre dùng Book Id duy nhất.
+
+- [Insight đã đối chiếu](docs/INSIGHT_DA_DOI_CHIEU.md)
+- [Hướng dẫn tự viết báo cáo](docs/HUONG_DAN_VIET_BAO_CAO.md)
+- [Hướng dẫn sử dụng Power BI](docs/HUONG_DAN_SU_DUNG.md)
+- [Model, khóa nhóm và quy tắc tính](docs/powerbi_model.md)
+- [Hồ sơ kiểm chứng](work/powerbi_final/README.md)
+
+Dashboard có năm trang, sáu bộ lọc đồng bộ, tìm sách và Top N. Đã đọc lại model từ
+PBIX lưu trên đĩa: 81 truy vấn, 9.173 kiểm tra số liệu đạt, 0 lỗi; 13 tình huống UI
+đã quan sát. Raw/master/bridge, pipeline và các bảng EDA cũ được bảo toàn.
+Các đường dẫn 03_BaoCao_DaCo/04_PowerBI_BanChinh nhắc trong hướng dẫn là cấu trúc
+của bộ bài tập cục bộ, không phải thư mục đã upload lên GitHub.

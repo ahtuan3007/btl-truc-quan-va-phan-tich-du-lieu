@@ -1,0 +1,8 @@
+﻿factor,type,n,missing_from_primary,spearman,supported_groups_n30,selection
+Số trang,numeric/pairwise,8385,17,0.12556965,,all observed primary records; no sampling
+Lượt chấm sao,numeric/pairwise,8402,0,0.06652491,,all observed primary records; no sampling
+Bài nhận xét,numeric/pairwise,8402,0,-0.01843162,,all observed primary records; no sampling
+Nhóm năm xuất bản,numeric/pairwise,8401,1,-0.06163108,,all observed primary records; no sampling
+Nhãn thể loại,categorical/group comparison,8400,2,,278,exact source-case labels; genre overlaps; top12 by n for genre/publisher
+Nhà xuất bản,categorical/group comparison,8399,3,,57,exact source-case labels; genre overlaps; top12 by n for genre/publisher
+Ngôn ngữ,categorical/group comparison,8402,0,,3,exact source-case labels; genre overlaps; top12 by n for genre/publisher

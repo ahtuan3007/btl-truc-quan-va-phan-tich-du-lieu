@@ -1,0 +1,2 @@
+# Add to the existing reviewed analysis requirements when publishing run_charts.py.
+matplotlib==3.10.8
