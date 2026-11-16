@@ -1,0 +1,37 @@
+{
+  "01_TongQuan.png": {
+    "size": [
+      2472,
+      1572
+    ],
+    "unchanged_pixels": true
+  },
+  "02_SoSanh.png": {
+    "size": [
+      2472,
+      1572
+    ],
+    "unchanged_pixels": true
+  },
+  "03_QuanHe_Rating.png": {
+    "size": [
+      2472,
+      1572
+    ],
+    "unchanged_pixels": false
+  },
+  "04_ThoiGian.png": {
+    "size": [
+      2472,
+      1572
+    ],
+    "unchanged_pixels": true
+  },
+  "05_TraCuu_TopN.png": {
+    "size": [
+      2472,
+      1572
+    ],
+    "unchanged_pixels": false
+  }
+}

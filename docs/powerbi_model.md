@@ -50,3 +50,12 @@ không thay ba mức mô tả cũ trong EDA. Tỷ lệ dùng mẫu số trong t�
 ngưỡng/cỡ mẫu/mean/median, hợp genre, nhãn khác hoa/thường, trạng thái rỗng,
 Top N và histogram. Sai số tuyệt đối lớn nhất 4,67e-14, dưới dung sai 1e-10.
 Các file nguồn, master, bridge, code làm sạch và bảng EDA cũ không đổi byte.
+
+## Rà soát bổ sung và giới hạn bằng chứng
+
+9.173 là các phép so sánh giá trị/danh sách, không phải 9.173 chức năng độc lập.
+Bộ cũ chỉ so tổng bin theo genre; lần rà soát sau đã so riêng 1.888 dòng n/share,
+đọc lại toàn bộ trường số và bridge, đồng thời thử thêm36 truy vấn Top12/Top50/100.
+Chi tiết ở work/powerbi_final/reaudit. Các cột text nguồn trong model có thể chia sẻ
+một cách viết hoa/thường do collation; dùng nhãn tìm sách kèm ID và dimension
+G/P có khóa để hiển thị/nhóm. Không dùng lại publisher text cũ làm khóa nhóm.

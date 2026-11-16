@@ -119,3 +119,12 @@ PBIX lưu trên đĩa: 81 truy vấn, 9.173 kiểm tra số liệu đạt, 0 l�
 đã quan sát. Raw/master/bridge, pipeline và các bảng EDA cũ được bảo toàn.
 Các đường dẫn 03_BaoCao_DaCo/04_PowerBI_BanChinh nhắc trong hướng dẫn là cấu trúc
 của bộ bài tập cục bộ, không phải thư mục đã upload lên GitHub.
+
+## Đính chính sau rà soát độc lập
+
+Đã sửa tiêu đề bảng/trục Power BI và bổ sung gợi ý ra quyết định từ kết quả thật.
+9.173 là phép so sánh giá trị/danh sách trong validator, không phải số chức năng.
+Rà soát độc lập bổ sung từng ô genre×bin, từng bản ghi số/bridge và Top12/Top50/100.
+Xem [review cuối](docs/REVIEW_RASOAT_CUOI.md). Đề chung chấp nhận Power BI, phần
+mẫu lại dùng Plotly/Streamlit: chưa chứng nhận khớp tuyệt đối cả hai lớp. Phân công
+thành viên và báo cáo tổng vẫn do người học hoàn thiện; không tạo thông tin giả.

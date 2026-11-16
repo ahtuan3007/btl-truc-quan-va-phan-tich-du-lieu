@@ -1,0 +1,6 @@
+{
+  "query_count": 36,
+  "failed_queries": 0,
+  "errors": [],
+  "coverage": "Top12 genre/publisher and genre composition in ten filter contexts; Top50/100 all, genre union and minimum500 ratings"
+}

@@ -66,3 +66,11 @@ Với thời gian, dùng “Rating của các nhóm bản ghi xuất bản ở n
 7. Bổ sung mục tiêu từng page và cách thao tác từ bản dashboard cuối sau nghiệm thu; không tự đánh dấu hoàn thành chỉ vì đã có khung báo cáo.
 
 Tài liệu này không yêu cầu làm slide, gói nộp hay tạo thêm ứng dụng khác. Phạm vi hiện tại là hoàn thiện dashboard và cung cấp căn cứ để người học tự viết báo cáo.
+
+## Cần chốt trước khi gọi là đáp ứng toàn bộ đề
+
+Đọc REVIEW_RASOAT_CUOI.md: đề chung chấp nhận Power BI nhưng phần mẫu dùng
+Plotly/Streamlit. Ghi đúng công cụ thực đã dùng; không viết đã có app Streamlit.
+Phân công thành viên phải lấy tên và trách nhiệm thực. Slide không làm theo phạm vi
+người dùng hiện tại, không có nghĩa bản yêu cầu gốc đã bỏ slide. Phần gợi ý ra quyết
+định nay có căn cứ trong insight; có thể dùng làm đầu vào rồi viết lại bằng lời của mình.

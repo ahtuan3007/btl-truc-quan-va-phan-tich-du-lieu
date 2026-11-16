@@ -143,6 +143,34 @@ Số review trung vị **99**, trung bình **716,375**, tối đa **94.265**. `n
 
 Nguồn: `correlations_by_threshold.csv`, `descriptive_primary.csv`.
 
+
+## Gợi ý ra quyết định trong phạm vi dữ liệu
+
+**Cho người đọc tìm sách.** Chọn thể loại và các điều kiện phù hợp trước, rồi đọc
+đồng thời Rating và số lượt chấm của từng bản ghi. Có thể thử ngưỡng 100, 500 và
+1.000 để xem danh sách còn lại; đây là thao tác khảo sát, không phải ngưỡng bảo đảm
+chất lượng. Toàn mẫu ở ba ngưỡng lần lượt có 8.402, 6.153 và 5.114 bản ghi; khi lọc
+thêm thể loại phải lấy N thực đang hiện. Không loại một cuốn sách chỉ vì ít lượt chấm.
+
+**Cho đơn vị giới thiệu sách.** Trình bày hai thông tin riêng: mức độ phổ biến qua
+lượt chấm và Rating quan sát. Twilight có 4.597.666 lượt chấm nhưng Rating 3,59;
+The Complete Calvin and Hobbes có Rating 4,82 với 32.213 lượt chấm. Vì thứ hạng
+hai chỉ tiêu khác nhau, không dùng riêng lượng tương tác để gắn nhãn “được đánh giá
+cao”. Top N của dashboard xếp theo Rating trong tập đã lọc; không phải mô hình
+cá nhân hóa hoặc danh sách những tác phẩm tốt nhất của toàn Goodreads.
+
+**Khi lựa chọn danh mục sách.** Có thể dùng các khác biệt giữa nhóm để đặt câu hỏi
+nghiên cứu tiếp, chưa dùng chúng để quy kết chất lượng publisher, ngôn ngữ hoặc
+quyết định mua sách theo một bảng mean. English chiếm 97,74% mẫu; các thể loại
+chồng lấn; nhóm publisher và độ dài có cơ cấu tác phẩm khác nhau. Cần xem thêm
+N, nội dung sách và mục tiêu người đọc. Dữ liệu này chưa có giá/doanh số hoặc
+hiệu quả kinh doanh để đưa ra khuyến nghị lợi nhuận.
+
+**Nếu mở rộng nghiên cứu.** Ưu tiên bổ sung định danh tác phẩm và ấn bản đã xác minh,
+thời điểm ghi nhận Rating/count, năm xuất bản đầu tiên, cùng mẫu ngôn ngữ cân đối
+hơn. Đây là đề xuất thu thập dữ liệu tiếp theo; các thông tin đó chưa được tạo,
+nối hoặc giả định là đã có trong bộ kết quả hiện tại.
+
 ## Bảng hệ số dùng khi đối chiếu biểu đồ
 
 | Biến với Rating | N cặp | Spearman | Pearson gốc | Pearson ln1p |
