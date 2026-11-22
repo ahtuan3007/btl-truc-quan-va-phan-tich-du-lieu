@@ -1,0 +1,1298 @@
+% !TeX program = xelatex
+\documentclass[11pt,a4paper]{article}
+\usepackage[left=27mm,right=23mm,top=25mm,bottom=23mm]{geometry}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setmonofont{Times New Roman}
+\usepackage{graphicx,array,tabularx,amsmath}
+\usepackage{xurl}
+\usepackage{tikz,eso-pic,indentfirst}
+\urlstyle{same}
+\setlength{\parindent}{1cm}
+\setlength{\parskip}{3pt}
+\setlength{\headheight}{15pt}
+\setlength{\emergencystretch}{2em}
+\linespread{1.08}
+\raggedbottom
+\clubpenalty=5000
+\widowpenalty=5000
+\makeatletter
+\newcommand{\ps@report}{%
+  \def\@oddhead{\vbox{\hbox to\textwidth{\small Trực quan hóa dữ liệu\hfil Nhóm 5 · Goodreads}\kern3pt\hrule height 0.35pt}}%
+  \let\@evenhead\@oddhead
+  \def\@oddfoot{\hfil\small\thepage\hfil}\let\@evenfoot\@oddfoot}
+\newcommand{\captionof}[2]{\def\@captype{#1}\caption{#2}}
+\long\def\@makecaption#1#2{%
+  \par\smallskip\noindent{\small #1. #2\par}\smallskip}
+\makeatother
+\pagestyle{report}
+\renewcommand{\contentsname}{Mục lục}
+\renewcommand{\listtablename}{Danh mục bảng}
+\renewcommand{\listfigurename}{Danh mục hình}
+\renewcommand{\refname}{Tài liệu tham khảo}
+\renewcommand{\tablename}{Bảng}
+\renewcommand{\figurename}{Hình}
+% Dinh dang muc luc: hien section, subsection va subsubsection.
+\usepackage{tocloft}
+\renewcommand{\thesection}{\Roman{section}}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+\renewcommand{\cfttoctitlefont}{\hfill\large\bfseries}
+\renewcommand{\cftaftertoctitle}{\hfill\null}
+\setlength{\cftbeforetoctitleskip}{0pt}
+\setlength{\cftaftertoctitleskip}{16pt}
+\setlength{\cftbeforesecskip}{7pt}
+\setlength{\cftbeforesubsecskip}{3pt}
+\setlength{\cftbeforesubsubsecskip}{2pt}
+\cftsetindents{section}{0em}{3.5em}
+\cftsetindents{subsection}{0em}{3.5em}
+\cftsetindents{subsubsection}{0em}{3.5em}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\cftsetpnumwidth{2.5em}
+\cftsetrmarg{3.5em}
+\renewcommand{\cftdotsep}{1.2}
+\renewcommand{\cftsubsecdotsep}{1.2}
+\renewcommand{\cftsubsubsecdotsep}{1.2}
+\renewcommand{\cfttabdotsep}{1.2}
+\renewcommand{\cftfigdotsep}{1.2}
+\cftsetindents{table}{0em}{3em}
+\cftsetindents{figure}{0em}{3em}
+\setlength{\cftbeforetabskip}{1pt}
+\setlength{\cftbeforefigskip}{3pt}
+\renewcommand{\cftloftitlefont}{\hfill\large\bfseries}
+\renewcommand{\cftafterloftitle}{\hfill\null}
+\renewcommand{\cftlottitlefont}{\hfill\large\bfseries}
+\renewcommand{\cftafterlottitle}{\hfill\null}
+\setlength{\cftbeforeloftitleskip}{0pt}
+\setlength{\cftbeforelottitleskip}{0pt}
+\setlength{\cftafterloftitleskip}{16pt}
+\setlength{\cftafterlottitleskip}{16pt}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\placeholder}[2]{\if\relax\detokenize\expandafter{#1}\relax[#2]\else#1\fi}
+\setlength{\arrayrulewidth}{0.55pt}
+\newenvironment{reporttable}{\par\medskip\noindent\begin{minipage}{\linewidth}\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.18}}{\end{minipage}\par\smallskip}
+\newcommand{\tabnote}[1]{\par\smallskip{\footnotesize #1\par}}
+\newcommand{\tabledata}[1]{\csname table#1\endcsname}
+\newcommand{\reportfigure}[4][0.35\textheight]{%
+  \par\medskip\noindent\begin{minipage}{\linewidth}\centering
+  \includegraphics[width=\linewidth,height=#1,keepaspectratio]{images/#2.png}\par
+  \captionof{figure}{#4}\label{fig:#3}
+  \end{minipage}\par\smallskip}
+\newcommand{\pbifigure}[4][0.35\textheight]{%
+  \par\medskip\noindent\begin{minipage}{\linewidth}\centering
+  \IfFileExists{images/#2.png}{\includegraphics[width=\linewidth,height=#1,keepaspectratio]{images/#2.png}}{\fbox{\parbox[c][0.18\textheight][c]{0.9\linewidth}{\centering\small Chèn ảnh chụp trang Power BI: \texttt{images/#2.png}}}}\par
+  \captionof{figure}{#4}\label{fig:#3}
+  \end{minipage}\par\smallskip}
+\newcommand{\reportstep}[2]{\fbox{\parbox[c][12mm][c]{0.15\linewidth}{\centering\small #1\\[-1pt]\footnotesize #2}}}
+\newcommand{\reportarrow}{\hfill\(\rightarrow\)\hfill}
+\newcommand{\groupcap}{\(N\ge 30\)}
+\newcommand{\Dataset}{\textit{Goodreads-books-with-genres}}
+\newcommand{\DSSinhVien}[1]{\renewcommand{\DanhSachSinhVien}{#1}}
+%% ===== BEGIN thong_tin.tex =====
+% Điền các mục trống trước khi xuất bản PDF cuối.
+\newcommand{\TenTruong}{}
+\newcommand{\TenKhoa}{}
+\newcommand{\TenHocPhan}{Trực quan hóa dữ liệu}
+\newcommand{\TenGiangVien}{}
+\newcommand{\TenLop}{KHMT 18-01}
+\newcommand{\ThoiGianBaoCao}{Tháng 11 năm 2026}
+% Hai cột dưới đây là số thứ tự và họ tên, mỗi người một dòng.
+\newcommand{\DanhSachSinhVien}{}
+\DSSinhVien{%
+1 & Nguyễn Mạnh Cường \\\hline
+2 & Phạm Thị Hồng Chúc \\\hline
+3 & Đặng Thế Việt \\\hline
+4 & Lã Anh Tuấn \\\hline
+}
+% Điền tên người phụ trách từng trang (có thể có nhiều người cùng phụ trách).
+\newcommand{\PhuTrachTongQuan}{}
+\newcommand{\PhuTrachPhanPhoi}{}
+\newcommand{\PhuTrachSoTrang}{}
+\newcommand{\PhuTrachThoiGian}{}
+\newcommand{\PhuTrachTacGia}{}
+\newcommand{\PhuTrachNhaXuatBan}{}
+\newcommand{\PhuTrachChatLuong}{}
+
+%% ===== END thong_tin.tex =====
+%% ===== BEGIN bang_eda.tex =====
+% Trích từ các bảng EDA đã đối chiếu.
+\expandafter\newcommand\csname tableflow\endcsname{%
+\begin{reporttable}
+\captionof{table}{Các phạm vi dữ liệu và cỡ mẫu}\label{tab:flow}
+\begin{tabularx}{\linewidth}{|X|r|}
+\hline
+Phạm vi & N \\\hline
+Toàn bộ bản ghi gốc và master & 11.127 \\\hline
+Có Rating từ 1 đến 5 & 11.101 \\\hline
+Mẫu đủ điều kiện: Rating 1–5 và lượt chấm dương & 11.046 \\\hline
+Mẫu chính: Rating 1–5, ít nhất 100 lượt chấm & 8.402 \\\hline
+Mẫu chính có số trang dương & 8.385 \\\hline
+Mẫu chính có ngày xuất bản hợp lệ & 8.401 \\\hline
+Mẫu chính có nhãn thể loại & 8.400 \\\hline
+Mẫu chính có nhà xuất bản & 8.399 \\\hline
+Mẫu giảm lặp gần đúng (đối chiếu) & 8.189 \\\hline
+\end{tabularx}
+\tabnote{Nguồn: \texttt{sample\_flow.csv}. Các dòng là những tập có thể chồng lấn; không cộng cột N.}
+\end{reporttable}
+}
+
+\expandafter\newcommand\csname tablestats\endcsname{%
+\begin{reporttable}
+\captionof{table}{Thống kê mô tả mẫu chính}\label{tab:stats}
+\begin{tabularx}{\linewidth}{|X|r|r|r|r|r|r|}
+\hline
+Biến & N & TB & SD & Trung vị & Q1–Q3 & Min–Max \\\hline
+Rating & 8.402 & 3,95 & 0,27 & 3,97 & 3,79 – 4,14 & 2,40 – 4,82 \\\hline
+Số trang & 8.385 & 351,49 & 239,08 & 312,00 & 210,00 – 424,00 & 1,00 – 6.576,00 \\\hline
+Lượt chấm & 8.402 & 23.742,44 & 128.909,73 & 1.823,00 & 452,00 – 8.915,75 & 100,00 – 4.597.666,00 \\\hline
+Số review & 8.402 & 716,38 & 2.943,64 & 99,00 & 32,00 – 392,75 & 0,00 – 94.265,00 \\\hline
+Năm xuất bản & 8.401 & 2.000,57 & 7,70 & 2003 & 1998 – 2005 & 1900 – 2020 \\\hline
+\end{tabularx}
+\tabnote{Nguồn: \texttt{descriptive\_primary.csv}. SD là độ lệch chuẩn mẫu; Q1–Q3 là khoảng giữa của phân phối.}
+\end{reporttable}
+}
+
+\expandafter\newcommand\csname tablepages\endcsname{%
+\begin{reporttable}
+\captionof{table}{Rating theo nhóm số trang}\label{tab:pages}
+\begin{tabularx}{\linewidth}{|X|r|r|r|r|r|}
+\hline
+Nhóm & N & Trung bình & Trung vị & Q1 & Q3 \\\hline
+1-200 & 1.861 & 3,953 & 3,970 & 3,78 & 4,14 \\\hline
+201-400 & 4.128 & 3,912 & 3,930 & 3,76 & 4,09 \\\hline
+401-600 & 1.558 & 3,981 & 3,990 & 3,84 & 4,14 \\\hline
+601+ & 838 & 4,119 & 4,130 & 3,96 & 4,29 \\\hline
+\end{tabularx}
+\tabnote{Nguồn: \texttt{group\_pages\_all.csv}. Bốn nhóm rời nhau; tổng N là 8.385.}
+\end{reporttable}
+}
+
+\expandafter\newcommand\csname tablegenre\endcsname{%
+\begin{reporttable}
+\captionof{table}{Rating của 12 nhãn thể loại có nhiều bản ghi nhất}\label{tab:genre}
+\begin{tabularx}{\linewidth}{|X|r|r|r|}
+\hline
+Nhóm & N & Trung bình & Trung vị \\\hline
+Fiction & 5.817 & 3,929 & 3,940 \\\hline
+Classics & 2.721 & 4,010 & 4,010 \\\hline
+Nonfiction & 2.394 & 4,015 & 4,030 \\\hline
+Literature & 2.383 & 3,938 & 3,940 \\\hline
+Novels & 2.191 & 3,872 & 3,880 \\\hline
+Fantasy & 2.152 & 3,987 & 4,000 \\\hline
+Historical,Historical Fiction & 1.533 & 3,924 & 3,930 \\\hline
+Audiobook & 1.395 & 3,946 & 3,970 \\\hline
+Mystery & 1.366 & 3,894 & 3,910 \\\hline
+Romance & 1.316 & 3,901 & 3,910 \\\hline
+History & 1.260 & 4,021 & 4,040 \\\hline
+Historical & 1.216 & 3,967 & 3,980 \\\hline
+\end{tabularx}
+\tabnote{Nguồn: \texttt{group\_genre\_top12\_by\_size.csv}. Sắp theo N; các nhóm có thể chồng lấn.}
+\end{reporttable}
+}
+
+\expandafter\newcommand\csname tablepublisher\endcsname{%
+\begin{reporttable}
+\captionof{table}{Rating của 12 nhà xuất bản có nhiều bản ghi nhất}\label{tab:publisher}
+\begin{tabularx}{\linewidth}{|X|r|r|r|}
+\hline
+Nhóm & N & Trung bình & Trung vị \\\hline
+Vintage & 312 & 3,896 & 3,910 \\\hline
+Penguin Books & 245 & 3,911 & 3,940 \\\hline
+Penguin Classics & 176 & 3,952 & 3,975 \\\hline
+Mariner Books & 136 & 3,955 & 3,945 \\\hline
+Ballantine Books & 134 & 3,878 & 3,920 \\\hline
+Harper Perennial & 106 & 3,906 & 3,910 \\\hline
+Bantam & 105 & 3,892 & 3,890 \\\hline
+Pocket Books & 100 & 3,911 & 3,920 \\\hline
+HarperCollins & 90 & 4,047 & 4,130 \\\hline
+VIZ Media LLC & 86 & 4,248 & 4,280 \\\hline
+Berkley & 81 & 3,903 & 3,900 \\\hline
+Del Rey & 75 & 4,051 & 4,040 \\\hline
+\end{tabularx}
+\tabnote{Nguồn: \texttt{Top12\_NhaXuatBan\_TheoN.csv}. Giữ tên sau chuẩn hóa khoảng trắng.}
+\end{reporttable}
+}
+
+\expandafter\newcommand\csname tablelanguage\endcsname{%
+\begin{reporttable}
+\captionof{table}{Rating theo nhóm ngôn ngữ đủ cỡ mẫu}\label{tab:language}
+\begin{tabularx}{\linewidth}{|X|r|r|r|}
+\hline
+Nhóm & N & Trung bình & Trung vị \\\hline
+English & 8.212 & 3,954 & 3,970 \\\hline
+spa & 91 & 3,969 & 3,960 \\\hline
+fre & 48 & 3,950 & 3,960 \\\hline
+\end{tabularx}
+\tabnote{Nguồn: \texttt{group\_language\_n30.csv}. Chỉ các nhóm có N ít nhất 30, xếp theo N.}
+\end{reporttable}
+}
+
+\expandafter\newcommand\csname tabledecade\endcsname{%
+\begin{reporttable}
+\captionof{table}{Rating theo thập niên xuất bản đủ cỡ mẫu}\label{tab:decade}
+\begin{tabularx}{\linewidth}{|X|r|r|r|}
+\hline
+Nhóm & N & Trung bình & Trung vị \\\hline
+1960 & 40 & 4,019 & 4,045 \\\hline
+1970 & 125 & 4,015 & 4,030 \\\hline
+1980 & 417 & 3,998 & 4,010 \\\hline
+2010 & 100 & 3,989 & 3,995 \\\hline
+1990 & 1.852 & 3,968 & 3,980 \\\hline
+2000 & 5.833 & 3,945 & 3,960 \\\hline
+\end{tabularx}
+\tabnote{Nguồn: \texttt{group\_decade\_n30.csv}. Nhãn là năm bắt đầu thập niên; dữ liệu là theo ấn bản/bản ghi.}
+\end{reporttable}
+}
+
+\expandafter\newcommand\csname tablecorr\endcsname{%
+\begin{reporttable}
+\captionof{table}{Tương quan từng cặp với Rating trong mẫu chính}\label{tab:corr}
+\begin{tabularx}{\linewidth}{|X|r|r|r|r|}
+\hline
+Biến & N cặp & Spearman & Pearson gốc & Pearson log \\\hline
+Số trang & 8.385 & 0,125570 & 0,199001 & 0,092300 \\\hline
+Lượt chấm & 8.402 & 0,066525 & 0,043961 & 0,079353 \\\hline
+Số review & 8.402 & −0,018432 & 0,032627 & −0,008324 \\\hline
+Năm xuất bản & 8.401 & −0,061631 & −0,065336 & — \\\hline
+\end{tabularx}
+\tabnote{Nguồn: \texttt{correlations\_by\_threshold.csv}. Pearson log dùng biến giải thích $\ln(1+x)$, không biến đổi Rating.}
+\end{reporttable}
+}
+
+\expandafter\newcommand\csname tablethreshold\endcsname{%
+\begin{reporttable}
+\captionof{table}{Độ nhạy của thống kê Rating theo ngưỡng lượt chấm}\label{tab:threshold}
+\begin{tabularx}{\linewidth}{|X|r|r|r|r|r|}
+\hline
+Ngưỡng & N & \% trên gốc & Trung bình & Trung vị & SD \\\hline
+1 & 11.046 & 99,27 & 3,943 & 3,960 & 0,295 \\\hline
+100 & 8.402 & 75,51 & 3,955 & 3,970 & 0,266 \\\hline
+500 & 6.153 & 55,30 & 3,961 & 3,970 & 0,260 \\\hline
+1.000 & 5.114 & 45,96 & 3,964 & 3,975 & 0,254 \\\hline
+\end{tabularx}
+\tabnote{Nguồn: \texttt{threshold\_sensitivity.csv}. Tỷ lệ lấy 11.127 bản ghi gốc làm mẫu số.}
+\end{reporttable}
+}
+
+\expandafter\newcommand\csname tablerhos\endcsname{%
+\begin{reporttable}
+\captionof{table}{Spearman với Rating khi thay đổi ngưỡng lượt chấm}\label{tab:rhos}
+\begin{tabularx}{\linewidth}{|X|r|r|r|r|}
+\hline
+Ngưỡng & Số trang & Lượt chấm & Số review & Năm xuất bản \\\hline
+1 & 0,112 & 0,080 & 0,026 & −0,053 \\\hline
+100 & 0,126 & 0,067 & −0,018 & −0,062 \\\hline
+500 & 0,099 & 0,067 & −0,045 & −0,072 \\\hline
+1.000 & 0,094 & 0,080 & −0,049 & −0,074 \\\hline
+\end{tabularx}
+\tabnote{Nguồn: \texttt{correlations\_by\_threshold.csv}. N từng cặp có thể nhỏ hơn N của ngưỡng nếu thiếu biến.}
+\end{reporttable}
+}
+
+\expandafter\newcommand\csname tablepivot\endcsname{%
+\begin{reporttable}
+\captionof{table}{Pivot Rating trung bình và cỡ mẫu theo thập niên và nhóm trang}\label{tab:pivot}
+\begin{tabularx}{\linewidth}{|X|r|r|r|r|}
+\hline
+Thập niên & 1-200 & 201-400 & 401-600 & 601+ \\\hline
+1900 & — / 1 & — / 0 & — / 0 & — / 0 \\\hline
+1910 & — / 0 & — / 0 & — / 2 & — / 0 \\\hline
+1920 & — / 1 & — / 0 & — / 1 & — / 0 \\\hline
+1940 & — / 3 & — / 0 & — / 1 & — / 0 \\\hline
+1950 & — / 12 & — / 8 & — / 3 & — / 1 \\\hline
+1960 & — / 11 & — / 23 & — / 3 & — / 3 \\\hline
+1970 & 4,019 / 39 & 3,998 / 51 & — / 22 & — / 13 \\\hline
+1980 & 3,893 / 95 & 3,953 / 193 & 4,084 / 75 & 4,224 / 54 \\\hline
+1990 & 3,948 / 417 & 3,923 / 853 & 3,993 / 349 & 4,132 / 232 \\\hline
+2000 & 3,956 / 1.247 & 3,903 / 2.952 & 3,968 / 1.089 & 4,100 / 530 \\\hline
+2010 & 3,979 / 35 & 3,943 / 47 & — / 13 & — / 4 \\\hline
+2020 & — / 0 & — / 1 & — / 0 & — / 0 \\\hline
+\end{tabularx}
+\tabnote{Mỗi ô ghi trung bình / N. Dấu gạch ngang: không trình bày trung bình khi N dưới 30. Nguồn: \texttt{pivot\_n\_decade\_by\_pages.csv} và bảng trung bình áp ngưỡng.}
+\end{reporttable}
+}
+
+\expandafter\newcommand\csname tablestack\endcsname{%
+\begin{reporttable}
+\captionof{table}{Tỷ lệ phần trăm của các khoảng Rating trong từng nhãn}\label{tab:stack}
+\begin{tabularx}{\linewidth}{|X|r|r|r|r|r|}
+\hline
+Nhãn & N & [1; 3,5) & [3,5; 4) & [4; 4,5) & [4,5; 5] \\\hline
+Fiction & 5.817 & 6,1 & 53,3 & 39,4 & 1,3 \\\hline
+Classics & 2.721 & 2,3 & 45,4 & 50,3 & 2,0 \\\hline
+Nonfiction & 2.394 & 2,3 & 41,0 & 55,4 & 1,3 \\\hline
+Literature & 2.383 & 6,0 & 52,5 & 40,2 & 1,4 \\\hline
+Novels & 2.191 & 8,7 & 59,1 & 31,1 & 1,0 \\\hline
+Fantasy & 2.152 & 3,8 & 46,0 & 47,8 & 2,4 \\\hline
+Historical,Historical Fiction & 1.533 & 5,5 & 55,3 & 38,8 & 0,5 \\\hline
+Audiobook & 1.395 & 4,9 & 49,7 & 44,6 & 0,9 \\\hline
+Mystery & 1.366 & 5,5 & 60,7 & 33,4 & 0,4 \\\hline
+Romance & 1.316 & 6,6 & 57,1 & 35,6 & 0,8 \\\hline
+History & 1.260 & 1,7 & 40,8 & 56,3 & 1,2 \\\hline
+Historical & 1.216 & 3,6 & 48,9 & 46,7 & 0,7 \\\hline
+\end{tabularx}
+\tabnote{Nguồn: \texttt{CotChong100\_TheLoai\_ChiTiet.csv}. Tỷ lệ có thể lệch 0,1 điểm phần trăm do làm tròn.}
+\end{reporttable}
+}
+
+%% ===== END bang_eda.tex =====
+% Thêm dấu chấm sau số thứ tự trong mục lục.
+\renewcommand{\cftsecaftersnum}{.}
+\renewcommand{\cftsubsecaftersnum}{.}
+\renewcommand{\cftsubsubsecaftersnum}{.}
+% Danh mục bảng: Bảng 1. Tiêu đề
+\renewcommand{\cfttabpresnum}{Bảng }
+\renewcommand{\cfttabaftersnum}{.}
+\setlength{\cfttabnumwidth}{5em}
+
+% Danh mục hình: Hình 1. Tiêu đề
+\renewcommand{\cftfigpresnum}{Hình }
+\renewcommand{\cftfigaftersnum}{.}
+\setlength{\cftfignumwidth}{5em}
+\makeatletter
+\renewcommand{\@seccntformat}[1]{%
+  \csname the#1\endcsname.\hspace{0.4em}%
+}
+\makeatother
+% MỤC LỤC: thêm dấu chấm và thu hẹp cột số thứ tự.
+\renewcommand{\cftsecaftersnum}{.}
+\renewcommand{\cftsubsecaftersnum}{.}
+\renewcommand{\cftsubsubsecaftersnum}{.}
+
+% Cùng lề trái, cùng vị trí bắt đầu tiêu đề ở mọi cấp.
+\cftsetindents{section}{0em}{2.8em}
+\cftsetindents{subsection}{0em}{2.8em}
+\cftsetindents{subsubsection}{0em}{2.8em}
+
+% DANH MỤC BẢNG: Bảng 1. Tiêu đề
+\renewcommand{\cfttabpresnum}{Bảng }
+\renewcommand{\cfttabaftersnum}{.}
+\cftsetindents{table}{0em}{4.2em}
+
+% DANH MỤC HÌNH: Hình 1. Tiêu đề
+\renewcommand{\cftfigpresnum}{Hình }
+\renewcommand{\cftfigaftersnum}{.}
+\cftsetindents{figure}{0em}{4.2em}
+\begin{document}
+% ===== BON TRANG DAU: BO CUC LATEX THONG THUONG =====
+\begingroup
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\renewcommand{\baselinestretch}{1}\selectfont
+
+\newcommand{\KhungBiaGoodreads}{%
+  \AddToShipoutPictureBG*{%
+    \AtPageLowerLeft{%
+      \setlength{\unitlength}{1mm}%
+      \put(21,15){\color{blue!30!black}\linethickness{.65pt}%
+        \framebox(168,260){}}%
+    }%
+  }%
+}
+
+\newcommand{\LogoGoodreads}{%
+  \begin{tikzpicture}[x=1mm,y=1mm]
+    \definecolor{DaiNamCam}{RGB}{255,112,24}
+    \definecolor{DaiNamXanh}{RGB}{43,61,142}
+    \fill[DaiNamCam] (0,0) circle (4.6);
+    \foreach \goc in {0,15,...,345}{
+      \fill[DaiNamCam] (\goc:4) -- (\goc+4:8.3) -- (\goc+9:4) -- cycle;
+      \fill[DaiNamCam] (\goc+7:8.8) circle (.25);
+    }
+    \node[anchor=center,inner sep=0pt,text=DaiNamCam,
+      font=\sffamily\bfseries\fontsize{17}{19}\selectfont]
+      at (0,-12) {ĐẠI NAM};
+    \node[anchor=center,inner sep=0pt,text=DaiNamXanh,
+      font=\sffamily\bfseries\fontsize{5}{6}\selectfont]
+      at (0,-17) {U N I V E R S I T Y};
+  \end{tikzpicture}%
+}
+
+\newcommand{\TieuDeBiaGoodreads}{%
+  {\bfseries\fontsize{13}{19}\selectfont
+    BỘ GIÁO DỤC ĐÀO TẠO\par
+    TRƯỜNG ĐẠI HỌC ĐẠI NAM\par
+    ------------------------------\par}
+  \vspace{6mm}
+  \LogoGoodreads\par
+  \vspace{7mm}
+  {\bfseries\fontsize{16}{22}\selectfont BÁO CÁO HỌC PHẦN\par}
+  \vspace{7mm}
+  {\bfseries\fontsize{16}{22}\selectfont TRỰC QUAN HÓA DỮ LIỆU\par}
+  \vspace{7mm}
+  {\bfseries\fontsize{16}{22}\selectfont ĐỀ TÀI\par}
+  \vspace{7mm}
+  {\bfseries\fontsize{16}{23}\selectfont
+    PHÂN TÍCH VÀ TRỰC QUAN HÓA\par
+    CÁC YẾU TỐ LIÊN QUAN ĐẾN ĐIỂM ĐÁNH GIÁ\par
+    CỦA SÁCH TRÊN GOODREADS\par}
+}
+\newcommand{\ThanhVienGoodreads}{%
+  \begin{tabular}{@{}p{45mm}l@{}}
+    NHÓM SINH VIÊN: & 1. Nguyễn Mạnh Cường\\
+                     & 2. Phạm Thị Hồng Chúc\\
+                     & 3. Đặng Thế Việt\\
+                     & 4. Lã Anh Tuấn
+  \end{tabular}%
+}
+
+% TRANG 1: BIA CHINH
+\begin{titlepage}
+  \thispagestyle{empty}\KhungBiaGoodreads\centering
+  \TieuDeBiaGoodreads
+  \vfill
+  {\bfseries\fontsize{12}{18}\selectfont
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabular}{@{}p{45mm}l@{}}
+      NHÓM SINH VIÊN: & 1. Nguyễn Mạnh Cường\\
+                       & 2. Phạm Thị Hồng Chúc\\
+                       & 3. Đặng Thế Việt\\
+                       & 4. Lã Anh Tuấn\\[4mm]
+      MÃ NHÓM & 5\\
+      LỚP & KHMT 18-01
+    \end{tabular}\par
+    \vspace{5mm}
+    GIẢNG VIÊN HƯỚNG DẪN: Trần Hải Anh\par}
+  \vfill
+  {\bfseries\fontsize{13}{16}\selectfont HÀ NỘI - 2026\par}
+  \vspace*{6mm}
+\end{titlepage}
+
+% TRANG 2: BIA PHU, KHONG CO BANG CAN BO CHAM THI
+\begin{titlepage}
+  \thispagestyle{empty}\KhungBiaGoodreads\centering
+  \TieuDeBiaGoodreads
+  \vfill
+  {\bfseries\fontsize{12}{18}\selectfont
+    \renewcommand{\arraystretch}{1.15}
+    \ThanhVienGoodreads\par}
+  \vfill
+  {\bfseries\fontsize{13}{16}\selectfont HÀ NỘI - 2026\par}
+  \vspace*{6mm}
+\end{titlepage}
+
+% TRANG 3: BAO CAO LAM VIEC NHOM
+\begin{titlepage}
+  \thispagestyle{empty}
+  {\centering\bfseries\fontsize{13}{16}\selectfont
+    BÁO CÁO LÀM VIỆC NHÓM\par}
+  \vspace{8mm}
+  {\fontsize{13}{20}\selectfont
+    Tên nhóm: Nhóm 5\par
+    Nhóm trưởng: Nguyễn Mạnh Cường\par
+    \vspace{2mm}
+    \textbf{Phân công nhiệm vụ và mức độ hoàn thành}\par}
+  \vspace{3mm}
+  {\fontsize{12}{16}\selectfont
+    \renewcommand{\arraystretch}{1.35}\setlength{\tabcolsep}{3pt}
+    \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{9mm}|>{\centering\arraybackslash}p{25mm}|Y|>{\centering\arraybackslash}p{28mm}|>{\centering\arraybackslash}p{20mm}|}\hline
+      \textbf{STT} & \textbf{MSV} & \textbf{Họ và tên} & \textbf{Lớp} & \textbf{Đóng góp}\\\hline
+      1 & 1871020109 & Nguyễn Mạnh Cường & KHMT 18-01 & 25\%\\\hline
+      2 & 1871020093 & Phạm Thị Hồng Chúc & KHMT 18-01 & 25\%\\\hline
+      3 & 1871020631 & Lã Anh Tuấn & KHMT 18-01 & 25\%\\\hline
+      4 & 1871020650 & Đặng Thế Việt & KHMT 18-01 & 25\%\\\hline
+        & & Tổng & & 100\%\\\hline
+    \end{tabularx}\par}
+\end{titlepage}
+
+% TRANG 4: NHAN XET VA DIEM
+\begin{titlepage}
+  \thispagestyle{empty}
+  {\centering\bfseries\fontsize{13}{16}\selectfont
+    NHẬN XÉT\par (Của giảng viên chấm)\par}
+  \vspace{6mm}
+  \begingroup
+  \setlength{\parskip}{0pt}
+  \foreach \dong in {1,...,7}{\noindent\makebox[\linewidth]{\dotfill}\par\vspace{5mm}}
+  \endgroup
+  \vspace{3mm}
+  {\fontsize{11}{15}\selectfont
+    \renewcommand{\arraystretch}{1.45}\setlength{\tabcolsep}{3pt}
+    \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}p{8mm}|>{\centering\arraybackslash}p{24mm}|Y|>{\centering\arraybackslash}p{25mm}|>{\centering\arraybackslash}p{15mm}|>{\centering\arraybackslash}p{17mm}|}\hline
+      \textbf{STT} & \textbf{MSV} & \textbf{Họ và tên} & \textbf{Lớp} & \textbf{Điểm số} & \textbf{Điểm chữ}\\\hline
+      1 & 1871020109 & Nguyễn Mạnh Cường & KHMT 18-01 & & \\\hline
+      2 & 1871020093 & Phạm Thị Hồng Chúc & KHMT 18-01 & & \\\hline
+      3 & 1871020631 & Lã Anh Tuấn & KHMT 18-01 & & \\\hline
+      4 & 1871020650 & Đặng Thế Việt & KHMT 18-01 & & \\\hline
+    \end{tabularx}\par}
+  \vspace{4mm}
+  {\raggedleft\fontsize{12}{16}\selectfont\itshape
+    Ngày \ldots\ldots\ tháng \ldots\ldots\ năm 2026\par}
+  \vspace{4mm}
+  \noindent\begin{minipage}[t]{.48\textwidth}
+    \centering\fontsize{12}{17}\selectfont
+    \textbf{CÁN BỘ CHẤM THI 1}\par\textit{(Ký, ghi rõ họ tên)}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{.48\textwidth}
+    \centering\fontsize{12}{17}\selectfont
+    \textbf{CÁN BỘ CHẤM THI 2}\par\textit{(Ký, ghi rõ họ tên)}
+  \end{minipage}
+\end{titlepage}
+\endgroup
+\pagenumbering{roman}
+\pagestyle{report}
+% ===== HET BON TRANG DAU =====
+
+\section*{Tóm tắt}
+\addcontentsline{toc}{section}{Tóm tắt}
+Báo cáo trình bày quá trình xử lý, phân tích và trực quan hóa dữ liệu sách trên Goodreads nhằm mô tả điểm đánh giá trung bình (Rating) và khảo sát mối liên hệ của chỉ số này với số trang, thể loại, ngôn ngữ, nhà xuất bản, năm xuất bản, số lượt chấm sao và số bài nhận xét. Dữ liệu sử dụng là bộ \Dataset{} gồm 11.127 bản ghi và 13 trường. Đơn vị phân tích là bản ghi sách/ấn bản theo mã \texttt{Book Id}; các ấn bản của cùng một tác phẩm có thể xuất hiện thành nhiều bản ghi.
+
+Nhóm kiểm tra chất lượng dữ liệu, chuẩn hóa các trường cần thiết và lựa chọn mẫu chính gồm 8.402 bản ghi có Rating trong khoảng 1--5 và ít nhất 100 lượt chấm. Python/Pandas được sử dụng để xử lý dữ liệu và tính các thống kê mô tả, so sánh nhóm, tương quan và độ nhạy theo ngưỡng lượt chấm; Matplotlib được dùng để xây dựng biểu đồ. Kết quả được trình bày trên dashboard Power BI gồm bảy trang: Tổng quan, Phân bố điểm, Số trang, Thập niên xuất bản, Tác giả, Nhà xuất bản, Chất lượng dữ liệu.
+
+Trong 8.402 bản ghi được phân tích, điểm đánh giá trung bình đạt khoảng 3,96 trên thang 5 điểm. Nhóm sách từ 601 trang có điểm trung bình khoảng 4,12, cao hơn nhóm 201–400 trang với khoảng 3,91 điểm. Tuy nhiên, không phải nhóm sách càng dài cũng có điểm đánh giá càng cao. Kết quả phân tích cũng cho thấy số trang, số lượt chấm sao và số bài nhận xét đều có mối liên hệ yếu với điểm đánh giá. Vì vậy, không thể chỉ dựa vào độ dài hoặc mức độ tương tác để nhận định một cuốn sách sẽ được đánh giá cao. Dashboard giúp người dùng lọc, quan sát và so sánh các nhóm sách, đồng thời xem số lượng bản ghi trong từng nhóm. Những kết quả này chỉ mô tả bộ dữ liệu được phân tích, không khẳng định yếu tố nào làm tăng điểm đánh giá và không thể áp dụng cho toàn bộ sách trên Goodreads.
+
+\noindent\textbf{Từ khóa:} Goodreads, trực quan hóa dữ liệu, Rating, phân tích khám phá, Power BI.
+
+\clearpage
+\begingroup
+\setlength{\parskip}{0pt}
+\tableofcontents
+\endgroup
+\clearpage
+\begingroup\setlength{\parskip}{0pt}
+\listoftables
+\clearpage
+\listoffigures
+\endgroup
+\clearpage
+\pagenumbering{arabic}
+
+\section{Bối cảnh và câu hỏi phân tích}
+\subsection{Mục tiêu và đối tượng sử dụng}
+Rating và mức độ tương tác trả lời hai câu hỏi khác nhau: người dùng đã chấm bản ghi ở mức nào, và bản ghi thu hút bao nhiêu lượt chấm hay bài nhận xét. Khi tìm sách, việc nhìn riêng một trong hai chỉ số có thể dẫn tới những thứ hạng rất khác nhau. Ngoài mức tương tác, các đặc điểm như độ dài và thể loại giúp xác định nhóm bản ghi phù hợp để so sánh.
+
+Mục tiêu của nhóm là mô tả mức nền của Rating, so sánh các nhóm và khảo sát mối liên hệ của bảy yếu tố với Rating trong bộ dữ liệu đã chọn. Người đọc có thể dùng kết quả để tìm sách trong phạm vi họ quan tâm. Người xây dựng danh mục có thể dùng chênh lệch quan sát để đặt câu hỏi tiếp, với điều kiện luôn đọc kèm cỡ nhóm và tiêu chí chọn mẫu.
+
+\subsection{Câu hỏi và quy trình thực hiện}
+Bảng~\ref{tab:questions} nối từng câu hỏi với bằng chứng dùng để trả lời. Sau khi kiểm tra nguồn, nhóm tạo các bảng phân tích bằng Python/Pandas, dùng Matplotlib để dựng hình và đưa cùng bản dữ liệu vào Power BI. Hai đầu ra dùng chung định danh và quy tắc tính; dashboard cho phép người đọc thay đổi phạm vi xem.
+%% ===== BEGIN quy_trinh.tex =====
+\begin{reporttable}
+\captionof{table}{Câu hỏi phân tích và bằng chứng dùng để trả lời}\label{tab:questions}
+\begin{tabularx}{\linewidth}{|p{0.40\linewidth}|Y|}
+\hline
+Câu hỏi & Cách trả lời trong báo cáo \\\hline
+Rating tập trung ở đâu, có nhạy với ngưỡng lượt chấm không? & Thống kê mô tả, histogram và độ nhạy qua bốn ngưỡng (Hình~\ref{fig:hist}, \ref{fig:sensitivity}). \\\hline
+Rating khác nhau thế nào theo số trang? & Boxplot, trung bình nhóm và scatter theo từng ID (Hình~\ref{fig:box}, \ref{fig:pagebars}, \ref{fig:pages}). \\\hline
+Các nhãn thể loại có cơ cấu Rating khác nhau không? & Trung bình theo nhãn và tỷ lệ trong từng nhãn (Hình~\ref{fig:genre}, \ref{fig:stack}). \\\hline
+Chênh lệch theo nhà xuất bản ra sao? & So sánh nhóm theo N, đọc Rating cùng cỡ nhóm (Bảng~\ref{tab:publisher}). \\\hline
+Có thể so sánh Rating giữa các nhóm ngôn ngữ đến đâu? & Xem mức bao phủ trước và đối chiếu các nhóm đủ N (Hình~\ref{fig:languagecoverage}, \ref{fig:language}). \\\hline
+Các nhóm thập niên xuất bản có Rating khác nhau không? & Đường theo thập niên, N theo nhóm và bảng chéo với số trang (Hình~\ref{fig:decade}, Bảng~\ref{tab:pivot}). \\\hline
+Lượt chấm hoặc review cao có đi cùng Rating cao không? & Scatter, tương quan từng cặp và ví dụ theo ID (Hình~\ref{fig:ratings}, \ref{fig:reviews}, Bảng~\ref{tab:corr}). \\\hline
+\end{tabularx}
+\end{reporttable}
+
+\par\medskip\noindent
+\begin{minipage}{\linewidth}
+\centering
+\setlength{\fboxsep}{3pt}%
+\reportstep{CSV nguồn}{11.127 dòng}%
+\reportarrow
+\reportstep{Chuẩn hóa}{Master và bridge}%
+\reportarrow
+\reportstep{Chọn mẫu}{8.402 ID chính}%
+\reportarrow
+\reportstep{Phân tích}{EDA và biểu đồ}%
+\reportarrow
+\reportstep{Khám phá}{Power BI}%
+\captionof{figure}{Quy trình từ tệp Kaggle đến phân tích và dashboard.}\label{fig:pipeline}
+\end{minipage}\par
+
+%% ===== END quy_trinh.tex =====
+
+\clearpage
+\section{Nguồn và mô tả dữ liệu}
+\label{sec:source}
+Bộ \Dataset{} phiên bản 1 do \texttt{middlelight} công bố trên Kaggle, với metadata cập nhật ngày 30/12/2022 \cite{middlelight}. Bộ này dựa trên \textit{Goodreads-books} của \texttt{jealousleopard}, phiên bản 2 có metadata cập nhật ngày 09/03/2020 \cite{jealousleopard}. Tác giả bộ nền cho biết việc thu thập qua API bắt đầu năm 2019. Theo mô tả của bộ mở rộng, phần lớn nhãn đến từ Goodreads, khoảng 300 bản ghi được bổ sung qua Google Books. Các ngày cập nhật trên là mốc của bộ dữ liệu, không xác định thời điểm đo từng Rating hay lượt chấm.
+
+Tệp \texttt{Goodreads\_books\_with\_genres.csv} có 11.127 dòng dữ liệu và 13 trường. Đơn vị quan sát là một bản ghi theo \texttt{Book Id} gắn với thông tin sách/ấn bản. Nhiều dòng có thể mô tả các ấn bản của cùng tác phẩm. Trong báo cáo, \(N\) là số \texttt{Book Id} duy nhất; phạm vi kết luận là tập bản ghi quan sát được trong phiên bản này.
+
+\begin{reporttable}
+\captionof{table}{Từ điển 13 trường của dữ liệu gốc}\label{tab:dictionary}
+\begin{tabularx}{\linewidth}{|p{0.25\linewidth}|p{0.20\linewidth}|Y|}
+\hline
+Trường & Kiểu xử lý & Ý nghĩa và vai trò \\\hline
+\texttt{Book Id} & Định danh & Khóa của bản ghi Goodreads; dùng đếm riêng từng bản ghi. \\\hline
+\texttt{Title} & Chuỗi & Tên bản ghi; phục vụ tìm kiếm và rà soát ấn bản. \\\hline
+\texttt{Author} & Chuỗi & Chuỗi tác giả/người đóng góp; có thể gồm nhiều tên. \\\hline
+\texttt{average\_rating} & Số thực & Điểm trung bình nguồn; biến kết quả Rating. \\\hline
+\texttt{isbn} & Chuỗi & ISBN-10, giữ số 0 đầu và ký tự kiểm tra nếu có. \\\hline
+\texttt{isbn13} & Chuỗi & ISBN-13; dùng kiểm tra định danh, không làm biến số. \\\hline
+\texttt{language\_code} & Mã danh mục & Mã ngôn ngữ của ấn bản trong dữ liệu. \\\hline
+\texttt{num\_pages} & Số nguyên & Số trang; dùng phân nhóm độ dài và tương quan. \\\hline
+\texttt{ratings\_count} & Số nguyên & Số lượt chấm sao; dùng lọc và mô tả mức phổ biến. \\\hline
+\texttt{text\_reviews\_count} & Số nguyên & Số bài nhận xét bằng văn bản (review). \\\hline
+\texttt{publication\_date} & Ngày dạng chuỗi & Ngày trên bản ghi; dùng tạo năm và thập niên. \\\hline
+\texttt{publisher} & Chuỗi danh mục & Nhà xuất bản được ghi trên bản ghi. \\\hline
+\texttt{genres} & Chuỗi đa nhãn & Danh sách nhãn phân cách bằng dấu chấm phẩy. \\\hline
+\end{tabularx}
+\end{reporttable}
+
+\subsection{Cấu trúc dữ liệu sau xử lý}
+Master giữ nguyên cấp bản ghi của dữ liệu nguồn. Bảng liên kết thể loại tách quan hệ đa nhãn khỏi master để tránh nhân số bản ghi khi tổng hợp Rating. Bảng~\ref{tab:outputs} ghi rõ nơi lấy dữ liệu, nhật ký và số liệu trong báo cáo.
+\begin{reporttable}
+\captionof{table}{Đầu ra dữ liệu và vai trò trong phân tích}\label{tab:outputs}
+\begin{tabularx}{\linewidth}{|p{0.33\linewidth}|p{0.17\linewidth}|Y|}
+\hline
+Tệp hoặc nhóm tệp & Quy mô / kiểu & Vai trò \\\hline
+\texttt{books\_cleaned\_master.csv} & 11.127 × 45 & Mỗi ID một dòng; giữ 13 trường gốc và thêm 32 trường chuẩn hóa hoặc cờ kiểm tra. \\\hline
+\texttt{book\_genres\_bridge.csv} & 94.794 × 2 & Một dòng cho mỗi cặp ID và nhãn thể loại; dùng để lấy tập ID khi lọc. \\\hline
+\texttt{genres\_dimension.csv} & 890 × 1 & Danh mục nhãn thể loại dùng cho các bảng nhóm trong phần phân tích Python. \\\hline
+\texttt{cleaned\_data\_dictionary.csv} & 45 trường & Mô tả tên, kiểu và vai trò của trường gốc hoặc dẫn xuất. \\\hline
+\texttt{cell\_change\_log.csv} & Nhật ký cấp ô & Truy vết giá trị trước, sau và lý do chuẩn hóa. \\\hline
+\texttt{eda\_tables/} & Bảng CSV & Chứa cỡ mẫu, thống kê nhóm, bảng chéo, tương quan và kiểm tra độ nhạy. \\\hline
+\end{tabularx}
+\end{reporttable}
+
+\section{Khám phá và xử lý dữ liệu (EDA)}
+\subsection{Kiểm tra chất lượng và quy tắc làm sạch}
+Pipeline giữ nguyên dữ liệu gốc và xuất tệp master có đủ 11.127 dòng cùng 13 trường nguồn, thêm các trường chuẩn hóa và cờ kiểm tra. Các giá trị lạ được giữ trong dữ liệu gốc; quy tắc xử lý chỉ điều chỉnh trường dẫn xuất hoặc phạm vi của phép tính liên quan. Không điền Rating bằng 0 cho giá trị thiếu và không chuẩn hóa ISBN thành số.
+
+\begin{reporttable}
+\captionof{table}{Các vấn đề chất lượng và cách xử lý}\label{tab:quality}
+\begin{tabularx}{\linewidth}{|p{0.32\linewidth}|r|Y|}
+\hline
+Kiểm tra & Số lượng & Xử lý trong phân tích \\\hline
+Dòng trùng hoàn toàn / ID lặp & 0 / 0 & Giữ đủ bản ghi, khóa theo \texttt{Book Id}. \\\hline
+Rating ngoài khoảng 0–5 & 0 & Phân tích Rating trong khoảng 1–5. \\\hline
+Rating bằng 0 & 26 & Giữ nguồn; loại khỏi mẫu đủ điều kiện. \\\hline
+Lượt chấm bằng 0 & 81 & Giữ nguồn; yêu cầu lượt chấm dương cho EDA nền. \\\hline
+Rating dương nhưng không có lượt chấm & 55 & Nằm trong 81 dòng trên; không mặc định điểm ghi nhận là sai. \\\hline
+Số trang bằng 0 & 76 & Đặt thiếu trong trường \texttt{pages}; giữ các giá trị dương. \\\hline
+Số trang dương dưới 20 / trên 2.000 & 197 / 12 & Dùng để kiểm tra độ nhạy; không loại tự động khỏi master. \\\hline
+Ngày không hợp lệ & 2 & Phân tích ngày theo tháng/ngày/năm, xuất ISO nếu hợp lệ. \\\hline
+Nhà xuất bản không có thông tin & 5 & Chuẩn hóa khoảng trắng; mã thiếu thành giá trị thiếu. \\\hline
+Không có nhãn thể loại & 97 & Giữ trong master; không đưa vào so sánh theo nhãn. \\\hline
+ISBN-10 / ISBN-13 không hợp lệ & 4 / 28 & Gắn cờ; không xóa bản ghi chỉ vì lỗi ISBN. \\\hline
+Số review lớn hơn lượt chấm & 2 & Gắn cờ và giữ giá trị nguồn; không ép hai trường bằng nhau. \\\hline
+\end{tabularx}
+\tabnote{Các kiểm tra trên toàn bộ 11.127 bản ghi; một bản ghi có thể xuất hiện ở nhiều dòng. ISBN-13 áp dụng cả quy tắc tiền tố 978/979 của bước kiểm tra.}
+\end{reporttable}
+
+\clearpage
+\subsection{Chuẩn hóa văn bản và thể loại đa nhãn}
+Tên sách, chuỗi người đóng góp và nhà xuất bản được chuẩn hóa Unicode, bỏ khoảng trắng thừa; không gộp nhà xuất bản chỉ vì khác cách viết hoa. Bốn mã \texttt{eng}, \texttt{en-US}, \texttt{en-GB}, \texttt{en-CA} được gộp thành \textit{English}; các mã còn lại được giữ. Có 263 nhóm trùng chính xác tên–chuỗi tác giả, gồm 574 bản ghi. Đây là dấu hiệu cần xem xét ấn bản; pipeline không tự gộp theo tên vì tên trùng không đủ xác minh cùng tác phẩm.
+
+Thể loại được tách theo dấu chấm phẩy và lưu vào bảng liên kết gồm 94.794 cặp \texttt{Book Id}–nhãn, thuộc 890 nhãn trên toàn nguồn. Dấu phẩy trong \textit{Historical,Historical Fiction} là một phần của nhãn. Một sách có thể đóng góp cho nhiều nhóm thể loại, nhưng vẫn chỉ có một ID trong KPI tổng.
+
+%% ===== BEGIN bo_sung_du_lieu.tex =====
+\subsection{Nhật ký thay đổi: ô nào được chuẩn hóa?}
+Bảng~\ref{tab:clean_counts} đếm 25.689 ô thay đổi ở sáu trường. Một bản ghi có thể thay đổi nhiều ô, nên số này không phải số sách bị sửa. Trong 11.127 ngày xuất bản được xử lý, 11.125 ngày đổi sang định dạng ISO, còn hai ngày không tồn tại được để thiếu trong cột mới. Với nhà xuất bản, 551 ô có giá trị mới, gồm năm ô chuyển thành thiếu và 546 ô còn nội dung sau chuẩn hóa.
+
+\begin{reporttable}
+\captionof{table}{Thay đổi và giá trị thiếu sau chuẩn hóa trên toàn bộ 11.127 bản ghi}\label{tab:clean_counts}
+\begin{tabularx}{\linewidth}{|Y|r|r|}
+\hline
+Trường dữ liệu & Số ô thay đổi & Thiếu sau chuẩn hóa \\\hline
+Tên sách & 3.004 & 0 \\\hline
+Chuỗi tác giả/người đóng góp & 390 & 0 \\\hline
+Số trang & 76 & 76 \\\hline
+Ngày xuất bản & 11.127 & 2 \\\hline
+Nhà xuất bản & 551 & 5 \\\hline
+Nhóm ngôn ngữ & 10.541 & 0 \\\hline
+\end{tabularx}
+\tabnote{Nguồn: \texttt{cleaning\_summary.csv} và \texttt{cell\_change\_log.csv}. Thể loại được tách ra bảng liên kết nên không gộp vào bảng đếm ô này.}
+\end{reporttable}
+
+\begin{reporttable}
+\captionof{table}{Ví dụ đã ghi trong nhật ký làm sạch}\label{tab:clean_examples}
+\begin{tabularx}{\linewidth}{|r|p{0.22\linewidth}|p{0.30\linewidth}|Y|}
+\hline
+ID & Trường & Giá trị gốc & Giá trị dẫn xuất \\\hline
+35 & Người đóng góp & J.R.R. Tolkien/Alan\hspace{0.55em}Lee & J.R.R. Tolkien/Alan Lee \\\hline
+955 & Số trang & 0 & Thiếu trong \texttt{pages} \\\hline
+31.373 & Ngày xuất bản & 11/31/2000 & Thiếu trong cột ngày ISO \\\hline
+2.900 & Nhà xuất bản & Not Avail & Thiếu trong \texttt{publisher\_clean} \\\hline
+1 & Ngôn ngữ & eng & English \\\hline
+\end{tabularx}
+\end{reporttable}
+ID 955 minh họa vì sao số trang bằng 0 không được đưa vào nhóm 1–200 trang. ID 31.373 vẫn tồn tại trong master; bản ghi không vào so sánh theo năm hợp lệ. ID 1 cho thấy mã ngôn ngữ nguồn và nhãn dùng phân tích được lưu ở hai trường riêng.
+
+\clearpage
+\subsection{Giá trị thiếu làm thay đổi mẫu số đến đâu?}
+Bảng~\ref{tab:missing_coverage} tách số thiếu trên toàn bộ master và trên mẫu chính. Ví dụ, mẫu chính có 17 ID thiếu số trang, bằng 0,20\%, nên scatter số trang có 8.385 cặp. Chỉ một ID thiếu năm trong mẫu chính, vì vậy phân tích theo thập niên dùng 8.401 bản ghi. Thể loại và nhà xuất bản có mẫu số riêng.
+\begin{reporttable}
+\captionof{table}{Mức bao phủ của bốn trường dùng để chia nhóm}\label{tab:missing_coverage}
+\begin{tabularx}{\linewidth}{|Y|r|r|r|r|}
+\hline
+Trường & Thiếu: master & Thiếu: mẫu chính & Tỷ lệ thiếu & N hợp lệ \\\hline
+Số trang & 76 & 17 & 0,20\% & 8.385 \\\hline
+Năm xuất bản & 2 & 1 & 0,01\% & 8.401 \\\hline
+Thể loại & 97 & 2 & 0,02\% & 8.400 \\\hline
+Nhà xuất bản & 5 & 3 & 0,04\% & 8.399 \\\hline
+\end{tabularx}
+\tabnote{Tỷ lệ và N hợp lệ dùng mẫu chính 8.402 ID. Một bản ghi có thể thiếu nhiều trường.}
+\end{reporttable}
+Trong mẫu chính, 21 bản ghi thiếu đúng một trong bốn trường và một bản ghi thiếu đúng hai trường. Như vậy có 22 ID thiếu ít nhất một trường, chứ không phải 23 như khi cộng cột thiếu. Nếu loại tất cả các ID này, chỉ còn 8.380 ID, giảm cả mẫu của các phép tính vốn không cần bốn trường. Báo cáo giữ đủ 8.402 ID cho mức nền của Rating và loại thiếu theo từng phép tính.
+
+\begin{reporttable}
+\captionof{table}{Mẫu số theo phép tính và điều kiện hợp lệ}\label{tab:denominators}
+\begin{tabularx}{\linewidth}{|Y|Y|r|}
+\hline
+Phép tính & Điều kiện ngoài mẫu chính & N \\\hline
+Histogram Rating và scatter lượt chấm/review & Không thiếu các biến dùng trong phép tính & 8.402 \\\hline
+Boxplot và scatter theo số trang & Có số trang dương & 8.385 \\\hline
+So sánh theo thập niên & Có năm xuất bản hợp lệ & 8.401 \\\hline
+Bảng chéo thập niên và nhóm trang & Đồng thời có năm hợp lệ và số trang dương & 8.384 \\\hline
+So sánh nhãn thể loại và nhà xuất bản & Có trường tương ứng & 8.400 / 8.399 \\\hline
+\end{tabularx}
+\tabnote{Bảng chéo dùng giao của hai điều kiện; N bằng tổng số ID trong các ô của Bảng~\ref{tab:pivot}.}
+\end{reporttable}
+Khi trích hình vào báo cáo, ghi N theo hình. Ví dụ, mẫu số 8.402 của histogram không áp dụng cho scatter số trang hay bảng chéo. Với thể loại, 8.400 là số ID có ít nhất một nhãn; từng nhãn dùng N riêng, chẳng hạn Fiction có 5.817 ID.
+
+\clearpage
+
+%% ===== END bo_sung_du_lieu.tex =====
+
+\subsection{Chọn mẫu phân tích}
+Mẫu đủ điều kiện yêu cầu Rating từ 1 đến 5 và lượt chấm dương. Mẫu chính thêm ngưỡng tối thiểu 100 lượt chấm để các so sánh mặc định có mức hỗ trợ tối thiểu. Đây là lựa chọn phân tích, không phải chuẩn chất lượng. Khi phân tích một biến có giá trị thiếu, chỉ phép tính sử dụng biến đó loại bản ghi thiếu. Bảng~\ref{tab:flow} vì vậy phân biệt tổng mẫu với từng mẫu con.
+\tabledata{flow}
+
+\subsection{Thống kê mô tả}
+\tabledata{stats}
+Trong mẫu chính, Rating từ 2,40 đến 4,82. Có 18 bản ghi dưới 3,0; 4.562 bản ghi từ 3,0 đến dưới 4,0; và 3.822 bản ghi từ 4,0 trở lên. Trung bình lượt chấm là 23.742,44 nhưng trung vị chỉ 1.823; review cũng có chênh lệch lớn giữa trung bình 716,38 và trung vị 99. Điều này cho thấy các biến tương tác lệch phải, vì vậy báo cáo dùng trung vị và hiển thị scatter với trục tương tác biến đổi log.
+
+\clearpage
+%% ===== BEGIN phuong_phap.tex =====
+\section{Phương pháp phân tích và khả năng tái lập}
+\subsection{Định nghĩa chỉ số}
+Với \(N\) bản ghi có Rating hợp lệ cho một phép tính, trung bình và độ lệch chuẩn mẫu là
+\[
+  \bar R = \frac{1}{N}\sum_{i=1}^{N} R_i,
+  \qquad
+  s_R = \sqrt{\frac{\sum_{i=1}^{N}(R_i-\bar R)^2}{N-1}}.
+\]
+Mỗi bản ghi có trọng số như nhau; lượt chấm chỉ dùng để lọc và mô tả mức tương tác. Trung vị và hai tứ phân vị \(Q_1,Q_3\) giúp đọc phân phối khi trung bình chịu ảnh hưởng của một số giá trị lớn. Khoảng \(Q_1\) đến \(Q_3\) mô tả nửa giữa phân phối.
+
+Spearman đo mức độ đồng biến hoặc nghịch biến theo thứ hạng; Pearson trên thang gốc đo liên hệ tuyến tính. Báo cáo đối chiếu thêm Pearson sau khi đổi trục biến giải thích thành \(\ln(1+x)\) đối với số trang, lượt chấm và review; Rating vẫn ở thang gốc. Hệ số được tính từ những bản ghi có đủ cặp biến \cite{pandas}. Ví dụ, \(\rho_S=0{,}126\) không có nghĩa số trang giải thích 12,6\% Rating.
+
+\subsection{Lọc, tổng hợp theo nhóm và bảng chéo}
+Ví dụ tái lập từ mã EDA: bắt đầu bằng mẫu chính rồi giữ đồng thời nhóm English, năm 1990–2010 và số trang dương. Ba điều kiện nối bằng AND, gồm cả năm 1990 và 2010. Tập kết quả có 7.524 ID và được xuất riêng; các biểu đồ mặc định vẫn dùng mẫu chính.
+
+\begin{reporttable}
+\captionof{table}{Ví dụ lọc kết hợp điều kiện trong Pandas}\label{tab:filtercode}
+\begin{tabularx}{\linewidth}{|Y|}
+\hline
+\begingroup\ttfamily
+filtered = primary.loc[\newline
+\hspace*{1em}primary.pages.gt(0)\newline
+\hspace*{1em}\& primary.publication\_year.between(1990, 2010)\newline
+\hspace*{1em}\& primary.language\_group.eq("English")\newline
+]
+\endgroup \\\hline
+\end{tabularx}
+\end{reporttable}
+
+Các phép \texttt{groupby} theo nhóm trang, nhãn, nhà xuất bản, ngôn ngữ và thập niên xuất số ID duy nhất, trung bình, trung vị, độ lệch chuẩn, \(Q_1,Q_3\) và trung vị lượt chấm. Bảng chéo xuất riêng số ID và trung bình theo thập niên × khoảng trang; khi trình bày, nhóm giữ N nhưng ẩn trung bình nếu ô có dưới 30 ID. Quy tắc \groupcap{} là ngưỡng đọc nhóm, không phải kiểm định hay bảo đảm tính đại diện.
+
+\subsection{Chọn biểu đồ theo câu hỏi}
+Histogram cho biết Rating tập trung ở đâu; boxplot cho thấy trung vị và mức chồng lấn giữa các nhóm trang. Biểu đồ thanh phục vụ so sánh trung bình giữa các nhóm; cột chồng 100\% dùng một mẫu số riêng trong từng nhãn thể loại. Hình thập niên đặt trung bình cạnh số bản ghi để thấy ngay nhóm nào có nhiều dữ liệu. Scatter giúp nhận ra độ phân tán và điểm ngoại lệ, trong khi hệ số tương quan chỉ tóm tắt một dạng liên hệ.
+
+Nhóm dùng Python 3.12, pandas 3.0.1 và NumPy 2.3.5 để tính các bảng; 13 biểu đồ tĩnh được vẽ bằng Matplotlib \cite{matplotlib}. Các bước tái lập nằm ở Mục~\ref{sec:reproduce}.
+
+%% ===== END phuong_phap.tex =====
+%% ===== BEGIN bo_sung_phuong_phap.tex =====
+\clearpage
+\subsection{Theo dõi cỡ mẫu qua từng bước lọc}
+Ví dụ Pandas ở Bảng~\ref{tab:filtercode} kết hợp ba điều kiện. Bảng~\ref{tab:filterflow} ghi các bước trung gian để thấy điều kiện nào làm thay đổi mẫu số. Nếu giữ nguyên cả ba điều kiện, cách áp tuần tự và biểu thức AND cho cùng 7.524 ID; thứ tự chỉ ảnh hưởng số đếm ở từng bước trung gian.
+
+\begin{reporttable}
+\captionof{table}{Số bản ghi và Rating trong ví dụ lọc nhiều điều kiện}\label{tab:filterflow}
+\begin{tabularx}{\linewidth}{|Y|r|r|r|r|}
+\hline
+Tập sau mỗi bước & N & Giảm ở bước & Trung bình & Trung vị \\\hline
+Mẫu chính & 8.402 & — & 3,9547 & 3,97 \\\hline
+Chỉ giữ nhóm English & 8.212 & 190 & 3,9538 & 3,97 \\\hline
+Thêm năm xuất bản 1990–2010 & 7.540 & 672 & 3,9495 & 3,96 \\\hline
+Thêm số trang dương & 7.524 & 16 & 3,9492 & 3,96 \\\hline
+\end{tabularx}
+\tabnote{Tính trên master; hàng cuối đối chiếu với CSV xuất bởi ví dụ lọc. Khoảng năm tính cả hai đầu mút.}
+\end{reporttable}
+Điều kiện năm loại 672 ID sau khi đã giữ English; điều kiện trang loại thêm 16 ID. Toàn mẫu chính thiếu trang ở 17 ID, nhưng chỉ 16 nằm trong tập English và 1990–2010. Vì vậy không lấy 17 trừ thẳng từ mọi tập sau lọc. Trung bình giảm khoảng 0,0055 so với mẫu chính; mức giảm này mô tả sự thay đổi thành phần do cả ba điều kiện.
+
+\subsubsection{Không thay thế phạm vi giữa các phép tính}
+Khoảng 1990–2010 dùng năm nguyên: thập niên 1990 và 2000 được giữ, còn thập niên 2010 chỉ có năm 2010. Bộ lọc thập niên trên Power BI không tái hiện chính xác ví dụ này nếu chọn cả thập niên 2010. Muốn kiểm tra đúng N = 7.524 thì dùng CSV của ví dụ hoặc áp điều kiện theo năm như mã Python.
+
+Nếu cần so sánh độ dài trong tập này, chỉ dùng các ID còn lại và ghi N của từng nhóm trang. Bảng~\ref{tab:pages} trong chương kết quả dùng 8.385 ID có số trang dương trước khi giới hạn ngôn ngữ và năm; các giá trị của bảng đó không được dùng thay cho số nhóm đã lọc.
+
+%% ===== END bo_sung_phuong_phap.tex =====
+
+\clearpage
+\section{Trực quan hóa và kết quả theo từng yếu tố}
+\subsection{Phân phối Rating}
+Histogram ở Hình~\ref{fig:hist} dùng khoảng rộng 0,1 điểm; bản ghi đúng ranh giới thuộc khoảng bắt đầu tại ranh giới đó. 50\% giữa phân phối trải từ 3,79 đến 4,14. Khoảng này mô tả phân phối, không phải khoảng tin cậy của trung bình.
+\reportfigure[0.32\textheight]{chart01}{hist}{Phân bố Rating của 8.402 bản ghi trong mẫu chính.}
+%% ===== BEGIN bo_sung_phan_phoi.tex =====
+\begin{reporttable}
+\captionof{table}{Số ID theo bốn khoảng Rating trên toàn mẫu chính}\label{tab:rating_intervals}
+\begin{tabularx}{\linewidth}{|Y|r|r|}
+\hline
+Khoảng Rating & N & Tỷ lệ trong mẫu chính \\\hline
+\([1;3{,}5)\) & 421 & 5,01\% \\\hline
+\([3{,}5;4)\) & 4.159 & 49,50\% \\\hline
+\([4;4{,}5)\) & 3.712 & 44,18\% \\\hline
+\([4{,}5;5]\) & 110 & 1,31\% \\\hline
+\end{tabularx}
+\tabnote{Tính từ 8.402 ID mẫu chính, không lọc thể loại. Điểm ở ranh giới thuộc khoảng bắt đầu tại đó, trừ điểm 5 thuộc khoảng cuối.}
+\end{reporttable}
+Có 7.871 ID (93,68\%) nằm trong khoảng từ 3,5 đến dưới 4,5; hai khoảng ngoài chứa 531 ID. Ngưỡng Rating từ 4 cho 3.822 ID: 3.712 từ 4 đến dưới 4,5 và 110 từ 4,5 trở lên. Điểm 3,5 hoặc 4,0 vì vậy cần được gán vào đúng khoảng để tổng khớp. Bảng này lấy toàn mẫu làm mẫu số; cột chồng thể loại tính lại tỷ lệ trong từng nhãn.
+
+%% ===== END bo_sung_phan_phoi.tex =====
+
+\clearpage
+\subsection{Số trang}
+\reportfigure[0.29\textheight]{chart02}{box}{Boxplot Rating theo nhóm số trang, trên 8.385 bản ghi có số trang dương.}
+Các hộp ở Hình~\ref{fig:box} chồng lấn. Khi hai nhóm cùng có nhiều bản ghi trong một khoảng điểm, chỉ biết số trang chưa đủ để phân biệt Rating của từng sách.
+
+\subsubsection{Trung bình theo nhóm và quan hệ theo từng bản ghi}
+\tabledata{pages}
+Nhóm 601+ trang có trung bình 4,119 (838 bản ghi), cao hơn nhóm 201–400 trang (3,912; 4.128 bản ghi) khoảng 0,207 điểm. Tuy nhiên nhóm 1–200 trang đạt 3,953, cũng cao hơn nhóm 201–400 trang. Các trung bình không tăng đều theo nhóm độ dài.
+\reportfigure[0.26\textheight]{chart03}{pagebars}{Trung bình Rating ở bốn khoảng số trang; đường tham chiếu là trung bình mẫu chính.}
+\clearpage
+\subsubsection{Quan hệ giữa số trang và Rating ở cấp bản ghi}
+\reportfigure[0.34\textheight]{chart10}{pages}{Scatter số trang và Rating, sử dụng toàn bộ 8.385 cặp hợp lệ.}
+Spearman số trang–Rating là 0,126; Pearson gốc là 0,199. Đây là liên hệ dương nhỏ trong mẫu, chưa loại trừ khác biệt về thành phần thể loại, tác giả hoặc ấn bản.
+Trong 8.385 cặp hợp lệ, nhóm 201–400 trang chiếm 4.128 ID (49,23\%) còn nhóm 601+ chỉ có 838 ID (9,99\%). Tứ phân vị 3,96–4,29 của nhóm 601+ vẫn giao với 3,76–4,09 của nhóm 201–400; đặc biệt, nhóm 1–200 và 401–600 có cùng tứ phân vị trên 4,14. Vì vậy, kết quả về trung bình nhóm không đủ để gán Rating cho một bản ghi chỉ từ độ dài.
+
+%% ===== BEGIN bo_sung_bao_phu.tex =====
+\clearpage
+\subsection{Bao phủ nhóm khi áp điều kiện ít nhất 30 bản ghi}
+Ngưỡng 30 ảnh hưởng rất khác giữa các biến. Trong 1.538 nhóm nhà xuất bản có tên, 835 chỉ có một ID (54,29\% số nhóm); 57 nhóm đủ ngưỡng chứa 3.659 trong 8.399 ID có nhà xuất bản. Vì vậy, một biểu đồ chỉ hiện nhóm đủ mẫu mô tả chưa đến một nửa số ID có thông tin nhà xuất bản, dù áp cùng ngưỡng với biểu đồ ngôn ngữ.
+
+\begin{reporttable}
+\captionof{table}{Cỡ nhóm và mức bao phủ trước khi chọn Top 12}\label{tab:coverage_groups}
+\begin{tabularx}{\linewidth}{|Y|r|r|r|r|}
+\hline
+Biến chia nhóm & Tổng số nhóm & Nhóm đủ 30 & N ở nhóm đủ 30 & Tỷ lệ bao phủ \\\hline
+Ngôn ngữ & 16 & 3 & 8.351 / 8.402 & 99,39\% \\\hline
+Thập niên xuất bản & 12 & 6 & 8.367 / 8.401 & 99,60\% \\\hline
+Nhà xuất bản có tên & 1.538 & 57 & 3.659 / 8.399 & 43,56\% \\\hline
+Thể loại & 793 & 278 & 75.358 / 79.278 & 95,06\% \\\hline
+\end{tabularx}
+\tabnote{Tổng hợp từ bảng \texttt{group\_*\_all.csv} của mẫu chính. Ba hàng đầu đếm ID; hàng thể loại đếm cặp ID–nhãn để tránh gọi tổng nhóm là tổng sách.}
+\end{reporttable}
+Đối với ngôn ngữ, 13 nhóm không đủ ngưỡng chỉ gồm 51 ID, nhưng tỷ lệ bao phủ 99,39\% không có nghĩa các ngôn ngữ được cân đối: riêng English đã chiếm 8.212 ID. Với thể loại, 278 nhóm đủ ngưỡng tạo 75.358 cặp ID–nhãn; một ID có thể đóng góp cho nhiều nhóm nên dùng 79.278 cặp làm mẫu số của phép tính này.
+
+\subsubsection{Phạm vi thực tế của Top 12}
+Hình~\ref{fig:publisher} chọn 12 nhà xuất bản đông nhất, gồm 1.646 ID, tương đương 19,60\% số ID có tên nhà xuất bản. Mức này nhỏ hơn 43,56\% của toàn bộ 57 nhóm đủ ngưỡng. Với thể loại, 12 nhãn đông nhất tạo 25.744 cặp; không thể đọc con số này như 25.744 cuốn sách. Vì vậy, khi đưa nhóm vào Top 12, tiêu chí là số ID trong nhóm, không phải trung bình Rating và không phải độ bao phủ toàn bộ danh mục.
+
+%% ===== END bo_sung_bao_phu.tex =====
+
+\clearpage
+\subsection{Thể loại: nhóm đông nhất và cơ cấu Rating}
+\tabledata{genre}
+Trong 12 nhãn có nhiều bản ghi nhất, History có Rating trung bình 4,021 (\(N=1.260\)), còn Novels đạt 3,872 (\(N=2.191\)). Fiction đông nhất với 5.817 bản ghi, trung bình 3,929. Các nhãn chồng lấn và có cơ cấu sách khác nhau; không diễn giải chênh lệch như tác động của nhãn lên Rating.
+\reportfigure[0.37\textheight]{chart04}{genre}{Rating của 12 nhãn được chọn theo số bản ghi, không theo thứ hạng Rating.}
+Mẫu chính có 8.400 bản ghi được gán thể loại, tạo 79.278 cặp ID–nhãn; 793 nhãn xuất hiện và 278 nhãn đạt \groupcap. \textit{Audiobook} là nhãn nguồn, chưa xác minh độc lập định dạng của ấn bản.
+
+\clearpage
+\subsubsection{So sánh tỷ lệ bằng cột chồng 100\%}
+Mỗi thanh thể hiện cơ cấu Rating của một nhãn. Bốn khoảng là \([1;3{,}5)\), \([3{,}5;4)\), \([4;4{,}5)\) và \([4{,}5;5]\). Mẫu số của một khoảng là toàn bộ số ID thuộc nhãn tương ứng trong mẫu chính. Không cộng tỷ lệ giữa các nhãn hoặc cộng N nhóm thành tổng số sách.
+\reportfigure[0.37\textheight]{chart09}{stack}{Cơ cấu bốn khoảng Rating trong từng nhãn thể loại.}
+\tabledata{stack}
+Chẳng hạn, tỷ lệ bản ghi có Rating dưới 3,5 là 6,1\% trong Fiction và 3,8\% trong Fantasy. Hai tỷ lệ có mẫu số lần lượt là 5.817 và 2.152; một ID có thể nằm ở cả hai mẫu số.
+
+\clearpage
+\subsection{Nhà xuất bản}
+\tabledata{publisher}
+Vintage có nhiều bản ghi nhất (312; Rating trung bình 3,896). VIZ Media LLC đạt 4,248 với 86 bản ghi, còn Ballantine Books đạt 3,878 với 134 bản ghi. Nếu xét tất cả 57 nhóm có \groupcap{}, Library of America có trung bình quan sát cao nhất (4,281; \(N=34\)). Việc chọn theo N và việc xếp theo trung bình trả lời hai câu hỏi khác nhau. Các giá trị này mô tả danh mục quan sát được, chưa đo tác động của nhà xuất bản.
+\reportfigure[0.36\textheight]{chart05}{publisher}{Rating của 12 nhà xuất bản có nhiều bản ghi nhất trong mẫu chính.}
+Mẫu chính có 8.399 bản ghi có nhà xuất bản, thuộc 1.538 khóa nhóm. Giữ nhóm khác hoa/thường giúp bảng EDA và dashboard nhất quán; đồng thời không giả định mọi biến thể tên đều là các đơn vị kinh doanh độc lập.
+
+\clearpage
+\subsection{Ngôn ngữ}
+English chiếm 8.212 trên 8.402 bản ghi, tương đương 97,74\%. Hai nhóm còn lại đủ \groupcap{} trong mẫu chính là tiếng Tây Ban Nha (\texttt{spa}, 91 bản ghi) và tiếng Pháp (\texttt{fre}, 48 bản ghi). Ba trung bình nằm trong khoảng 3,950–3,969. Sự mất cân đối về cỡ mẫu và khác biệt về danh mục sách làm hạn chế khả năng so sánh. Ngôn ngữ ghi trên ấn bản không cho biết quốc gia hay ngôn ngữ gốc của tác phẩm.
+\tabledata{language}
+\reportfigure[0.26\textheight]{chart06}{languagecoverage}{Mức bao phủ ngôn ngữ trong mẫu chính; trục số lượng dùng thang log.}
+\reportfigure[0.26\textheight]{chart07}{language}{Rating trung bình của ba nhóm ngôn ngữ có ít nhất 30 bản ghi.}
+
+\clearpage
+\subsection{Nhóm năm và thập niên xuất bản}
+\tabledata{decade}
+Thập niên 2000 có 5.833 bản ghi, trung bình 3,945; thập niên 1990 có 1.852 bản ghi, trung bình 3,968; thập niên 2010 có 100 bản ghi, trung bình 3,989. Đường trong Hình~\ref{fig:decade} nối trung bình của các nhóm năm xuất bản khác nhau trong cùng snapshot. Dữ liệu không cho biết Rating của cùng một bản ghi thay đổi thế nào theo thời gian, cũng không xác minh năm xuất bản đầu tiên của tác phẩm.
+\reportfigure[0.38\textheight]{chart08}{decade}{Rating trung bình và quy mô theo thập niên, trên 8.401 bản ghi có ngày xuất bản hợp lệ.}
+Tương quan Spearman giữa năm và Rating là −0,062. Kết hợp hệ số nhỏ với sự chênh lệch lớn về N giữa các thập niên, báo cáo không kết luận rằng Rating sách đang giảm theo thời gian.
+
+\clearpage
+\subsubsection{Bảng chéo thập niên và số trang}
+Bảng~\ref{tab:pivot} là kết quả \texttt{pivot\_table}: hàng là thập niên, cột là nhóm trang. Mỗi ô ghép trung bình Rating và số ID duy nhất. Hai điều kiện hợp lệ (năm và số trang) được áp dụng đồng thời, nên các tổng theo hàng có thể nhỏ hơn các N ở Bảng~\ref{tab:decade}.
+\tabledata{pivot}
+Ví dụ, thập niên 2010 có 100 bản ghi khi chỉ yêu cầu năm hợp lệ nhưng còn 99 khi yêu cầu thêm số trang dương. Trong thập niên 2000, nhóm 201–400 trang có 2.952 bản ghi với trung bình 3,903; nhóm 601+ trang có 530 bản ghi với trung bình 4,100. Giá trị nhóm trang nhìn chung cũng phụ thuộc thập niên và thành phần các bản ghi trong ô. Những ô có ít bản ghi vẫn công bố N, nhưng không đưa trung bình vào bảng trình bày.
+
+%% ===== BEGIN bo_sung_thap_nien.tex =====
+\clearpage
+\subsubsection{So sánh cơ cấu số trang giữa các thập niên}
+Khi yêu cầu đồng thời số trang và năm hợp lệ, thập niên 1990 còn 1.851 ID, thập niên 2000 còn 5.818 và thập niên 2010 còn 99. Đọc tỷ lệ theo hàng cho phép so cơ cấu giữa các nhóm có quy mô rất khác nhau. Mẫu số là số ID hợp lệ của từng thập niên, không phải toàn bộ 8.402 ID.
+
+\begin{reporttable}
+\captionof{table}{Tỷ trọng nhóm trang trong ba thập niên được đối chiếu}\label{tab:decade_mix}
+\begin{tabularx}{\linewidth}{|Y|r|r|r|r|r|}
+\hline
+Thập niên & N hợp lệ & 1–200 & 201–400 & 401–600 & 601+ \\\hline
+1990–1999 & 1.851 & 22,53\% & 46,08\% & 18,85\% & 12,53\% \\\hline
+2000–2009 & 5.818 & 21,43\% & 50,74\% & 18,72\% & 9,11\% \\\hline
+2010–2019 & 99 & 35,35\% & 47,47\% & 13,13\% & 4,04\% \\\hline
+\end{tabularx}
+\tabnote{Tính từ \texttt{pivot\_n\_decade\_by\_pages.csv}. Tổng các tỷ lệ có thể lệch 0,01 điểm phần trăm do làm tròn.}
+\end{reporttable}
+Nhóm 601+ trang chiếm 12,53\% ở thập niên 1990 và 9,11\% ở thập niên 2000. Trong cả hai thập niên, trung bình ở nhóm 601+ cao hơn nhóm 201–400: lần lượt 4,132 so với 3,923 và 4,100 so với 3,903. Vì tỷ trọng theo độ dài không giống nhau, so sánh trung bình cả thập niên cần đọc cùng cơ cấu này. Các bảng không tách tác động của độ dài khỏi thể loại, tác giả và ấn bản.
+
+Ở thập niên 2010, nhóm 601+ có bốn ID (4,04\%). Bảng cơ cấu vẫn công bố tỷ trọng để thấy nhóm tồn tại, còn Bảng~\ref{tab:pivot} để trống trung bình vì N dưới 30. Hai cách trình bày phục vụ hai câu hỏi khác nhau: nhóm chiếm bao nhiêu và có đủ quan sát để hiện trung bình hay không.
+
+%% ===== END bo_sung_thap_nien.tex =====
+
+\subsection{Hệ số tương quan trên mẫu chính}
+\tabledata{corr}
+Các tương quan tổng thể ở Bảng~\ref{tab:corr} đều nhỏ. Giá trị gần 0 không loại trừ các dạng quan hệ khác hoặc quan hệ trong một phân nhóm cụ thể. Chẳng hạn Spearman số trang–Rating là 0,264 trong Literature (2.382 cặp), 0,280 trong Novels (2.189 cặp) và 0,040 trong Fantasy (2.149 cặp). Các nhãn này có thể chia sẻ bản ghi; đây là đối chiếu phân tầng chứ chưa phải mô hình kiểm soát nhiều biến.
+
+%% ===== BEGIN bo_sung_tuong_quan.tex =====
+\clearpage
+\subsection{Đối chiếu tương quan trong từng nhóm}
+Bảng~\ref{tab:strata_pages} trình bày cả Spearman lẫn Pearson gốc cho số trang. Trong sáu nhãn đông nhất, Novels có Spearman 0,280 với 2.189 cặp; Fantasy chỉ 0,040 với 2.149 cặp. Hai N gần nhau, nhưng hệ số chênh khoảng 0,240. Vì vậy, dùng hệ số chung 0,126 cho mọi nhãn sẽ bỏ qua khác biệt quan sát này.
+
+\begin{reporttable}
+\captionof{table}{Tương quan giữa số trang và Rating theo nhãn hoặc ngôn ngữ}\label{tab:strata_pages}
+\begin{tabularx}{\linewidth}{|Y|r|r|r|}
+\hline
+Tập bản ghi & N cặp & Spearman & Pearson gốc \\\hline
+Fiction & 5.802 & 0,112 & 0,198 \\\hline
+Classics & 2.716 & 0,189 & 0,269 \\\hline
+Nonfiction & 2.393 & 0,174 & 0,210 \\\hline
+Literature & 2.382 & 0,264 & 0,310 \\\hline
+Novels & 2.189 & 0,280 & 0,316 \\\hline
+Fantasy & 2.149 & 0,040 & 0,153 \\\hline
+English & 8.195 & 0,128 & 0,201 \\\hline
+\end{tabularx}
+\tabnote{Nguồn: \texttt{correlations\_stratified.csv}. Một ID có thể xuất hiện ở nhiều dòng; English là một phạm vi riêng.}
+\end{reporttable}
+Ở Fantasy, Pearson gốc là 0,153 nhưng Pearson với \(\ln(1+\text{số trang})\) còn 0,020. Hai hệ số đo liên hệ tuyến tính ở hai thang khác nhau. Sự khác biệt là lý do để đọc scatter cùng hệ số, chưa đủ để quy sự khác biệt cho vài điểm cụ thể.
+
+\begin{reporttable}
+\captionof{table}{Spearman của lượt chấm, review và năm theo một số nhóm}\label{tab:strata_others}
+\begin{tabularx}{\linewidth}{|Y|r|r|r|}
+\hline
+Nhóm & Lượt chấm \((N)\) & Review \((N)\) & Năm xuất bản \((N)\) \\\hline
+Fiction & 0,105 (5.817) & 0,006 (5.817) & −0,019 (5.816) \\\hline
+Nonfiction & 0,114 (2.394) & 0,036 (2.394) & −0,152 (2.394) \\\hline
+Literature & −0,037 (2.383) & −0,115 (2.383) & −0,128 (2.383) \\\hline
+Fantasy & 0,157 (2.152) & 0,059 (2.152) & 0,066 (2.152) \\\hline
+English & 0,073 (8.212) & −0,013 (8.212) & −0,062 (8.211) \\\hline
+\end{tabularx}
+\tabnote{Nguồn: \texttt{correlations\_stratified.csv}. Ngoặc ghi cỡ mẫu cặp của từng hệ số.}
+\end{reporttable}
+Năm xuất bản có hệ số −0,152 trong Nonfiction và 0,066 trong Fantasy. Vì hai nhóm có cơ cấu khác nhau và có thể chồng lấn, không thể dùng chênh lệch này để nói năm xuất bản làm tăng Rating ở nhóm này nhưng làm giảm ở nhóm kia. Trong English, các hệ số gần với toàn mẫu; nhóm này chiếm 97,74\% mẫu chính nên phép đối chiếu không xác nhận kết quả cho ngôn ngữ khác.
+
+%% ===== END bo_sung_tuong_quan.tex =====
+
+\clearpage
+\subsection{Lượt chấm sao và mức phổ biến}
+\reportfigure[0.30\textheight]{chart11}{ratings}{Lượt chấm và Rating: 8.402 cặp hợp lệ. Trục ngang dùng $\ln(1+x)$ với nhãn theo số gốc.}
+Spearman giữa lượt chấm và Rating là 0,067. \textit{Twilight} (ID 41865) có nhiều lượt chấm nhất mẫu, 4.597.666 lượt, với Rating 3,59. \textit{The Complete Calvin and Hobbes} (ID 24812) có Rating cao nhất mẫu, 4,82, với 32.213 lượt chấm. Hai bản ghi minh họa việc xếp theo lượt chấm và xếp theo Rating cho kết quả khác nhau; lượt chấm không phải số độc giả duy nhất, lượt mua hay doanh số.
+
+\subsection{Số bài nhận xét}
+\reportfigure[0.25\textheight]{chart12}{reviews}{Số review và Rating: 8.402 cặp hợp lệ. Phép $\ln(1+x)$ giữ các quan sát có review bằng 0.}
+Với review, Spearman là −0,018, Pearson gốc là 0,033 và Pearson sau log là −0,008. Hệ số gần 0 và đổi dấu theo phép đo, nên dữ liệu chưa cho thấy một mối liên hệ đơn điệu rõ ràng giữa số bài nhận xét và Rating.
+
+\clearpage
+\section{Kiểm tra độ nhạy và giới hạn}
+\subsection{Thay đổi điều kiện phân tích}
+\tabledata{threshold}
+\reportfigure[0.29\textheight]{chart13}{sensitivity}{Rating trung bình khi thay đổi ngưỡng lượt chấm; mỗi ngưỡng có N riêng.}
+Từ ngưỡng 1 đến 1.000, Rating trung bình tăng khoảng 0,021 điểm, nhưng số bản ghi giảm từ 11.046 xuống 5.114. Việc trung bình thay đổi ít chỉ cho thấy mức nền tương đối ổn định qua bốn ngưỡng đã thử. Với review, dấu Spearman thay đổi giữa ngưỡng 1 và ngưỡng 100; độ lớn vẫn nhỏ.
+\tabledata{rhos}
+
+\clearpage
+\subsection{Giới hạn số trang và giảm lặp gần đúng}
+\begin{reporttable}
+\captionof{table}{Spearman khi thay đổi quy tắc về số trang và ấn bản}\label{tab:robust}
+\begin{tabularx}{\linewidth}{|Y|r|r|r|}
+\hline
+Biến với Rating & Mẫu chính & 20–2.000 trang & Giảm lặp gần đúng \\\hline
+Số trang & 0,125570 (8.385) & 0,128699 (8.300) & 0,125268 (8.172) \\\hline
+Lượt chấm & 0,066525 (8.402) & 0,070026 (8.300) & 0,066520 (8.189) \\\hline
+Số review & −0,018432 (8.402) & −0,015879 (8.300) & −0,019365 (8.189) \\\hline
+Năm xuất bản & −0,061631 (8.401) & −0,063226 (8.299) & −0,060781 (8.188) \\\hline
+\end{tabularx}
+\tabnote{Số trong ngoặc là N cặp hợp lệ. Hai phép thử được chạy riêng trên mẫu chính, không áp dụng nối tiếp.}
+\end{reporttable}
+Giới hạn số trang tạm thời làm hệ số số trang–Rating tăng khoảng 0,003. Vì kết quả chính ít đổi trong phép thử này, phân tích chính giữ cả sách mỏng lẫn tuyển tập. Phép thử thứ hai giữ gần đúng một bản ghi trên mỗi cặp tên–chuỗi người đóng góp đã chuẩn hóa, ưu tiên lượt chấm cao nhất rồi ID nhỏ nhất; còn 8.189 bản ghi. Các hệ số thay đổi nhỏ nhưng quy tắc ưu tiên này có thể bỏ sót bản dịch khác tên và chọn thiên về ấn bản được chấm nhiều.
+
+%% ===== BEGIN bo_sung_do_nhay.tex =====
+\subsection{Các khoảng lượt chấm rời nhau}
+Bảng~\ref{tab:buffers} bổ sung góc nhìn cho bốn ngưỡng lồng nhau ở Bảng~\ref{tab:threshold}. Mỗi ID đủ điều kiện chỉ thuộc một hàng. Nhóm 1–99 lượt có 2.644 ID, bằng 23,94\% của 11.046 ID đủ điều kiện; đây là số bị loại khi chọn ngưỡng 100. Điểm trung bình của nhóm 1–99 là 3,9064, còn ba nhóm có ít nhất 100 lượt gộp lại có trung bình 3,9547.
+
+\begin{reporttable}
+\captionof{table}{Rating theo bốn khoảng lượt chấm không chồng lấn}\label{tab:buffers}
+\begin{tabularx}{\linewidth}{|Y|r|r|r|r|r|}
+\hline
+Lượt chấm & N & Trung bình & Trung vị & N có Rating ≥ 4 & Tỷ lệ ≥ 4 \\\hline
+1–99 & 2.644 & 3,9064 & 3,930 & 1.106 & 41,83\% \\\hline
+100–499 & 2.249 & 3,9361 & 3,950 & 974 & 43,31\% \\\hline
+500–999 & 1.039 & 3,9469 & 3,960 & 466 & 44,85\% \\\hline
+Từ 1.000 & 5.114 & 3,9644 & 3,975 & 2.382 & 46,58\% \\\hline
+\end{tabularx}
+\tabnote{Tính từ master, giữ Rating 1–5 và lượt chấm dương. Tỷ lệ ở mỗi hàng là số ID đạt Rating từ 4 chia cho N của hàng.}
+\end{reporttable}
+So với nhóm 1–99, nhóm từ 1.000 có trung bình cao hơn khoảng 0,058 điểm và tỷ lệ Rating từ 4 cao hơn 4,75 điểm phần trăm. Các khoảng chứa các tập sách khác nhau. Đó là chênh lệch quan sát theo quy mô tương tác, không phải mức tăng điểm của cùng một cuốn sách khi nhận thêm lượt chấm.
+
+\begin{reporttable}
+\captionof{table}{Phân vị Rating trước và sau ngưỡng 100 lượt chấm}\label{tab:eligible_quantiles}
+\begin{tabularx}{\linewidth}{|Y|r|r|r|r|r|r|}
+\hline
+Phạm vi & N & Thấp nhất & P5 & Trung vị & P95 & Cao nhất \\\hline
+Từ 1 lượt & 11.046 & 1,00 & 3,450 & 3,960 & 4,380 & 5,00 \\\hline
+Từ 100 lượt & 8.402 & 2,40 & 3,491 & 3,970 & 4,360 & 4,82 \\\hline
+\end{tabularx}
+\tabnote{Nguồn: \texttt{descriptive\_eligible.csv} và \texttt{descriptive\_primary.csv}. P5 và P95 lần lượt là phân vị 5\% và 95\%; P5 của mẫu chính là 3,4905 trước làm tròn.}
+\end{reporttable}
+Khoảng min–max thu hẹp từ 1,00–5,00 xuống 2,40–4,82, trong khi trung vị chỉ dịch 0,010 điểm. Vì vậy, tăng ngưỡng 100 làm thay đổi phần cực trị rõ hơn phần giữa. Việc điểm 5,00 không xuất hiện sau lọc phản ánh quy tắc chọn mẫu; không phải do pipeline sửa hoặc xóa giá trị 5,00 khỏi master.
+
+\clearpage
+\subsection{Giảm lặp ảnh hưởng ra sao đến thống kê nhóm?}
+Phép giảm lặp gần đúng giữ 8.189 trong 8.402 bản ghi, tức bỏ 213 bản ghi khỏi mẫu đối chiếu. Bảng~\ref{tab:edition_groups} báo cả số bản ghi và mức thay đổi điểm trung bình, vì hai đại lượng không nhất thiết thay đổi cùng tỷ lệ. Các nhãn được chọn để minh họa nhóm đông, nhóm có mức thay đổi N đáng chú ý và nhóm nhà xuất bản dùng trong phần kết quả.
+
+\begin{reporttable}
+\captionof{table}{Trung bình Rating của một số nhóm trước và sau giảm lặp gần đúng}\label{tab:edition_groups}
+\begin{tabularx}{\linewidth}{|Y|r|r|r|r|r|}
+\hline
+Nhóm & N chính & TB chính & N sau & TB sau & TB sau − trước \\\hline
+Fiction & 5.817 & 3,9287 & 5.636 & 3,9292 & +0,0005 \\\hline
+Fantasy & 2.152 & 3,9870 & 2.086 & 3,9851 & −0,0019 \\\hline
+Novels & 2.191 & 3,8719 & 2.064 & 3,8714 & −0,0005 \\\hline
+History & 1.260 & 4,0214 & 1.242 & 4,0214 & +0,0000 \\\hline
+Literature & 2.383 & 3,9377 & 2.286 & 3,9403 & +0,0026 \\\hline
+Vintage & 312 & 3,8955 & 305 & 3,8968 & +0,0013 \\\hline
+VIZ Media LLC & 86 & 4,2480 & 86 & 4,2480 & 0,0000 \\\hline
+Ballantine Books & 134 & 3,8784 & 132 & 3,8798 & +0,0015 \\\hline
+Library of America & 34 & 4,2812 & 34 & 4,2812 & 0,0000 \\\hline
+\end{tabularx}
+\tabnote{Nguồn: các bảng \texttt{group\_genre\_all.csv}, \texttt{group\_publisher\_all.csv} và bản \texttt{edition\_sensitivity} tương ứng. Chênh lệch tính trước khi làm tròn.}
+\end{reporttable}
+Novels giảm 127 ID, nhưng trung bình chỉ giảm khoảng 0,0005 điểm. Literature giảm 97 ID và tăng khoảng 0,0026 điểm, là thay đổi tuyệt đối lớn nhất trong chín dòng đã chọn. VIZ Media LLC và Library of America giữ nguyên N; theo phép thử này không có ID nào của hai nhóm đó bị loại.
+
+Các nhãn thể loại chồng lấn, nên 181 ID bị loại trong Fiction và 127 ID bị loại trong Novels không phải hai tập rời nhau. Bảng chỉ kiểm tra kết quả của một quy tắc giữ bản ghi, không xác minh các bản dịch khác tên hoặc các ấn bản thiếu định danh tác phẩm. Vì vậy, bảng chính vẫn báo theo ID ấn bản và công bố phép giảm lặp riêng.
+
+%% ===== END bo_sung_do_nhay.tex =====
+
+\subsection{Giới hạn diễn giải}
+\begin{enumerate}
+  \item Phạm vi mẫu. Nguồn không xác lập rằng 11.127 dòng là mẫu ngẫu nhiên của Goodreads. Bộ lọc lượt chấm ưu tiên sách có nhiều ghi nhận tương tác, và English chiếm 97,74\% mẫu chính.
+  \item Cấp độ dữ liệu khác nhau. Số trang, ngày và nhà xuất bản gắn với ấn bản trong dữ liệu. Rating và lượt chấm có thể phản ánh cấp tổng hợp khác; không cộng lượt chấm của các ấn bản để suy ra độc giả duy nhất.
+  \item Thời điểm ghi nhận và chất lượng nhãn. Dữ liệu không có lịch sử Rating, thời điểm của từng lượt chấm hay năm xuất bản đầu tiên đã xác minh. Thể loại là nhãn đa trị từ nguồn có mức bao phủ khác nhau.
+  \item Phân tích mô tả. Tương quan và chênh lệch giữa nhóm có thể phản ánh cơ cấu sách hay các đặc điểm chưa kiểm soát. Báo cáo không dùng kiểm định hay khoảng tin cậy để kết luận khác biệt có ý nghĩa thống kê, và không suy ra tác động nhân quả.
+\end{enumerate}
+
+\clearpage
+\section{Dashboard Power BI}
+Dashboard gồm bảy trang: tổng quan, phân bố điểm, số trang, thập niên xuất bản, tác giả, nhà xuất bản và chất lượng dữ liệu. Tệp \texttt{Goodreads\_Dashboard.pbix} dùng mẫu chính từ 100 lượt chấm như phần phân tích; điểm đánh giá được hiển thị trên thang 5.
+
+\subsection{Mô hình dữ liệu và tổ chức trang}
+%% ===== BEGIN mo_hinh.tex =====
+Mô hình trong tệp \texttt{Goodreads\_Dashboard.pbix} gồm hai bảng được báo cáo sử dụng: \texttt{Sách}, mỗi dòng là một ấn bản, và \texttt{Kỳ xuất bản}, dùng để nhóm ấn bản theo thập niên. Cả bảy trang đều khóa bộ lọc mức trang \texttt{Mẫu phân tích} bằng \texttt{true} (chế độ người xem không gỡ được), nên chỉ các bản ghi thuộc mẫu chính từ 100 lượt chấm được đưa vào hình. Trang thập niên có thêm bộ lọc loại các dòng chưa có \texttt{Năm đầu kỳ}; trang Tác giả và trang Nhà xuất bản loại giá trị \textit{Chưa rõ} ở trường tương ứng.
+
+\begin{reporttable}
+\captionof{table}{Bảng và nhóm trường chính trong mô hình Power BI}\label{tab:model}
+\begin{tabularx}{\linewidth}{|p{0.22\linewidth}|p{0.36\linewidth}|Y|}
+\hline
+Bảng & Trường chính & Vai trò trên dashboard \\\hline
+Sách & Mã sách, Tên sách, Tác giả, Tác giả đứng tên đầu, Nhà xuất bản hiển thị, Ngôn ngữ & Định danh ấn bản và các trường dùng để lọc, nhóm theo tác giả, nhà xuất bản và ngôn ngữ. \\\hline
+Sách & Nhóm số trang, Khoảng điểm đánh giá, Nhóm điểm đánh giá, Mức lượt đánh giá & Các cột nhóm hóa dùng làm trục hoặc chú giải của biểu đồ. \\\hline
+Sách & Mẫu phân tích, Tình trạng thông tin, Nội dung đối chiếu & Giới hạn mẫu chính, lọc theo mức đầy đủ thông tin và bảng tra cứu từng ấn bản. \\\hline
+Kỳ xuất bản & Thập niên, Chú giải thập niên, Năm đầu kỳ & Trục thời gian của trang thập niên và bộ lọc thập niên dùng chung. \\\hline
+\end{tabularx}
+\tabnote{Tên trường lấy từ định nghĩa báo cáo trong tệp PBIX. Các phép tính hiển thị (số ấn bản, điểm trung bình, tỷ lệ, điểm thấp nhất, cao nhất, độ lệch chuẩn, điểm trung bình cao nhất của tác giả và của nhà xuất bản) được viết thành measure trong bảng Sách nên tự đổi theo bộ lọc.}
+\end{reporttable}
+
+Các measure có tiền tố \textit{Hiển thị} trả về giá trị trống khi tập lọc không còn bản ghi, vì số 0 dễ bị đọc như một điểm hoặc một tỷ lệ thật. Slicer ở cột trái lọc lẫn nhau và lọc mọi thẻ KPI, biểu đồ, bảng trong cùng trang; ngược lại, chọn một cột trong biểu đồ không làm đổi các slicer.
+
+%% ===== END mo_hinh.tex =====
+
+\begin{reporttable}
+\captionof{table}{Chức năng của bảy trang dashboard}\label{tab:dashboard}
+\begin{tabularx}{\linewidth}{|p{0.29\linewidth}|Y|}
+\hline
+Trang & Nội dung và mục đích \\\hline
+1. Tổng quan & Số ấn bản và điểm trung bình của mẫu; histogram điểm và số ấn bản theo mức lượt chấm. \\\hline
+2. Phân bố điểm & Điểm thấp nhất, cao nhất, độ lệch chuẩn; tỷ lệ nhóm điểm theo nhóm số trang và theo mức lượt chấm. \\\hline
+3. Số trang & Số nhóm ngôn ngữ, tỷ lệ tiếng Anh, điểm trung bình theo nhóm số trang và cơ cấu nhóm số trang trong từng ngôn ngữ. \\\hline
+4. Thập niên xuất bản & Điểm trung bình và số ấn bản theo thập niên, tách theo nhóm số trang. \\\hline
+5. Tác giả & Số tác giả, điểm trung bình cao nhất, biểu đồ 10 tác giả điểm cao nhất và bảng theo tác giả. \\\hline
+6. Nhà xuất bản & Điểm trung bình, điểm cao nhất của nhà xuất bản, biểu đồ 10 nhà xuất bản điểm cao nhất và bảng số ấn bản. \\\hline
+7. Chất lượng dữ liệu & Số ấn bản thiếu số trang, năm, nhà xuất bản và bảng tra cứu từng ấn bản. \\\hline
+\end{tabularx}
+\end{reporttable}
+
+\subsection{Bộ lọc, đếm ấn bản và cách đọc}
+Dashboard dùng slicer của Power BI \cite{microsoft}. Cột trái có năm slicer: ngôn ngữ, nhóm số trang, thập niên xuất bản, tác giả đứng tên đầu và nhà xuất bản; trang Chất lượng dữ liệu thêm slicer tình trạng thông tin. Các slicer có cùng vị trí trên mọi trang. Trang Tác giả và trang Nhà xuất bản loại giá trị \textit{Chưa rõ} khỏi bảng và biểu đồ, nên số tác giả hoặc nhà xuất bản ở đó không gồm nhóm chưa rõ. Chọn nhiều giá trị trong một slicer lấy hợp; các slicer khác nhau kết hợp bằng giao, và bộ lọc mẫu chính luôn được giữ. Khi tổ hợp rỗng, các thẻ để trống thay vì hiển thị 0.
+
+Các trang dùng measure thay vì số cố định, nên số ấn bản, điểm trung bình và các chỉ số khác tự cập nhật theo bộ lọc. Hai biểu đồ ở trang Tác giả và Nhà xuất bản lấy 10 nhóm có điểm trung bình cao nhất, nên cần đọc cùng số ấn bản trong tooltip; bảng nhà xuất bản sắp theo số ấn bản giảm dần, bảng tác giả sắp theo điểm trung bình giảm dần, và bảng tra cứu ở trang cuối sắp theo nhóm thông tin cần bổ sung.
+
+\begin{reporttable}
+\captionof{table}{Đối chiếu trạng thái mặc định của dashboard với EDA}\label{tab:checks}
+\begin{tabularx}{\linewidth}{|p{0.30\linewidth}|p{0.27\linewidth}|Y|}
+\hline
+Chỉ số & Tham chiếu từ EDA & Giá trị trên dashboard \\\hline
+Số ấn bản có từ 100 lượt chấm & 8.402 & 8.402 \\\hline
+Điểm trung bình & 3,955 & 3,955 \\\hline
+Tỷ lệ ấn bản tiếng Anh & 97,74\% (8.212 ID) & 97,74\% \\\hline
+Thiếu số trang & 17 & 17 \\\hline
+Thiếu nhà xuất bản & 3 & 3 \\\hline
+\end{tabularx}
+\tabnote{Cột giữa lấy từ các bảng EDA của báo cáo; cột phải đọc từ ảnh chụp dashboard ở trạng thái mặc định (chưa chọn slicer). Hai cột khớp nhau vì dùng chung mẫu chính.}
+\end{reporttable}
+
+%% ===== BEGIN dashboard.tex =====
+\subsection{Đọc bảy trang dashboard}
+Thứ tự trang trong tệp PBIX là Tổng quan, Phân bố điểm, Số trang, Thập niên xuất bản, Tác giả, Nhà xuất bản và Chất lượng dữ liệu. Mỗi trang giữ cùng một bố cục: tiêu đề và thẻ KPI ở phía trên, nhóm bộ lọc ở cột trái, vùng biểu đồ hoặc bảng ở bên phải. Khi đọc, người dùng nên xem số ấn bản của tập đang lọc trước, rồi mới so các điểm trung bình. Các hình dưới đây là ảnh chụp từng trang ở trạng thái mặc định, chưa chọn bộ lọc nào.
+
+\subsubsection{Trang 1: Tổng quan}
+Hai thẻ ở đầu trang là số ấn bản có từ 100 lượt chấm và điểm trung bình trên thang 5. Histogram đếm số ấn bản theo từng khoảng điểm, cho biết điểm tập trung ở đâu; biểu đồ thanh bên dưới đếm số ấn bản theo mức lượt chấm, cho biết mẫu chủ yếu gồm sách có mức tương tác nào. Hai biểu đồ dùng hai cách chia nhóm khác nhau nên không so từng thanh với nhau.
+\pbifigure[0.31\textheight]{pbi01}{dash1}{Trang Tổng quan với hai thẻ KPI, histogram theo khoảng điểm và cột theo mức lượt chấm.}
+
+\subsubsection{Trang 2: Phân bố điểm}
+Các thẻ KPI cho điểm thấp nhất, điểm cao nhất và độ lệch chuẩn của tập đang lọc. Biểu đồ trên cho tỷ lệ ấn bản rơi vào từng nhóm điểm trong mỗi nhóm số trang; biểu đồ dưới đặt điểm thấp nhất và cao nhất cạnh nhau theo mức lượt chấm. Trang này bổ sung cho điểm trung bình bằng độ phân tán của điểm.
+\pbifigure[0.31\textheight]{pbi02}{dash2}{Trang Phân bố điểm đánh giá.}
+
+\subsubsection{Trang 3: Số trang}
+Ba thẻ KPI cho số nhóm ngôn ngữ, tỷ lệ ấn bản tiếng Anh và số ấn bản có thông tin số trang. Biểu đồ bên trái là điểm trung bình theo nhóm số trang; biểu đồ 100\% bên phải cho biết trong mỗi ngôn ngữ, các nhóm số trang chiếm bao nhiêu phần. Tooltip của cả hai biểu đồ hiển thị số ấn bản có điểm, vì một nhóm nhỏ có thể cho điểm trung bình thiếu ổn định.
+\pbifigure[0.31\textheight]{pbi03}{dash3}{Trang Điểm đánh giá theo số trang.}
+
+\subsubsection{Trang 4: Thập niên xuất bản}
+Trang chỉ tính các ấn bản có năm xuất bản; ba thẻ KPI cho số ấn bản có năm, năm sớm nhất và năm muộn nhất. Đường điểm trung bình theo thập niên cần đọc cùng bảng bên dưới, nơi số ấn bản của từng thập niên được tách theo bốn nhóm số trang và nhóm chưa rõ số trang. Các thập niên có quy mô rất khác nhau nên đường nối chỉ để theo dõi thứ tự thời gian; đây là điểm của các ấn bản được xuất bản trong từng thập niên ở cùng một snapshot, không phải lịch sử điểm theo thời gian.
+\pbifigure[0.31\textheight]{pbi04}{dash4}{Trang Điểm đánh giá theo thập niên xuất bản, gồm đường điểm trung bình và bảng số ấn bản theo nhóm số trang.}
+
+\subsubsection{Trang 5: Tác giả}
+Hai thẻ KPI cho số tác giả đứng tên đầu và điểm trung bình cao nhất của một tác giả trong tập đang lọc. Biểu đồ thanh nêu 10 tác giả có điểm trung bình cao nhất; bảng bên cạnh liệt kê số ấn bản có điểm và điểm trung bình của từng tác giả, sắp theo điểm giảm dần. Giá trị \textit{Chưa rõ} bị loại khỏi trang. Tác giả chỉ có vài ấn bản dễ đứng đầu chỉ nhờ một hai cuốn, nên cần đọc số ấn bản trong tooltip trước khi so.
+\pbifigure[0.31\textheight]{pbi05}{dash5}{Trang Điểm đánh giá theo tác giả.}
+
+\subsubsection{Trang 6: Nhà xuất bản}
+Trang có điểm trung bình của các ấn bản đang lọc, điểm trung bình cao nhất của một nhà xuất bản, biểu đồ 10 nhà xuất bản điểm cao nhất và bảng số ấn bản kèm điểm trung bình, sắp theo số ấn bản giảm dần. Vì biểu đồ xếp theo điểm còn bảng xếp theo số ấn bản, hai phần cho thứ tự khác nhau và nên đọc cùng nhau. Giá trị \textit{Chưa rõ} bị loại khỏi trang.
+\pbifigure[0.31\textheight]{pbi06}{dash6}{Trang Điểm đánh giá theo nhà xuất bản.}
+
+\subsubsection{Trang 7: Chất lượng dữ liệu}
+Ba thẻ KPI đếm số ấn bản thiếu số trang, thiếu năm xuất bản và thiếu nhà xuất bản. Bảng tra cứu liệt kê mã sách, tên sách, tác giả, số trang, năm và nhà xuất bản; cột \textit{Thông tin cần bổ sung} đặt đầu bảng giúp thấy ngay trường nào còn trống. Slicer \textit{Tình trạng thông tin}, chỉ có ở trang này, thu hẹp bảng vào các ấn bản đủ hoặc thiếu thông tin.
+\pbifigure[0.31\textheight]{pbi07}{dash7}{Trang Chất lượng thông tin ấn bản và bảng tra cứu từng ấn bản.}
+
+%% ===== END dashboard.tex =====
+
+%% ===== BEGIN bo_sung_powerbi.tex =====
+\subsection{Chọn trang theo câu hỏi}
+\begin{reporttable}
+\captionof{table}{Câu hỏi thường gặp và trang dashboard nên dùng}\label{tab:pbi_questions}
+\begin{tabularx}{\linewidth}{|p{0.40\linewidth}|Y|}
+\hline
+Câu hỏi & Trang và cách đọc \\\hline
+Điểm của tập sách đang xét nằm ở đâu? & Tổng quan: đọc số ấn bản, điểm trung bình, rồi histogram. \\\hline
+Điểm trong tập phân tán đến mức nào? & Phân bố điểm: xem độ lệch chuẩn, tỷ lệ theo nhóm điểm và khoảng điểm thấp nhất–cao nhất. \\\hline
+Sách dài hơn có điểm khác không, và ngôn ngữ nào nghiêng về nhóm trang nào? & Số trang: đọc điểm theo nhóm số trang cùng số ấn bản trong tooltip. \\\hline
+Sách xuất bản ở thập niên nào chiếm đa số? & Thập niên xuất bản: xem bảng số ấn bản trước đường điểm trung bình. \\\hline
+Tác giả hoặc nhà xuất bản nào có điểm trung bình cao? & Tác giả, Nhà xuất bản: đọc số ấn bản trong tooltip hoặc bảng trước khi tin vào điểm trung bình. \\\hline
+Thông tin nào còn thiếu và thuộc ấn bản nào? & Chất lượng dữ liệu: xem ba thẻ KPI, sau đó tra bảng từng ấn bản. \\\hline
+\end{tabularx}
+\end{reporttable}
+
+\subsection{Giới hạn khi đọc dashboard}
+Dashboard chỉ mô tả mẫu chính đã chọn, không đại diện cho toàn bộ Goodreads. Điểm trung bình của nhóm nhỏ không nên được diễn giải như xu hướng, nhất là ở bảng tác giả, nhà xuất bản và các thập niên ít ấn bản. Dashboard không có bộ lọc thể loại hay biểu đồ tương quan; các nội dung đó nằm trong phần phân tích Python ở các chương trước. Hai biểu đồ 10 tác giả và 10 nhà xuất bản được xếp theo điểm trung bình nên dễ nghiêng về nhóm ít ấn bản; chúng chỉ là điểm khởi đầu để xem bảng chi tiết. Khi bộ lọc cho tập rỗng, các thẻ hiển thị giá trị trống thay vì 0.
+
+%% ===== END bo_sung_powerbi.tex =====
+
+\clearpage
+\subsection{Kiểm chứng và đối chiếu yêu cầu}
+%% ===== BEGIN kiem_chung.tex =====
+Dashboard Power BI dùng chung mẫu chính với phần phân tích Python, nên trạng thái mặc định của dashboard (chưa chọn slicer) được đối chiếu với các bảng EDA (Bảng~\ref{tab:checks}). Kiểm tra giao diện gồm tập lọc rỗng, chọn nhiều giá trị trong một slicer, chuyển trang khi đang lọc và xóa lọc để về trạng thái mặc định.
+
+Các kiểm tra này xác minh việc triển khai và hiển thị trong các tình huống đã thử; không chứng minh dữ liệu đại diện cho Goodreads.
+
+\begin{reporttable}
+\captionof{table}{Đối chiếu yêu cầu chung với bằng chứng trong báo cáo}\label{tab:requirements}
+\begin{tabularx}{\linewidth}{|p{0.33\linewidth}|Y|}
+\hline
+Nội dung & Bằng chứng và cách đọc \\\hline
+Nguồn và mô tả dữ liệu & Phiên bản Kaggle, đơn vị bản ghi và từ điển 13 cột (Bảng~\ref{tab:dictionary}). \\\hline
+EDA và làm sạch & Kiểm tra chất lượng, thống kê mô tả, lọc kết hợp, tổng hợp và bảng chéo (Bảng~\ref{tab:quality}, \ref{tab:stats}, \ref{tab:filtercode}, \ref{tab:pivot}). \\\hline
+Phân phối, so sánh và tổng hợp & Histogram, boxplot, biểu đồ thanh và cột chồng 100\% (Hình~\ref{fig:hist}, \ref{fig:box}, \ref{fig:genre}, \ref{fig:stack}). \\\hline
+Trực quan theo thời gian & So sánh các nhóm thập niên xuất bản của bản ghi (Hình~\ref{fig:decade}); chưa có lịch sử Rating theo thời gian. \\\hline
+Dashboard có tương tác & Power BI bảy trang, năm slicer chung, thẻ KPI trống khi lọc rỗng (Bảng~\ref{tab:checks}). \\\hline
+Nhận xét và gợi ý sử dụng & Đọc Rating cùng số lượt chấm và cỡ mẫu; diễn giải trong giới hạn của dữ liệu quan sát. \\\hline
+\end{tabularx}
+\tabnote{Sản phẩm thực tế dùng Power BI, pandas và Matplotlib. Phần mẫu hướng dẫn dùng Streamlit/Plotly là một cách triển khai khác.}
+\end{reporttable}
+
+%% ===== END kiem_chung.tex =====
+%% ===== BEGIN bo_sung_nghiem_thu.tex =====
+\clearpage
+\subsubsection{Phạm vi kiểm chứng kỹ thuật}
+Bảng~\ref{tab:audit_detail} chỉ liệt kê phần kiểm tra thuộc quy trình xử lý dữ liệu bằng Python. Việc đối chiếu các giá trị hiển thị trên dashboard hiện tại với bảng EDA được ghi riêng ở Bảng~\ref{tab:checks}; hai nội dung này không được cộng thành một số kiểm thử chung.
+
+\begin{reporttable}
+\captionof{table}{Phạm vi và kết quả kiểm chứng kỹ thuật}\label{tab:audit_detail}
+\begin{tabularx}{\linewidth}{|p{0.30\linewidth}|Y|}
+\hline
+Hạng mục kiểm tra & Phạm vi đối chiếu và kết quả \\\hline
+Bảo toàn dữ liệu khi xử lý & 23 điều kiện kiểm tra đạt, gồm dấu vân tay CSV, 13 cột nguồn, số dòng, khóa ID và đọc lại các tệp xuất. \\\hline
+Mẫu chính trên dashboard & Bộ lọc mức trang \texttt{Mẫu phân tích} được khóa ở cả bảy trang; số ấn bản mặc định là 8.402, trùng EDA (Bảng~\ref{tab:checks}). \\\hline
+\end{tabularx}
+\tabnote{Nguồn đối chiếu: hồ sơ kiểm tra pipeline và định nghĩa báo cáo trong tệp PBIX.}
+\end{reporttable}
+
+\subsubsection{Vì sao cần đối chiếu trạng thái mặc định?}
+Dashboard và phần phân tích Python đọc cùng một mẫu chính nhưng tính bằng hai công cụ khác nhau. Nếu số ấn bản hoặc điểm trung bình mặc định lệch nhau, nguyên nhân thường là bộ lọc mẫu hoặc cách xử lý giá trị thiếu, nên cần kiểm tra trước khi diễn giải các tập lọc nhỏ hơn.
+
+%% ===== END bo_sung_nghiem_thu.tex =====
+
+\subsection{Cách sử dụng và tái lập}\label{sec:reproduce}
+Mở tệp PBIX bằng Power BI Desktop. Để đọc một nhóm cụ thể, chọn slicer cần dùng, kiểm tra N đang hiển thị rồi di chuột vào biểu đồ để đọc số liệu. Gõ từ khóa trong ô tìm danh mục chỉ rút gọn gợi ý; cần đánh dấu giá trị để áp dụng lọc. Dùng nút xóa lựa chọn trên slicer để trở lại phạm vi rộng hơn.
+
+Mã nguồn của nhóm được lưu tại \url{https://github.com/ahtuan3007/btl-truc-quan-va-phan-tich-du-lieu}. Trong thư mục mã nguồn, cài các gói được ghi trong hai tệp \texttt{requirements}, chạy \texttt{run\_phase\_4\_5.py} để tạo master, bridge và các bảng EDA; chạy \texttt{run\_charts.py} để tái lập 13 hình Python. Tệp \texttt{Goodreads\_Dashboard.pbix} và ảnh chụp bảy trang dashboard thuộc thư mục sản phẩm Power BI của dự án. Mã SHA-256 của CSV nguồn để đối chiếu đúng phiên bản: \par\noindent{\small\texttt{721fc3bbe6367e91f2d3537d2cbe1c1ca4b585535d8ce63862c38a353d662b97}}.
+
+\section{Insight, đề xuất và kết luận}
+\subsection{Những phát hiện có thể sử dụng}
+\begin{enumerate}
+  \item Rating tập trung quanh 4 điểm. Trung vị của 8.402 bản ghi là 3,97, với Q1–Q3 là 3,79–4,14 (Bảng~\ref{tab:stats}, Hình~\ref{fig:hist}). Người đọc nên xem khoảng phân phối và N trước khi đánh giá một chênh lệch nhỏ giữa hai nhóm.
+  \item Độ dài hữu ích như bộ lọc sở thích. Nhóm 601+ trang cao hơn nhóm 201–400 trang khoảng 0,207 điểm, nhưng nhóm 1–200 trang cao hơn nhóm 201–400 và các phân phối chồng lấn (Bảng~\ref{tab:pages}, Hình~\ref{fig:box}). Có thể lọc theo thời gian đọc và thể loại yêu thích, sau đó xem Rating để tham khảo trong phạm vi đã lọc.
+  \item Mức phổ biến và mức đánh giá nên được hiển thị riêng. Spearman lượt chấm–Rating chỉ 0,067 và hai ví dụ ở mục lượt chấm cho thứ hạng khác nhau (Bảng~\ref{tab:corr}, Hình~\ref{fig:ratings}). Đơn vị giới thiệu sách có thể trình bày cả hai chỉ số; người dùng có thể thử các ngưỡng 100, 500, 1.000 và ghi lại N thực tế sau lọc.
+  \item Nhóm có trung bình cao là điểm khởi đầu để xem danh mục. History và VIZ Media LLC nổi bật trong các nhóm đông được trình bày, song bản ghi thể loại có thể chồng lấn và danh mục nhà xuất bản khác cơ cấu (Bảng~\ref{tab:genre}, \ref{tab:publisher}). Xem nội dung sách, cỡ nhóm và ngữ cảnh trước khi chọn danh mục; không dùng một bảng trung bình để xếp hạng chất lượng nhà xuất bản hay ngôn ngữ.
+\end{enumerate}
+
+%% ===== BEGIN bo_sung_ket_qua.tex =====
+\clearpage
+\subsection{Tổng hợp bằng chứng để sử dụng dashboard}
+Bảng~\ref{tab:evidence_summary} ghép số liệu then chốt với cách đọc cho từng yếu tố. Khi phân tích một tập lọc mới, đọc lại N và trung bình ở trạng thái hiện hành trước khi so với bảng mặc định.
+
+\begin{reporttable}
+\captionof{table}{Kết quả đối chiếu theo từng yếu tố và cách sử dụng}\label{tab:evidence_summary}
+\begin{tabularx}{\linewidth}{|p{0.19\linewidth}|Y|Y|}
+\hline
+Yếu tố & Bằng chứng trong mẫu chính & Cách dùng kết quả \\\hline
+Số trang & 601+ trang: trung bình 4,119, N = 838; 201–400: 3,912, N = 4.128. Spearman = 0,126 trên 8.385 cặp. & Lọc theo độ dài phù hợp với người đọc, rồi xem Rating của từng bản ghi. \\\hline
+Thể loại & Fiction và Fantasy có 2.098 ID chung; chọn cả hai cho 5.871 ID. & Thể loại chỉ được phân tích trong Python; dashboard không có bộ lọc thể loại. \\\hline
+Nhà xuất bản & 57 nhóm đủ N chứa 43,56\% ID có tên; Top 12 chỉ chứa 19,60\%. & Dùng bảng nhà xuất bản ở trang Nhà xuất bản, đọc số ấn bản trước điểm trung bình. \\\hline
+Ngôn ngữ & 8.212 trong 8.402 ID thuộc English (97,74\%). & Đọc mức bao phủ trước khi đối chiếu các nhóm nhỏ. \\\hline
+Năm xuất bản & 5.833 ID thuộc thập niên 2000; chỉ 100 thuộc thập niên 2010. & So các nhóm ấn bản ở cùng snapshot; không coi đường nối là lịch sử Rating. \\\hline
+Lượt chấm & Spearman = 0,067 trên 8.402 cặp; Twilight đứng đầu về lượt chấm nhưng Rating 3,59. & Đọc điểm cùng biểu đồ số ấn bản theo mức lượt chấm ở trang Tổng quan. \\\hline
+Số review & Spearman = −0,018 và Pearson gốc = 0,033 trên 8.402 cặp. & Đọc review như chỉ báo tương tác; hệ số gần 0 không hỗ trợ dự đoán Rating. \\\hline
+\end{tabularx}
+\end{reporttable}
+Ví dụ sử dụng: người đọc chọn ngôn ngữ English và nhóm 601+ trang rồi đọc số ấn bản ở trang Tổng quan trước khi nhìn điểm trung bình. Sang trang Phân bố điểm để xem độ lệch chuẩn của đúng tập đó. Nếu cần danh sách cụ thể, dùng bảng tra cứu ở trang Chất lượng dữ liệu. Báo rõ các bộ lọc khi trích kết quả, thay vì gọi đó là xếp hạng toàn Goodreads.
+
+%% ===== END bo_sung_ket_qua.tex =====
+
+\subsection{Kết luận}
+Phân tích mô tả bảy yếu tố cho thấy có khác biệt Rating giữa một số nhóm bản ghi, trong khi các tương quan tổng thể với số trang, lượt chấm, review và năm xuất bản đều nhỏ. Ngưỡng lượt chấm làm thay đổi đáng kể số bản ghi còn lại, dù trung bình Rating chỉ thay đổi nhẹ qua các mức đã thử. Dashboard hỗ trợ lọc theo ngôn ngữ, số trang, thập niên, tác giả và nhà xuất bản, đọc điểm cùng số ấn bản trong tập được chọn và kiểm tra các thông tin còn thiếu.
+
+\subsection{Hướng phát triển}
+Nếu mở rộng nghiên cứu, nên bổ sung khóa tác phẩm/ấn bản đã xác minh, thời điểm thu thập Rating và lượt chấm, năm xuất bản đầu tiên, cùng mẫu ngôn ngữ cân đối hơn. Các dữ liệu này giúp đặt câu hỏi chặt chẽ hơn về sự khác biệt giữa nhóm và thay đổi theo thời gian.
+
+\clearpage
+\begin{thebibliography}{9}
+\addcontentsline{toc}{section}{Tài liệu tham khảo}
+\bibitem{middlelight} middlelight. \textit{Goodreads-books-with-genres}, Kaggle, phiên bản 1. Metadata cập nhật 30/12/2022. \url{https://www.kaggle.com/datasets/middlelight/goodreadsbookswithgenres}.
+\bibitem{jealousleopard} jealousleopard. \textit{Goodreads-books}, Kaggle, phiên bản 2. Metadata cập nhật 09/03/2020. \url{https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks}.
+\bibitem{pandas} pandas. \textit{pandas.DataFrame.corr}, tài liệu tham chiếu. \url{https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.corr.html}.
+\bibitem{matplotlib} Matplotlib. \textit{Quick start guide}. \url{https://matplotlib.org/stable/users/explain/quick_start.html}.
+\bibitem{microsoft} Microsoft Learn. \textit{Overview of slicers in Power BI}. \url{https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-slicers}.
+\end{thebibliography}
+\end{document}
