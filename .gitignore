@@ -4,7 +4,7 @@ __pycache__/
 venv/
 .env
 .env.*
-/eda_tables/cell_change_log.csv
-/eda_tables/filter_example_English_1990_2010_pages_positive.csv
-/work/
-/ket_qua_chay_lai/
+AGENTS.md
+work
+eda_tables/cell_change_log.csv
+eda_tables/filter_example_English_1990_2010_pages_positive.csv

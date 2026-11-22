@@ -17,7 +17,7 @@ HERE = Path(__file__).resolve().parent
 SOURCE_FILE = "data/raw/Goodreads_books_with_genres.csv"
 SOURCE_PATH = HERE / SOURCE_FILE
 SNAPSHOT_PATH = HERE / "data/reference/source_snapshot.json"
-DEFAULT_OUTPUT_ROOT = HERE / "ket_qua_chay_lai"
+DEFAULT_OUTPUT_ROOT = HERE
 PRIMARY_MIN_RATINGS = 100
 
 LOCKED_HASHES = {
