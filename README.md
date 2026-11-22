@@ -18,11 +18,11 @@ Khi tính tổng số bản ghi theo nhiều thể loại, đếm mã sách duy 
 
 ## Chạy lại mã xử lý
 
-Dùng Python 3.12 trở lên. Mở terminal tại thư mục chứa `run_phase_4_5.py` và chạy:
+Dùng Python 3.12 trở lên. Mở terminal tại thư mục chứa `btl_truc_quan.py` và chạy:
 
 ```powershell
 python -m pip install -r requirements.txt
-python run_phase_4_5.py --output-root ket_qua_chay_lai
+python btl_truc_quan.py --output-root ket_qua_chay_lai
 ```
 
 Chương trình kiểm tra CSV nguồn, làm sạch và xuất dữ liệu, bảng EDA cùng kết quả kiểm chứng vào `ket_qua_chay_lai/`.
