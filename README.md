@@ -36,13 +36,45 @@ CSV gốc có 13 cột. Phân tích dùng `average_rating` làm điểm cần so
 
 Khi tính tổng số bản ghi theo nhiều thể loại, đếm mã sách duy nhất vì mỗi sách có thể thuộc nhiều thể loại.
 
-## Chạy lại mã xử lý
+## Phân tích khám phá dữ liệu (EDA)
 
-Dùng Python 3.12 trở lên. Mở terminal tại thư mục chứa `btl_truc_quan.py` và chạy:
+Mẫu chính có 8.402 bản ghi với Rating hợp lệ từ 1 đến 5 và ít nhất 100 lượt chấm. Rating trung bình là 3,955 và trung vị là 3,97. Số lượt chấm sao có tương quan Spearman 0,067 với Rating trên 8.402 bản ghi. [Thống kê mô tả](eda_tables/descriptive_primary.csv) · [Bảng tương quan](eda_tables/correlations_by_threshold.csv)
+
+| Nội dung | Bảng để đối chiếu |
+| --- | --- |
+| Cỡ mẫu trước và sau khi lọc | [Luồng chọn mẫu](eda_tables/sample_flow.csv) |
+| Rating theo nhóm | [Số trang](eda_tables/group_pages_all.csv) · [Thể loại](eda_tables/group_genre_all.csv) · [Ngôn ngữ](eda_tables/group_language_all.csv) · [Nhà xuất bản](eda_tables/group_publisher_all.csv) · [Thập niên xuất bản](eda_tables/group_decade_all.csv) |
+| So sánh thập niên kết hợp với nhóm số trang | [Rating trung bình](eda_tables/pivot_rating_decade_by_pages.csv) · [Cỡ mẫu từng ô](eda_tables/pivot_n_decade_by_pages.csv) |
+| Độ nhạy theo số lượt chấm tối thiểu | [Các ngưỡng 1, 100, 500 và 1.000](eda_tables/threshold_sensitivity.csv) |
+
+[Thư mục EDA](eda_tables/) có 26 bảng CSV, gồm thống kê mô tả, tổng hợp nhóm, tương quan, bảng xoay và phân tích độ nhạy.
+
+## Biểu đồ
+
+[Thư mục biểu đồ](chart_outputs/) có 13 ảnh PNG, gồm biểu đồ phân phối, hộp, cột, đường, cột chồng và phân tán. [Chú thích từng hình](chart_outputs/ChuThich_Hinh_Python.md) ghi cỡ mẫu và cách đọc. Các hình 1–12 dùng mẫu chính, với số bản ghi có đủ dữ liệu theo từng biểu đồ. Hình 13 đối chiếu bốn ngưỡng lượt chấm. Biểu đồ theo thập niên so sánh các nhóm ấn bản theo thời điểm xuất bản.
+
+## Chạy lại quy trình
+
+| Tệp Python | Vai trò |
+| --- | --- |
+| `clean_data.py` | Kiểm tra CSV gốc, làm sạch và xuất master cùng hai bảng thể loại. |
+| `eda.py` | Đọc dữ liệu sạch, tính thống kê, so sánh nhóm và xuất bảng EDA. |
+| `visualize.py` | Đọc dữ liệu sạch và bảng EDA để kiểm tra, tạo và lưu biểu đồ. |
+| `run_pipeline.py` | Chạy từng bước hoặc chạy toàn bộ theo thứ tự. |
+
+Dùng Python 3.12 trở lên. Mở terminal tại thư mục chứa `run_pipeline.py`.
 
 ```powershell
 python -m pip install -r requirements.txt
-python btl_truc_quan.py --output-root ket_qua_chay_lai
+python run_pipeline.py
 ```
 
-Chương trình kiểm tra CSV nguồn, làm sạch và xuất dữ liệu, bảng EDA cùng kết quả kiểm chứng vào `ket_qua_chay_lai/`.
+Để chạy từng bước, dùng các lệnh sau theo thứ tự.
+
+```powershell
+python run_pipeline.py --step clean
+python run_pipeline.py --step eda
+python run_pipeline.py --step visualize
+```
+
+Kết quả mới nằm trong `ket_qua_chay_lai/`. Có thể dùng `--output-root` để chọn thư mục khác. Để chỉ vẽ lại các hình từ dữ liệu và bảng EDA có sẵn trong gói, chạy `python run_pipeline.py --step visualize --data-root .`.
