@@ -1,7 +1,0 @@
-﻿source_column,normalized_column,changed_values,normalized_missing
-Title,title_clean,3004,0
-Author,author_clean,390,0
-num_pages,pages,76,76
-publication_date,publication_date_iso,11127,2
-publisher,publisher_clean,551,5
-language_code,language_group,10541,0

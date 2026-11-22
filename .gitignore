@@ -4,19 +4,6 @@ __pycache__/
 venv/
 .env
 .env.*
-!*.example
-*.pdf
-*.png
-*.zip
-work/*
-!work/eda_results.json
-!work/validation_results.json
-ket_qua_chay_lai/
-
-# Rendered charts are recreated by run_charts.py
-chart_outputs/
-
-# Reviewed chart references and dashboard checks
-!work/charts_stage6/
-!work/powerbi_final/
-!work/powerbi_validation.json
+/eda_tables/
+/work/
+/ket_qua_chay_lai/

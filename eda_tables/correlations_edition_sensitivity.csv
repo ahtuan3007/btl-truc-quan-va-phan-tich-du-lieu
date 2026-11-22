@@ -1,5 +1,0 @@
-﻿sample,variable,pairwise_n,spearman,pearson_raw,pearson_log1p
-approx_one_per_title_author,pages,8172,0.12526828,0.20011998,0.09086626
-approx_one_per_title_author,n_ratings,8189,0.06651959,0.04393349,0.07847116
-approx_one_per_title_author,n_reviews,8189,-0.01936543,0.03243605,-0.00996469
-approx_one_per_title_author,publication_year,8188,-0.06078058,-0.06578110,

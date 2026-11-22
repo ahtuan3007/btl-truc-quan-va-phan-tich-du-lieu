@@ -1,5 +1,0 @@
-﻿sample,variable,pairwise_n,spearman,pearson_raw,pearson_log1p
-pages_20_2000_sensitivity,pages,8300,0.12869860,0.19727052,0.10906195
-pages_20_2000_sensitivity,n_ratings,8300,0.07002641,0.04481187,0.08214071
-pages_20_2000_sensitivity,n_reviews,8300,-0.01587855,0.03388050,-0.00596145
-pages_20_2000_sensitivity,publication_year,8299,-0.06322619,-0.06728746,
