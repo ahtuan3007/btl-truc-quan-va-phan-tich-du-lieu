@@ -11,7 +11,6 @@ from clean_data import (
     DEFAULT_OUTPUT_ROOT,
     HERE,
     PRIMARY_MIN_RATINGS,
-    cleaning_diagnostics,
     load_cleaned,
     load_snapshot,
 )
@@ -105,8 +104,6 @@ def run_eda(data_root: Path, output_root: Path) -> dict:
     """Đọc dữ liệu sạch đã xuất và ghi kết quả EDA vào thư mục đích."""
     clean, bridge = load_cleaned(data_root)
     snapshot = load_snapshot()
-    raw = clean[snapshot["columns"]]
-    change_log, summary, dictionary = cleaning_diagnostics(raw, clean)
     validation_file = data_root / "work/validation_results.json"
     checks = json.loads(validation_file.read_text(encoding="utf-8")) if validation_file.is_file() else {}
     N = len(clean)
@@ -298,9 +295,6 @@ def run_eda(data_root: Path, output_root: Path) -> dict:
         ]
     )
     save(flow, "sample_flow")
-    save(summary, "cleaning_summary")
-    save(change_log, "cell_change_log")
-    save(dictionary, "cleaned_data_dictionary")
     results = {
         "source_sha256": snapshot["sha256"],
         "rows_raw": N,
@@ -309,7 +303,6 @@ def run_eda(data_root: Path, output_root: Path) -> dict:
         "primary_n": len(primary),
         "approx_n": len(approx),
         "filtered_example_n": len(filtered),
-        "cleaning": records(summary),
         "sample_flow": records(flow),
         "threshold_sensitivity": records(sensitivity),
         "correlations": records(correlations),
