@@ -117,8 +117,6 @@ def clean_books(raw):
     genre_dimension = pd.DataFrame({"genre_label": sorted(bridge.genre_label.unique())})
     return clean, bridge, genre_dimension
 
-
-def cleaning_diagnostics(raw, clean):
     """Đối chiếu cột nguồn và cột chuẩn hóa để lập các bảng chất lượng."""
     changes = []
     for src, dest, reason in [
@@ -219,8 +217,6 @@ def cleaning_diagnostics(raw, clean):
         ]
     )
     return change_log, summary, dictionary
-
-
 def load_cleaned(data_root: Path):
     """Đọc master và bridge, bảo toàn chuỗi nguồn, cờ và kiểu số thiếu."""
     master_file = "data/processed/books_cleaned_master.csv"
